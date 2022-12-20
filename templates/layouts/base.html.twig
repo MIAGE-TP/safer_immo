@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include 'partials/head.html.twig' %}
+    <body>
+        <div class="page home-page">
+            <header class="hero has-dark-background">
+                <div class="hero-wrapper">
+                    {% include 'partials/second_nav.html.twig' %}
+                    {% include 'partials/main_nav.html.twig' %}
+                    {% include 'partials/page_title.html.twig' %}
+                    {% include 'partials/hero_form.html.twig' %}
+
+                    <div class="background">
+                        <div class="background-image">
+                            <img src="{{asset('./assets/img/hero-background-image-01.jpg')}}" alt="">
+                        </div>
+                    </div>
+                    <!--end background-image-->
+                </div>
+            </header>
+            {% block content %}{% endblock %}
+
+            {% include 'partials/footer.html.twig' %}
+        </div>
+
+        {% include 'partials/load_js.html.twig' %}
+
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
