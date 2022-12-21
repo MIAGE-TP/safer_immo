@@ -14,4 +14,18 @@ class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
+
+    public function profile()
+    {
+        return $this->render('admin_dashboard/profile.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
+
+    public function good_types()
+    {
+        return $this->render('admin_dashboard/good_types.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
 }

@@ -6,3 +6,9 @@ controllers:
 home:
     path: /
     controller: App\Controller\HomeController::index
+profile:
+    path: /admin/profil
+    controller: App\Controller\HomeController::profile
+good_types:
+    path: /admin/categories-bien
+    controller: App\Controller\HomeController::good_types
