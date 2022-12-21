@@ -7,7 +7,7 @@
 <div class="col-md-9">
     <div class="row mb-2">
         <div class="col-md-6 text-left">
-            <button type="button" id="add-brochure" class="btn btn-primary btn-framed" onclick="javascript:location.href='#'"><i class="fa fa-plus"></i>Ajouter une catégorie</button>
+            <button type="button" id="add-brochure" class="btn btn-primary btn-framed" onclick="javascript:location.href='{{path('add_good_type')}}'"><i class="fa fa-plus"></i>Ajouter une catégorie</button>
         </div>
         <div class="col-md-6 text-right">
             <div id="export_buttons" class=""></div>
@@ -27,15 +27,17 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Vide</td>
-                                <td>Vide</td>
-                                <td> 
-                                    <a class="ml-2" href="#" data-toggle="tooltip" data-original-title="Modifier"><i class="fa fa-edit"></i></a>
-                                    <a class="ml-2" href="#" data-toggle="tooltip" data-original-title="Visualiser"><i class="fa fa-eye"></i></a>
-                                    <a class="ml-2" href="#" data-toggle="tooltip" data-original-title="Supprimer"><i class="fa fa-trash"></i></a>
-                                </td>
-                            </tr>
+                            {% for categorie in categories %}
+                                <tr>
+                                    <td>{{categorie.id}}</td>
+                                    <td>{{categorie.libelle}}</td>
+                                    <td> 
+                                        <a class="ml-2" href="#" data-toggle="tooltip" data-original-title="Modifier"><i class="fa fa-edit"></i></a>
+                                        <a class="ml-2" href="#" data-toggle="tooltip" data-original-title="Visualiser"><i class="fa fa-eye"></i></a>
+                                        <a class="ml-2" href="#" data-toggle="tooltip" data-original-title="Supprimer"><i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
                         </tbody>
                         <tfoot>
                         <tr>
