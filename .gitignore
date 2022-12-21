@@ -9,6 +9,7 @@
 /var/
 /vendor/
 .vscode
+/templates/list-brochure.blade.php
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
