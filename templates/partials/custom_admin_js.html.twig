@@ -1,3 +1,4 @@
+<script src='{{asset('./assets/js/datatables.js')}}'></script>
 <script>
     $(document).ready(function($) {
         $("[href]").each(function() {
@@ -5,5 +6,51 @@
                 $(this).addClass("active");
             }
         });
+
+        var table = $('#datatable').DataTable({
+                buttons: [{
+                    extend: 'print',
+                    title: 'Exportation de données',
+                    text: '<i class="fa fa-print"></i>',
+                    exportOptions: {
+                        columns: "thead th:not(.noExport)"
+                    }
+                }, {
+                    extend: 'pdf',
+                    title: 'Exportation de données',
+                    text: '<i class="fa fa-file-pdf-o"></i>',
+                    exportOptions: {
+                        columns: "thead th:not(.noExport)"
+                    }
+                }, {
+                    extend: 'excel',
+                    title: 'Exportation de données',
+                    text: '<i class="fa fa-file-excel-o"></i>',
+                    exportOptions: {
+                        columns: "thead th:not(.noExport)"
+                    }
+                }, {
+                    extend: 'csv',
+                    title: 'Exportation de données',
+                    text: '<i class="fa fa-file-text-o"></i>',
+                    exportOptions: {
+                        columns: "thead th:not(.noExport)"
+                    }
+                }],
+                "language": {
+                    "paginate": {
+                        "next": ">",
+                        "previous": "<"
+                    },
+                    "search": "Chercher:",
+                    "info": "Affichage de _START_ à _END_ sur _TOTAL_ entrées",
+                    "infoEmpty": "Affichage de 0 à 0 sur 0 entrées",
+                    "lengthMenu": "Afficher _MENU_ entrées",
+                    "zeroRecords": "Aucune entrée correspondante trouvée",
+                    "infoFiltered": "(filtrées depuis un total de _MAX_ entrée(s))"
+                }
+            });
+            table.buttons().container().appendTo('#export_buttons');
+            $("#export_buttons .btn").removeClass('btn-secondary').addClass('btn-light');
     });
 </script>

@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
     {% include 'partials/head.html.twig' %}
+    {% block stylesheets %}
+        <link href='{{asset('./assets/css/datatables.css')}}' rel='stylesheet' />
+    {% endblock %}
     <body>
         <div class="page sub-page">
             <header class="hero">
