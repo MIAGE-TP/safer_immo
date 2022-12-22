@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class OfferTypeController extends AbstractController
 {
-    #[Route('/admin/offer_types', name: 'offer_types')]
+    #[Route('/admin/types-offre', name: 'offer_types')]
     public function index(OfferTypeRepository $repository): Response
     {
         $offerTypes = $repository->findWithoutDelete();
@@ -23,7 +23,7 @@ class OfferTypeController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/ajout-offer_type', name: 'add_offer_type')]
+    #[Route('/admin/ajout-type-offre', name: 'add_offer_type')]
     public function new(): Response
     {
         return $this->render('admin_dashboard/offer_type/add.html.twig', [
@@ -31,7 +31,7 @@ class OfferTypeController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/store-offer_type', name: 'store_offer_type', methods:['GET','POST'])]
+    #[Route('/admin/store-type-offre', name: 'store_offer_type', methods:['GET','POST'])]
     public function store(Request $request, EntityManagerInterface $manager): Response
     {
         $req = $request->request;
@@ -45,7 +45,7 @@ class OfferTypeController extends AbstractController
         return $this->redirectToRoute('offer_types');
     }
     
-    #[Route('/admin/modification-offer_type/{id<\d+>}', name: 'edit_offer_type')]
+    #[Route('/admin/modification-type-offre/{id<\d+>}', name: 'edit_offer_type')]
     public function edit(int $id, OfferTypeRepository $repository): Response
     {
         $offerType = $repository->find($id);
@@ -61,7 +61,7 @@ class OfferTypeController extends AbstractController
         }
     }
 
-    #[Route('/admin/update-offer_type/', name: 'update_offer_type')]
+    #[Route('/admin/update-type_offre/', name: 'update_offer_type')]
     public function update(Request $request, EntityManagerInterface $manager): Response
     {
         $req = $request->request;
@@ -82,7 +82,7 @@ class OfferTypeController extends AbstractController
         }
     }
 
-    #[Route('/admin/suppression-offer_type/{id<\d+>}', name: 'delete_offer_type')]
+    #[Route('/admin/suppression-type-offre/{id<\d+>}', name: 'delete_offer_type')]
     public function delete(int $id, EntityManagerInterface $manager): Response
     {
         $offerType = $manager->getRepository(OfferType::class)->find($id);

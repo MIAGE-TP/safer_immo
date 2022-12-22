@@ -60,7 +60,7 @@ class DepartmentController extends AbstractController
         }
     }
 
-    #[Route('/admin/update-department/', name: 'update_department')]
+    #[Route('/admin/update-departement/', name: 'update_department')]
     public function update(Request $request, EntityManagerInterface $manager): Response
     {
         $req = $request->request;

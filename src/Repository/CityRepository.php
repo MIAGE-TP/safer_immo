@@ -39,6 +39,14 @@ class CityRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+    * @return Department[] Returns an array of not deleted Department objects only
+    */
+    public function findWithoutDelete(): array
+    {
+       return $this->createQueryBuilder('c')->where('c.deletedAt is NULL')->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return City[] Returns an array of City objects
 //     */
