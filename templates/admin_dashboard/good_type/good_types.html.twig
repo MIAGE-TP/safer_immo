@@ -25,7 +25,6 @@
                             <th>Libellé</th>
                             <th>Créé le</th>
                             <th>Modifié le</th>
-                            <th>Supprimé le</th>
                             <th class="noExport">Actions</th>
                         </tr>
                         </thead>
@@ -40,16 +39,10 @@
                                     {% else %}
                                         <td>{{categorie.updatedAt|date("d/m/Y à H:i:s","Europe/Paris")}}</td>
                                     {% endif %}
-
-                                    {% if categorie.deletedAt is null %}
-                                        <td>{{"Non défini"}}</td>
-                                    {% else %}
-                                        <td>{{categorie.deletedAt|date("d/m/Y à H:i:s","Europe/Paris")}}</td>
-                                    {% endif %}
                                     <td> 
-                                        <a class="ml-2" href="#" data-toggle="tooltip" data-original-title="Modifier"><i class="fa fa-edit"></i></a>
-                                        <a class="ml-2" href="#" data-toggle="tooltip" data-original-title="Visualiser"><i class="fa fa-eye"></i></a>
-                                        <a class="ml-2" href="#" data-toggle="tooltip" data-original-title="Supprimer"><i class="fa fa-trash"></i></a>
+                                        <a class="ml-2" href="{{ path('edit_good_type', {id: categorie.id}) }}" data-toggle="tooltip" data-original-title="Modifier"><i class="fa fa-edit"></i></a>
+                                        {# <a class="ml-2" href="#" data-toggle="tooltip" data-original-title="Visualiser"><i class="fa fa-eye"></i></a> #}
+                                        <a class="ml-2" href="{{ path('delete_good_type', {id: categorie.id}) }}" data-toggle="tooltip" data-original-title="Supprimer"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -60,7 +53,6 @@
                             <th>Libellé</th>
                             <th>Créé le</th>
                             <th>Modifié le</th>
-                            <th>Supprimé le</th>
                             <th>Actions</th>
                         </tr>
                         </tfoot>
