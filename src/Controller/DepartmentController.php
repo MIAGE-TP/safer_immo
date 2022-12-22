@@ -45,17 +45,15 @@ class DepartmentController extends AbstractController
     }
     
     #[Route('/admin/modification-departement/{id<\d+>}', name: 'edit_department')]
-    public function edit(int $id, DepartmentRepository $repository): Response
+    public function edit(Department $department): Response
     {
-        $department = $repository->find($id);
-
         if ($department) {
             return  $this->render('admin_dashboard/department/edit.html.twig', [
                 'department' => $department
             ]);
         }else {
             throw $this->createNotFoundException(
-                "Aucun département ne correspond à l'id ".$id
+                "Aucun département ne correspond à l'id ".$department->getId()
             );
         }
     }
@@ -82,9 +80,8 @@ class DepartmentController extends AbstractController
     }
 
     #[Route('/admin/suppression-departement/{id<\d+>}', name: 'delete_department')]
-    public function delete(int $id, EntityManagerInterface $manager): Response
+    public function delete(Department $department, EntityManagerInterface $manager): Response
     {
-        $department = $manager->getRepository(Department::class)->find($id);
         if ($department) {
             if (($department->getCities()->count()) > 0) {
                 throw $this->createNotFoundException(

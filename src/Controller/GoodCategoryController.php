@@ -48,17 +48,15 @@ class GoodCategoryController extends AbstractController
     }
     
     #[Route('/admin/modification-categorie-bien/{id<\d+>}', name: 'edit_good_type')]
-    public function edit(int $id, GoodCategoryRepository $repository): Response
+    public function edit(GoodCategory $category): Response
     {
-        $category = $repository->find($id);
-
         if ($category) {
             return  $this->render('admin_dashboard/good_type/edit.html.twig', [
                 'category' => $category
             ]);
         }else {
             throw $this->createNotFoundException(
-                "Aucune catégorie ne correspond à l'id ".$id
+                "Aucune catégorie ne correspond à l'id ".$category->getId()
             );
         }
     }
@@ -85,9 +83,8 @@ class GoodCategoryController extends AbstractController
     }
 
     #[Route('/admin/suppression-categorie-bien/{id<\d+>}', name: 'delete_good_type')]
-    public function delete(int $id, EntityManagerInterface $manager): Response
+    public function delete(GoodCategory $category, EntityManagerInterface $manager): Response
     {
-        $category = $manager->getRepository(GoodCategory::class)->find($id);
         if ($category) {
             if (($category->getGoods()->count()) > 0) {
                 throw $this->createNotFoundException(

@@ -46,17 +46,15 @@ class OfferTypeController extends AbstractController
     }
     
     #[Route('/admin/modification-type-offre/{id<\d+>}', name: 'edit_offer_type')]
-    public function edit(int $id, OfferTypeRepository $repository): Response
+    public function edit(OfferType $offerType): Response
     {
-        $offerType = $repository->find($id);
-
         if ($offerType) {
             return  $this->render('admin_dashboard/offer_type/edit.html.twig', [
                 'offer_type' => $offerType
             ]);
         }else {
             throw $this->createNotFoundException(
-                "Aucun type d'offre ne correspond à l'id ".$id
+                "Aucun type d'offre ne correspond à l'id ".$offerType->getId()
             );
         }
     }
@@ -83,9 +81,8 @@ class OfferTypeController extends AbstractController
     }
 
     #[Route('/admin/suppression-type-offre/{id<\d+>}', name: 'delete_offer_type')]
-    public function delete(int $id, EntityManagerInterface $manager): Response
+    public function delete(OfferType $offerType, EntityManagerInterface $manager): Response
     {
-        $offerType = $manager->getRepository(OfferType::class)->find($id);
         if ($offerType) {
             if (($offerType->getGoods()->count()) > 0) {
                 throw $this->createNotFoundException(

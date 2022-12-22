@@ -51,9 +51,8 @@ class CityController extends AbstractController
     }
 
     #[Route('/admin/modification-ville/{id<\d+>}', name: 'edit_city')]
-    public function edit(int $id, CityRepository $repository, DepartmentRepository $departmentRepository): Response
+    public function edit(City $city, DepartmentRepository $departmentRepository): Response
     {
-        $city = $repository->find($id);
         $departments = $departmentRepository->findWithoutDelete();
         if ($city) {
             return  $this->render('admin_dashboard/city/edit.html.twig', [
@@ -62,7 +61,7 @@ class CityController extends AbstractController
             ]);
         }else {
             throw $this->createNotFoundException(
-                "Aucune ville ne correspond à l'id ".$id
+                "Aucune ville ne correspond à l'id ".$city->getId()
             );
         }
     }
@@ -94,9 +93,8 @@ class CityController extends AbstractController
     }
 
     #[Route('/admin/suppression-ville/{id<\d+>}', name: 'delete_city')]
-    public function delete(int $id, EntityManagerInterface $manager): Response
+    public function delete(City $city, EntityManagerInterface $manager): Response
     {
-        $city = $manager->getRepository(City::class)->find($id);
         if ($city) {
             if (($city->getGoods()->count()) > 0) {
                 throw $this->createNotFoundException(
