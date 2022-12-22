@@ -39,6 +39,14 @@ class OfferTypeRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+    * @return OfferType[] Returns an array of not deleted OfferType objects only
+    */
+    public function findWithoutDelete(): array
+    {
+       return $this->createQueryBuilder('o')->where('o.deletedAt is NULL')->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return OfferType[] Returns an array of OfferType objects
 //     */

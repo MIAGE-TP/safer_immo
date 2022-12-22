@@ -6,6 +6,7 @@ use App\Entity\Department;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\GoodCategory;
+use App\Entity\OfferType;
 use Carbon\Carbon;
 use Faker\Factory;
 use Faker\Generator;
@@ -32,6 +33,13 @@ class AppFixtures extends Fixture
             $department->setName($this->faker->departmentName());
 
             $manager->persist($department);
+        }
+
+        for ($i= 0; $i < 50; $i++) {
+            $offerType = new OfferType();
+            $offerType->setLibelle($this->faker->sentence());
+
+            $manager->persist($offerType);
         }
 
         $manager->flush();

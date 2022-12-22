@@ -97,5 +97,4 @@ class DepartmentController extends AbstractController
             }
         }
     }
-
 }
