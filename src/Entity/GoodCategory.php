@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\GoodCategoryRepository;
+use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -32,6 +33,7 @@ class GoodCategory
 
     public function __construct()
     {
+        $this->createdAt = Carbon::now()->toDateTimeImmutable();
         $this->goods = new ArrayCollection();
     }
 

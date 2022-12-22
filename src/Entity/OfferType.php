@@ -6,6 +6,7 @@ use App\Repository\OfferTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Carbon\Carbon;
 
 #[ORM\Entity(repositoryClass: OfferTypeRepository::class)]
 class OfferType
@@ -32,6 +33,7 @@ class OfferType
 
     public function __construct()
     {
+        $this->createdAt = Carbon::now()->toDateTimeImmutable();
         $this->goods = new ArrayCollection();
     }
 

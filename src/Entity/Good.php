@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\GoodRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Carbon\Carbon;
 
 #[ORM\Entity(repositoryClass: GoodRepository::class)]
 class Good
@@ -55,6 +56,11 @@ class Good
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt;
+
+    public function __construct()
+    {
+        $this->createdAt = Carbon::now()->toDateTimeImmutable();
+    }
 
     public function getId(): ?int
     {

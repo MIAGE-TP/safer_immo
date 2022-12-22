@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProjectTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Carbon\Carbon;
 
 #[ORM\Entity(repositoryClass: ProjectTypeRepository::class)]
 class ProjectType
@@ -24,6 +25,11 @@ class ProjectType
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt;
+
+    public function __construct()
+    {
+        $this->createdAt = Carbon::now()->toDateTimeImmutable();
+    }
 
     public function getId(): ?int
     {

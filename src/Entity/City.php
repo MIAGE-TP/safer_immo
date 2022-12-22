@@ -6,6 +6,7 @@ use App\Repository\CityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Carbon\Carbon;
 
 #[ORM\Entity(repositoryClass: CityRepository::class)]
 class City
@@ -39,6 +40,7 @@ class City
 
     public function __construct()
     {
+        $this->createdAt = Carbon::now()->toDateTimeImmutable();
         $this->goods = new ArrayCollection();
     }
 

@@ -38,7 +38,6 @@ class GoodCategoryController extends AbstractController
         $category = new GoodCategory();
 
         $category->setLibelle($req->get('libelle'));
-        $category->setCreatedAt(Carbon::now()->toDateTimeImmutable());
 
         $manager->persist($category);
         $manager->flush();
