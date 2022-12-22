@@ -39,6 +39,14 @@ class GoodCategoryRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+    * @return GoodCategory[] Returns an array of not deleted GoodCategory objects only
+    */
+    public function findWithoutDelete(): array
+    {
+       return $this->createQueryBuilder('g')->where('g.deletedAt is NULL')->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return GoodCategory[] Returns an array of GoodCategory objects
 //     */
@@ -63,12 +71,4 @@ class GoodCategoryRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
- 
-    /**
-    * @return GoodCategory[] Returns an array of not deleted GoodCategory objects only
-    */
-    public function findWithoutDelete(): array
-    {
-       return $this->createQueryBuilder('g')->where('g.deletedAt is NULL')->getQuery()->getResult();
-    }
 }

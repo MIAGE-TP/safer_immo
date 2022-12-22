@@ -1,0 +1,20 @@
+{% extends 'layouts/admin_base.html.twig' %}
+
+{% block page_title %} <h1>Ajout d'un nouveau département</h1> {% endblock %}
+
+{% block content %}
+<div class="col-md-9">
+  <form class="form" method="POST" action="{{path('store_department')}}">
+      <div class="row">
+          <div class="col-md-8">
+              <div class="form-group">
+                <label for="name" class="col-form-label">Nom</label>
+                <input required name="name" type="text" class="form-control" id="name" placeholder="Nom du département" value="">
+              </div>
+              <button type="submit" class="btn btn-primary float-right">Enregistrer</button>
+          </div>
+          <!--end col-md-8-->
+      </div>
+  </form>
+</div>
+{% endblock %}

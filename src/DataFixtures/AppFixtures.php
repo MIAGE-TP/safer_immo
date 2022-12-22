@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Department;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\GoodCategory;
@@ -21,10 +22,16 @@ class AppFixtures extends Fixture
     {
         for ($i= 0; $i < 50; $i++) {
             $category = new GoodCategory();
-            $category->setLibelle($this->faker->word())
-                     ->setCreatedAt(Carbon::now()->toDateTimeImmutable());
+            $category->setLibelle($this->faker->word());
 
             $manager->persist($category);
+        }
+
+        for ($i= 0; $i < 50; $i++) {
+            $department = new Department();
+            $department->setName($this->faker->departmentName());
+
+            $manager->persist($department);
         }
 
         $manager->flush();

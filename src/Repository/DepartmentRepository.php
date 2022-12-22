@@ -39,6 +39,14 @@ class DepartmentRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+    * @return Department[] Returns an array of not deleted Department objects only
+    */
+    public function findWithoutDelete(): array
+    {
+       return $this->createQueryBuilder('d')->where('d.deletedAt is NULL')->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Department[] Returns an array of Department objects
 //     */

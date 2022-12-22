@@ -1,0 +1,67 @@
+{% extends 'layouts/admin_base.html.twig' %}
+
+{% block page_title %} <h1>Départements couverts</h1> {% endblock %}
+
+{% block content %}
+<!-- DataTable -->
+<div class="col-md-9">
+    <div class="row mb-2">
+        <div class="col-md-6 text-left">
+            <button type="button" id="add-brochure" class="btn btn-primary btn-framed" onclick="javascript:location.href='{{path('add_department')}}'"><i class="fa fa-plus"></i>Ajouter un département</button>
+        </div>
+        <div class="col-md-6 text-right">
+            <div id="export_buttons" class=""></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body table-responsive">
+                    <table id="datatable" class="table table-bordered table-hover" style="width:100%">
+                        <caption>Départements couverts</caption>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Créé le</th>
+                            <th>Modifié le</th>
+                            <th class="noExport">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for department in departments %}
+                                <tr>
+                                    <td>{{department.id}}</td>
+                                    <td>{{department.name}}</td>
+                                    <td>{{department.createdAt|date("d/m/Y à H:i:s","Europe/Paris")}}</td>
+                                    {% if department.updatedAt is null %}
+                                        <td>{{"Non défini"}}</td>
+                                    {% else %}
+                                        <td>{{department.updatedAt|date("d/m/Y à H:i:s","Europe/Paris")}}</td>
+                                    {% endif %}
+                                    <td> 
+                                        <a class="ml-2" href="{{ path('edit_department', {id: department.id}) }}" data-toggle="tooltip" data-original-title="Modifier"><i class="fa fa-edit"></i></a>
+                                        {# <a class="ml-2" href="#" data-toggle="tooltip" data-original-title="Visualiser"><i class="fa fa-eye"></i></a> #}
+                                        <a class="ml-2" href="{{ path('delete_department', {id: department.id}) }}" data-toggle="tooltip" data-original-title="Supprimer"><i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Créé le</th>
+                            <th>Modifié le</th>
+                            <th>Actions</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<!-- end: DataTable -->
+{% endblock %}
