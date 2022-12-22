@@ -23,6 +23,9 @@
                         <tr>
                             <th>ID</th>
                             <th>Libellé</th>
+                            <th>Créé le</th>
+                            <th>Modifié le</th>
+                            <th>Supprimé le</th>
                             <th class="noExport">Actions</th>
                         </tr>
                         </thead>
@@ -31,6 +34,18 @@
                                 <tr>
                                     <td>{{categorie.id}}</td>
                                     <td>{{categorie.libelle}}</td>
+                                    <td>{{categorie.createdAt|date("d/m/Y à H:i:s","Europe/Paris")}}</td>
+                                    {% if categorie.updatedAt is null %}
+                                        <td>{{"Non défini"}}</td>
+                                    {% else %}
+                                        <td>{{categorie.updatedAt|date("d/m/Y à H:i:s","Europe/Paris")}}</td>
+                                    {% endif %}
+
+                                    {% if categorie.deletedAt is null %}
+                                        <td>{{"Non défini"}}</td>
+                                    {% else %}
+                                        <td>{{categorie.deletedAt|date("d/m/Y à H:i:s","Europe/Paris")}}</td>
+                                    {% endif %}
                                     <td> 
                                         <a class="ml-2" href="#" data-toggle="tooltip" data-original-title="Modifier"><i class="fa fa-edit"></i></a>
                                         <a class="ml-2" href="#" data-toggle="tooltip" data-original-title="Visualiser"><i class="fa fa-eye"></i></a>
@@ -43,6 +58,9 @@
                         <tr>
                             <th>ID</th>
                             <th>Libellé</th>
+                            <th>Créé le</th>
+                            <th>Modifié le</th>
+                            <th>Supprimé le</th>
                             <th>Actions</th>
                         </tr>
                         </tfoot>

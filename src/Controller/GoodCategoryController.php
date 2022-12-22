@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+
 use App\Entity\GoodCategory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -9,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\GoodCategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Carbon\Carbon;
 
 class GoodCategoryController extends AbstractController
 {
@@ -16,8 +18,7 @@ class GoodCategoryController extends AbstractController
     public function index(GoodCategoryRepository $repository): Response
     {
         $categories = $repository->findAll();
-
-        return $this->render('admin_dashboard/good_types.html.twig', [
+        return $this->render('admin_dashboard/good_type/good_types.html.twig', [
             'categories' => $categories
         ]);
     }
@@ -35,12 +36,14 @@ class GoodCategoryController extends AbstractController
     {
         $req = $request->request;
         $category = new GoodCategory();
+
         $category->setLibelle($req->get('libelle'));
+        $category->setCreatedAt(Carbon::now()->toDateTimeImmutable());
+
         $manager->persist($category);
         $manager->flush();
-        return $this->render('admin_dashboard/good_type/add.html.twig', [
-            'controller_name' => 'GoodTypeController',
-        ]);
+
+        return $this->redirectToRoute('good_types');
     }
    
 }
