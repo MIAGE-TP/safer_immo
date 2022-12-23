@@ -43,7 +43,7 @@ class GoodCategoryController extends AbstractController
 
         $manager->persist($category);
         $manager->flush();
-
+        $this->addFlash('success', 'Catégorie de bien ajoutée!');
         return $this->redirectToRoute('good_types');
     }
     
@@ -73,6 +73,7 @@ class GoodCategoryController extends AbstractController
             $category->setLibelle($req->get('libelle'));
             $category->setUpdatedAt(Carbon::now()->toDateTimeImmutable());
             $manager->flush();
+            $this->addFlash('success', 'Catégorie modifiée!');
             return $this->redirectToRoute('good_types');
 
         }else {
@@ -93,6 +94,7 @@ class GoodCategoryController extends AbstractController
             }else {
                 $category->setDeletedAt(Carbon::now()->toDateTimeImmutable());
                 $manager->flush();
+                $this->addFlash('success', 'Suppression de catégorie effectuée!');
                 return $this->redirectToRoute('good_types');
             }
         }

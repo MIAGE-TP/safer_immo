@@ -47,6 +47,7 @@ class CityController extends AbstractController
         $manager->persist($city);
         $manager->flush();
 
+        $this->addFlash('success', 'Ville ajoutée!');
         return $this->redirectToRoute('cities');
     }
 
@@ -83,6 +84,7 @@ class CityController extends AbstractController
 
             $city->setUpdatedAt(Carbon::now()->toDateTimeImmutable());
             $manager->flush();
+            $this->addFlash('success', 'Ville modifiée!');
             return $this->redirectToRoute('cities');
 
         }else {
@@ -103,6 +105,7 @@ class CityController extends AbstractController
             }else {
                 $city->setDeletedAt(Carbon::now()->toDateTimeImmutable());
                 $manager->flush();
+                $this->addFlash('success', 'Ville supprimée!');
                 return $this->redirectToRoute('cities');
             }
         }

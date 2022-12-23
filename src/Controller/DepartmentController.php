@@ -41,6 +41,7 @@ class DepartmentController extends AbstractController
         $manager->persist($department);
         $manager->flush();
 
+        $this->addFlash('success', 'Département ajouté!');
         return $this->redirectToRoute('departments');
     }
     
@@ -70,6 +71,8 @@ class DepartmentController extends AbstractController
             $department->setName($req->get('name'));
             $department->setUpdatedAt(Carbon::now()->toDateTimeImmutable());
             $manager->flush();
+
+            $this->addFlash('success', 'Département modifié!');
             return $this->redirectToRoute('departments');
 
         }else {
@@ -90,6 +93,8 @@ class DepartmentController extends AbstractController
             }else {
                 $department->setDeletedAt(Carbon::now()->toDateTimeImmutable());
                 $manager->flush();
+
+                $this->addFlash('success', 'Département supprimé!');
                 return $this->redirectToRoute('departments');
             }
         }

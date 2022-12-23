@@ -26,7 +26,7 @@ class RegistrationController extends AbstractController
             $existingUser = $entityManager->getRepository(User::class)->findByEmail($email);
 
             if ($existingUser) {
-                $this->addFlash('verify_email_error', 'Cette adresse mail est déjà utilisée par un utlisateur.');
+                $this->addFlash('danger', 'Cette adresse mail est déjà utilisée par un utlisateur.');
                 return $this->redirectToRoute('app_register');
             } else {
                 $user = new User();
@@ -75,7 +75,7 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('profile');
         }else {
-            $this->addFlash('verify_email_error', 'Adresse email non vérifiée');
+            $this->addFlash('danger', 'Adresse email non vérifiée');
             return $this->redirectToRoute('app_register');
         }
     }

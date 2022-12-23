@@ -41,7 +41,7 @@ class OfferTypeController extends AbstractController
 
         $manager->persist($offerType);
         $manager->flush();
-
+        $this->addFlash('success', 'Type d\'offre bien ajouté!');
         return $this->redirectToRoute('offer_types');
     }
     
@@ -67,10 +67,10 @@ class OfferTypeController extends AbstractController
         $offerType = $manager->getRepository(OfferType::class)->find($req->get('id'));
 
         if ($offerType) {
-
             $offerType->setLibelle($req->get('libelle'));
             $offerType->setUpdatedAt(Carbon::now()->toDateTimeImmutable());
             $manager->flush();
+            $this->addFlash('success', 'Modification bien enregistrée!');
             return $this->redirectToRoute('offer_types');
 
         }else {
@@ -91,6 +91,7 @@ class OfferTypeController extends AbstractController
             }else {
                 $offerType->setDeletedAt(Carbon::now()->toDateTimeImmutable());
                 $manager->flush();
+                $this->addFlash('success', 'Suppresion effectuée!');
                 return $this->redirectToRoute('offer_types');
             }
         }

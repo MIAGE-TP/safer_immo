@@ -1,8 +1,10 @@
  <div class="col-md-3">
     <nav class="nav flex-column side-nav">
-        <a class="nav-link icon" href="#">
-            <i class="fa fa-heart"></i>Mes offres
-        </a>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a class="nav-link icon" href="#">
+                <i class="fa fa-heart"></i>Mes offres
+            </a>
+        {% endif %}
         <a class="nav-link icon" href="#">
             <i class="fa fa-star"></i>Favoris
         </a>

@@ -4,24 +4,7 @@
 
 {% block content %}
     <form class="form clearfix" method="POST">
-        {% for flash_error in app.flashes('verify_email_error') %}
-            <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
-                {{ flash_error }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        {% endfor %}
-
-        {% for flash_success in app.flashes('success') %}
-            <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-                {{ flash_success }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        {% endfor %}
-
+        {% include 'layouts/notifications.html.twig' %}
         <div class="form-group">
             <label for="lastname" class="col-form-label required">Nom(s)</label>
             <input name="lastname" type="text" class="form-control" value="" id="lastname" required autofocus>

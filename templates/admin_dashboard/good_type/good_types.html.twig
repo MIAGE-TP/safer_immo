@@ -5,6 +5,7 @@
 {% block content %}
 <!-- DataTable -->
 <div class="col-md-9">
+   {% include 'layouts/notifications.html.twig' %}
     <div class="row mb-2">
         <div class="col-md-6 text-left">
             <button type="button" id="add-brochure" class="btn btn-primary btn-framed" onclick="javascript:location.href='{{path('add_good_type')}}'"><i class="fa fa-plus"></i>Ajouter une catégorie</button>

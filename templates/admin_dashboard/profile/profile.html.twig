@@ -9,14 +9,7 @@
             <div class="col-md-8">
                 <h2>Informations personnelles</h2>
                 <section>
-                    {% for flash_success in app.flashes('success') %}
-                        <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-                            {{ flash_success }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    {% endfor %}
+                    {% include 'layouts/notifications.html.twig' %}
                     <div class="row">
                         <div class="col-md">
                             <div class="form-group">
