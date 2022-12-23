@@ -3,9 +3,3 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
-home:
-    path: /
-    controller: App\Controller\HomeController::index
-profile:
-    path: /admin/profil
-    controller: App\Controller\HomeController::profile
