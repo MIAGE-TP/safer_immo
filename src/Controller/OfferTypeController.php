@@ -27,7 +27,7 @@ class OfferTypeController extends AbstractController
     public function new(): Response
     {
         return $this->render('admin_dashboard/offer_type/add.html.twig', [
-            'controller_name' => 'offer_typeController',
+            'controller_name' => 'OfferTypeController',
         ]);
     }
 

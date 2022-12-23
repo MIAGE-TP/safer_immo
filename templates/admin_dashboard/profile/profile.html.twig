@@ -9,18 +9,19 @@
             <div class="col-md-8">
                 <h2>Informations personnelles</h2>
                 <section>
+                    {% for flash_success in app.flashes('success') %}
+                        <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                            {{ flash_success }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md">
                             <div class="form-group">
                                 <label for="lastname" class="col-form-label required">Nom</label>
-                                <input name="lastname" type="text" class="form-control" id="lastname" placeholder="Votre nom" value="Doe" required>
-                            </div>
-                            <!--end form-group-->
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="firstname" class="col-form-label required">Prénom(s)</label>
-                                <input name="firstname" type="text" class="form-control" id="firstname" placeholder="Prénom(s)" value="Jane" required>
+                                <input name="lastname" type="text" class="form-control" id="lastname" placeholder="Votre nom" value="{{app.user.lastname}}" required>
                             </div>
                             <!--end form-group-->
                         </div>
@@ -29,8 +30,17 @@
                     <div class="row">
                         <div class="col-md">
                             <div class="form-group">
+                                <label for="firstname" class="col-form-label required">Prénom(s)</label>
+                                <input name="firstname" type="text" class="form-control" id="firstname" placeholder="Prénom(s)" value="{{app.user.firstname}}" required>
+                            </div>
+                            <!--end form-group-->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
                             <label for="email" class="col-form-label">Email</label>
-                            <input name="email" type="email" class="form-control" id="email" placeholder="Your Email" value="jane.doe@example.com">
+                            <input name="email" type="email" class="form-control" id="email" placeholder="Your Email" value="{{app.user.email}}">
                         </div>
                         </div>
                     </div>
