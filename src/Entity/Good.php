@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\GoodRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Carbon\Carbon;
 
@@ -57,9 +59,13 @@ class Good
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt;
 
+    #[ORM\OneToMany(mappedBy: 'offerId', targetEntity: OfferGalery::class, orphanRemoval: true)]
+    private Collection $offerGaleries;
+
     public function __construct()
     {
         $this->createdAt = Carbon::now()->toDateTimeImmutable();
+        // $this->offerGaleries = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -219,6 +225,36 @@ class Good
     public function setDeletedAt(\DateTimeImmutable $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OfferGalery>
+     */
+    public function getOfferGaleries(): Collection
+    {
+        return $this->offerGaleries;
+    }
+
+    public function addOfferGalery(OfferGalery $offerGalery): self
+    {
+        if (!$this->offerGaleries->contains($offerGalery)) {
+            $this->offerGaleries->add($offerGalery);
+            $offerGalery->setOffer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOfferGalery(OfferGalery $offerGalery): self
+    {
+        if ($this->offerGaleries->removeElement($offerGalery)) {
+            // set the owning side to null (unless already changed)
+            if ($offerGalery->getOffer() === $this) {
+                $offerGalery->setOffer(null);
+            }
+        }
 
         return $this;
     }

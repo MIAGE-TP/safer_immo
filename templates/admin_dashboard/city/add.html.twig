@@ -9,7 +9,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="searchable-select" class="col-form-label">Département</label>
-                    <select  required name="department" id="searchable-select" data-placeholder="Choisir département" data-enable-search="true">
+                    <select required name="department" id="searchable-select" data-placeholder="Choisir département" data-enable-search="true">
                         <option value="">Département</option>
                         {% for department in departments %}
                             <option value="{{department.id}}">{{department.name}}</option>

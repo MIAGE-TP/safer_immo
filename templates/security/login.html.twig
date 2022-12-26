@@ -3,6 +3,7 @@
 {% block page_title %}<h1>Connexion</h1>{% endblock %}
 
 {% block content %}
+<div class="col-md-6">
     <form class="form clearfix" method="POST">
         {% if error %}
             <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
@@ -47,6 +48,6 @@
             Première Connexion? <a href="{{path('app_register')}}" class="link">Cliquez ici.</a>
         </p>
     </div>
-    
+</div>
 
 {% endblock %}
