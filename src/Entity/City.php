@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Carbon\Carbon;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 #[ORM\Entity(repositoryClass: CityRepository::class)]
 class City
@@ -14,15 +16,17 @@ class City
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('main')]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'cities', targetEntity: Department::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name:'department_id', referencedColumnName:'id', nullable: false)]
     private ?Department $department = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $zip_code = null;
 
+    #[Groups('main')]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 

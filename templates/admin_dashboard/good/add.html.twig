@@ -92,7 +92,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="searchable-select" class="col-form-label">Département</label>
-                                            <select required name="department" id="searchable-select" data-placeholder="Choisir le département" data-enable-search="true">
+                                            <select required name="department" id="department" data-placeholder="Choisir le département" data-enable-search="true">
                                                 <option value="">Département</option>
                                                 {% for department in departments %}
                                                     <option value="{{department.id}}">{{department.name}}</option>
@@ -107,11 +107,8 @@
                             <div class="col-md">
                                 <div class="form-group">
                                     <label for="city" class="col-form-label required">Ville</label>
-                                    <select required name="city" id="searchable-select" data-placeholder="Choisir la ville" data-enable-search="true">
+                                    <select required name="city" id="city" data-placeholder="Choisir la ville" disabled data-enable-search="true">
                                         <option value="">Ville</option>
-                                        {% for city in cities %}
-                                            <option value="{{city.id}}">{{city.name}}</option>
-                                        {% endfor %}
                                     </select>
                                 </div>
                                 <!--end form-group-->
@@ -162,5 +159,56 @@
 {% endblock %}
 
 {% block javascripts %}
+<script>
+    if( $("input[type=file].with-preview").length ){
+        $("input.file-upload-input").MultiFile({
+            list: ".file-upload-previews",
+            max: 6,
+            maxfile: 2048,
+            maxsize: 12288,
+            accept: 'jpeg|jpg|png',
+            // STRING: collection lets you show messages in different languages
+            STRING: {
+                // remove: 'x',
+                denied: 'Vous ne pouvez pas sélectionner un fichier $ext.\nRéessayer...',
+                file: '$file',
+                selected: 'Fichier sélectionné: $file',
+                duplicate: 'Ce fichier a déjà été sélectionné:\n$file',
+                toomuch: 'Les fichiers sélectionnés dépassent la taille maximale autorisée ($size)',
+                toomany: 'Trop de fichiers sélectionnés (maximum autorisé: $max)',
+                toobig: '$file dépasse la taille maximale autorisée ($size)'
+            },
+        });
+    }
 
+    $.ajaxSetup({
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+        });
+
+        $('#department').on('change', function(e) {
+            e.preventDefault();
+            var department = $(e.currentTarget)
+            var value = department[0].value;
+            $.ajax({
+                url: '{{path('ajax_location')}}',
+                method: 'GET',
+                data: {
+                    value: value,
+                    type: 'department'
+                },
+                success: function (response) {
+                    let arronds = document.getElementById('city');
+                    arronds.selectize.clearOptions();
+                    response.forEach(function (value, key) {
+                        arronds.selectize.addOption({value: value.id, text: value.name.charAt(0).toUpperCase() + value.name.slice(1).toLowerCase()})
+                    });
+                    arronds.selectize.enable();
+                    arronds.selectize.open();
+                },
+                error: function (response) {
+                    console.log(response)
+                }
+            })
+        });
+</script>
 {% endblock %}

@@ -47,6 +47,7 @@ class DepartmentRepository extends ServiceEntityRepository
        return $this->createQueryBuilder('d')->where('d.deletedAt is NULL')->getQuery()->getResult();
     }
 
+
 //    /**
 //     * @return Department[] Returns an array of Department objects
 //     */

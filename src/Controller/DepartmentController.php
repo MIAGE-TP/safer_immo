@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\City;
 use App\Entity\Department;
 use App\Repository\DepartmentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,6 +11,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+
 
 class DepartmentController extends AbstractController
 {
@@ -97,6 +102,19 @@ class DepartmentController extends AbstractController
                 $this->addFlash('success', 'Département supprimé!');
                 return $this->redirectToRoute('departments');
             }
+        }
+    }
+
+    #[Route('/ajax-location', name: 'ajax_location')]
+    public function loadCities(Request $request, EntityManagerInterface $manager, SerializerInterface $serializer)
+    {
+        $data = $request->query;
+        if ($data->get('type') == "department") {
+            $cities = $manager->getRepository(City::class)->getCities($data->get('value'));
+            
+            $response = $serializer->serialize($cities, 'json', ['groups' => 'main']);
+            
+            return JsonResponse::fromJsonString($response);
         }
     }
 }

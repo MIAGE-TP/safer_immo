@@ -65,7 +65,7 @@ class Good
     public function __construct()
     {
         $this->createdAt = Carbon::now()->toDateTimeImmutable();
-        // $this->offerGaleries = new ArrayCollection();
+        $this->offerGaleries = new ArrayCollection();
     }
 
     public function getId(): ?int

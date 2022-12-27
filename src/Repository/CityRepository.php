@@ -47,6 +47,18 @@ class CityRepository extends ServiceEntityRepository
        return $this->createQueryBuilder('c')->where('c.deletedAt is NULL')->getQuery()->getResult();
     }
 
+     /**
+    * @return Cities[] Returns an array of not deleted cities related to one department object only
+    */
+    public function getCities($value): array
+    {
+       return $this->createQueryBuilder('c')
+           ->where('c.deletedAt is NULL')
+           ->andWhere('c.department = :val')
+           ->setParameter('val', $value)
+           ->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return City[] Returns an array of City objects
 //     */
@@ -54,7 +66,7 @@ class CityRepository extends ServiceEntityRepository
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
+        //    ->setParameter('val', $value)
 //            ->orderBy('c.id', 'ASC')
 //            ->setMaxResults(10)
 //            ->getQuery()
