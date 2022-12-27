@@ -59,7 +59,7 @@ class Good
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt;
 
-    #[ORM\OneToMany(mappedBy: 'offerId', targetEntity: OfferGalery::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'good', targetEntity: OfferGalery::class, orphanRemoval: true)]
     private Collection $offerGaleries;
 
     public function __construct()
@@ -241,7 +241,7 @@ class Good
     {
         if (!$this->offerGaleries->contains($offerGalery)) {
             $this->offerGaleries->add($offerGalery);
-            $offerGalery->setOffer($this);
+            $offerGalery->setGood($this);
         }
 
         return $this;
@@ -251,8 +251,8 @@ class Good
     {
         if ($this->offerGaleries->removeElement($offerGalery)) {
             // set the owning side to null (unless already changed)
-            if ($offerGalery->getOffer() === $this) {
-                $offerGalery->setOffer(null);
+            if ($offerGalery->getGood() === $this) {
+                $offerGalery->setGood(null);
             }
         }
 

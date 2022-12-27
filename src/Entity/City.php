@@ -21,7 +21,7 @@ class City
 
     #[ORM\ManyToOne(inversedBy: 'cities', targetEntity: Department::class)]
     #[ORM\JoinColumn(name:'department_id', referencedColumnName:'id', nullable: false)]
-    private ?Department $department = null;
+    private ?Department $department;
 
     #[ORM\Column(nullable: true)]
     private ?int $zip_code = null;

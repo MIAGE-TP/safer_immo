@@ -2,13 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\City;
-use App\Entity\Department;
+
 use App\Entity\Good;
-use App\Entity\GoodCategory;
-use App\Entity\OfferGalery;
-use App\Entity\OfferType;
-use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,13 +12,35 @@ use App\Repository\CityRepository;
 use App\Repository\DepartmentRepository;
 use App\Repository\OfferTypeRepository;
 use App\Repository\GoodCategoryRepository;
+use App\Repository\GoodRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class GoodController extends AbstractController
 {
-    #[Route('/ajout-bien', name: 'add_good')]
+
+    /**
+     * @var Security
+     */
+    private $security;
+
+    public function __construct(Security $security)
+    {
+       $this->security = $security;
+    }
+
+    #[Route('/admin/biens', name: 'goods')]
+    public function index(GoodRepository $repository)
+    {
+        $user = $this->security->getUser();
+        $goods = $repository->findWithoutDelete($user);
+        return $this->render('admin_dashboard/good/goods.html.twig', [
+            'goods' => $goods
+        ]);
+    }
+
+    #[Route('/admin/ajout-bien', name: 'add_good')]
     public function add(DepartmentRepository $departmentRepository, GoodCategoryRepository $catRepository,
                           CityRepository $cityRepository, OfferTypeRepository $offTypRepository
     ): Response

@@ -14,9 +14,9 @@ class OfferGalery
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'offerGaleries')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Good $offer = null;
+    #[ORM\ManyToOne(inversedBy: 'offerGaleries', targetEntity: Good::class)]
+    #[ORM\JoinColumn(name:'good_id', referencedColumnName:'id', nullable: false)]
+    private ?Good $good;
 
     #[ORM\Column(length: 1275)]
     private ?string $name = null;
@@ -43,14 +43,14 @@ class OfferGalery
         return $this->id;
     }
 
-    public function getOffer(): ?Good
+    public function getGood(): ?Good
     {
-        return $this->offer;
+        return $this->good;
     }
 
-    public function setOffer(?Good $offer): self
+    public function setGood(?Good $good): self
     {
-        $this->offer = $offer;
+        $this->good = $good;
 
         return $this;
     }

@@ -61,7 +61,7 @@ class GoodRepository extends ServiceEntityRepository
         $category = $manager->getRepository(GoodCategory::class)->find($data->get('category'));
         $currentUser = $manager->getRepository(User::class)->find($data->get('user'));
 
-        $location = $department->getName().' '.$city->getName().' '.$data->get('street');
+        $location = $department->getName().', '.$city->getName().', '.$data->get('street');
 
         $good->setLocalisation($location);
 
@@ -93,7 +93,7 @@ class GoodRepository extends ServiceEntityRepository
                     $galery = new OfferGalery();
                     $galery->setName($originalFilename);
                     $galery->setPath($newFilename);
-                    $galery->setOffer($good);
+                    $galery->setGood($good);
                     $manager->persist($galery);
                     $manager->flush();
                 } catch (FileException $e) {
@@ -101,5 +101,18 @@ class GoodRepository extends ServiceEntityRepository
                 }
             }
         }
+    }
+
+    /**
+    * @return Good[] Returns an array of not deleted Good objects only
+    */
+    public function findWithoutDelete($value): array
+    {
+       return $this->createQueryBuilder('g')
+           ->where('g.deletedAt is NULL')
+           ->andWhere('g.user = :val')
+           ->setParameter('val', $value)
+           ->getQuery()
+           ->getResult();
     }
 }

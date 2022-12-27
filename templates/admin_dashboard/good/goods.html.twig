@@ -1,0 +1,96 @@
+{% extends 'layouts/admin_base.html.twig' %}
+
+{% block page_title %} <h1>Biens proposés</h1> {% endblock %}
+
+{% block content %}
+<div class="col-md-9">
+<!--============ Section Title===================================================================-->
+    <div class="section-title clearfix">
+        <div class="float-left float-xs-none">
+            <label class="mr-3 align-text-bottom">Sort by: </label>
+            <select name="sorting" id="sorting" class="small width-200px" data-placeholder="Default Sorting" >
+                <option value="">Default Sorting</option>
+                <option value="1">Newest First</option>
+                <option value="2">Oldest First</option>
+                <option value="3">Lowest Price First</option>
+                <option value="4">Highest Price First</option>
+            </select>
+
+        </div>
+        <div class="float-right d-xs-none thumbnail-toggle">
+            <a href="#" class="change-class" data-change-from-class="list" data-change-to-class="grid" data-parent-class="items">
+                <i class="fa fa-th"></i>
+            </a>
+            <a href="#" class="change-class active" data-change-from-class="grid" data-change-to-class="list" data-parent-class="items">
+                <i class="fa fa-th-list"></i>
+            </a>
+        </div>
+    </div>
+<!--============ Items ==========================================================================-->
+    <div class="items list compact grid-xl-3-items grid-lg-2-items grid-md-2-items">
+        {% for good in goods %}
+            <div class="item">
+                <div class="wrapper">
+                    <div class="image">
+                        <h3>
+                            <a href="#" class="tag category">{{good.getGoodcategory().libelle}}</a>
+                            <a href="#" class="title">{{good.getIntitule()|u.truncate(30, '...')}}</a>
+                            <span class="tag">{{good.getOffertype().libelle|u.truncate(60, '...')}}</span>
+                        </h3>
+                        <a href="#" class="image-wrapper background-image">
+                            {% if good.getOfferGaleries()|length > 0 %}
+                                <img src="{{asset('/uploads/galery/'~ good.getOfferGaleries()[0].path)}}" alt="">
+                            {% else %}
+                                <img src="{{asset('./assets/img/image-01.jpg')}}" alt="">
+                            {% endif %}
+                        </a>
+                    </div>
+                    <!--end image-->
+                    <h4 class="location">
+                        <a href="#">{{good.getLocalisation()}}</a>
+                    </h4>
+                    <div class="price">{{good.getPrice()}} €</div>
+                    <div class="admin-controls">
+                        <a href="#">
+                            <i class="fa fa-pencil"></i>Edit
+                        </a>
+                        <a href="#" class="ad-hide">
+                            <i class="fa fa-eye-slash"></i>Hide
+                        </a>
+                        <a href="#" class="ad-remove">
+                            <i class="fa fa-trash"></i>Remove
+                        </a>
+                    </div>
+                    <!--end admin-controls-->
+                    <div class="description">
+                        <p>{{ good.getDescriptif()|u.truncate(30, '...')}}</p>
+                    </div>
+                    <!--end description-->
+                    <div class="additional-info">
+                        <ul>
+                            <li>
+                                <figure>Publié(e)</figure>
+                                <aside>{{good.createdAt|date("d/m/Y H:i","Europe/Paris")}}</aside>
+                            </li>
+
+                            <li>
+                                <figure>Référence</figure>
+                                <aside>{{good.reference}}</aside>
+                            </li>
+
+                            <li>
+                                <figure>Superficie</figure>
+                                <aside>{{good.surface}}</aside>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--end addition-info-->
+                    <a href="#" class="detail text-caps underline">Detail</a>
+                </div>
+            </div>
+        {% endfor %}
+        <!--end item-->
+    </div>
+    <!--end items-->
+</div>
+{% endblock %}
