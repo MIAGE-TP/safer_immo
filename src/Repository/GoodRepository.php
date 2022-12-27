@@ -112,6 +112,7 @@ class GoodRepository extends ServiceEntityRepository
            ->where('g.deletedAt is NULL')
            ->andWhere('g.user = :val')
            ->setParameter('val', $value)
+           ->orderBy('g.id', 'DESC')
            ->getQuery()
            ->getResult();
     }

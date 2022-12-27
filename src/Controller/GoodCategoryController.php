@@ -12,8 +12,6 @@ use App\Repository\GoodCategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Carbon\Carbon;
 
-use function PHPUnit\Framework\isNull;
-
 class GoodCategoryController extends AbstractController
 {
     #[Route('/admin/categories-bien', name: 'good_types')]

@@ -16,6 +16,7 @@ use App\Repository\GoodRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Knp\Component\Pager\PaginatorInterface;
 
 class GoodController extends AbstractController
 {
@@ -31,10 +32,16 @@ class GoodController extends AbstractController
     }
 
     #[Route('/admin/biens', name: 'goods')]
-    public function index(GoodRepository $repository)
+    public function index(GoodRepository $repository, Request $request, PaginatorInterface $paginator)
     {
         $user = $this->security->getUser();
-        $goods = $repository->findWithoutDelete($user);
+        $donnees = $repository->findWithoutDelete($user);
+        
+        $goods = $paginator->paginate(
+            $donnees, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            1 // Nombre de résultats par page
+        );
         return $this->render('admin_dashboard/good/goods.html.twig', [
             'goods' => $goods
         ]);

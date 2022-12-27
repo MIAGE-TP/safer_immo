@@ -252,7 +252,7 @@ $(document).ready(function($) {
 
     if( $('.ui-slider').length > 0 ){
 
-        $.getScript( "assets/js/jquery.nouislider.all.min.js", function() {
+        $.getScript( "{{asset('./assets/js/jquery.nouislider.all.min.js')}}", function() {
             $('.ui-slider').each(function() {
                 if( $("body").hasClass("rtl") ) var rtl = "rtl";
                 else rtl = "ltr";
