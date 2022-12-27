@@ -63,6 +63,6 @@ class GoodController extends AbstractController
         $dir = $this->getParameter('offer_galery');
         $manager->getRepository(Good::class)->insert($request, $manager, $slugger, $dir);
         $this->addFlash('success', 'Offre immobilière ajoutée!');
-        return $this->redirectToRoute('add_good');
+        return $this->redirectToRoute('goods');
     }
 }
