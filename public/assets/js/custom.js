@@ -9,11 +9,11 @@ $(document).ready(function($) {
 
 //  Geo Location button
 
-    if( $(".geo-location").length > 0 && $(".map").length === 0 ){
-        $("body").append("<div id='map-helper' style='display: none'></div>");
-        var map = new google.maps.Map(document.getElementById("map-helper"));
-        autoComplete(map);
-    }
+    // if( $(".geo-location").length > 0 && $(".map").length === 0 ){
+    //     $("body").append("<div id='map-helper' style='display: none'></div>");
+    //     var map = new google.maps.Map(document.getElementById("map-helper"));
+    //     autoComplete(map);
+    // }
 
 //  Selectize
 
@@ -379,130 +379,130 @@ function readMore() {
 
 // Google Map
 
-function simpleMap(latitude, longitude, markerImage, mapTheme, mapElement, markerDrag){
-    if (!markerDrag){
-        markerDrag = false;
-    }
-    if ( mapTheme === "light" ){
-        var mapStyles = [{"featureType":"administrative.locality","elementType":"all","stylers":[{"hue":"#c79c60"},{"saturation":7},{"lightness":19},{"visibility":"on"}]},{"featureType":"landscape","elementType":"all","stylers":[{"hue":"#ffffff"},{"saturation":-100},{"lightness":100},{"visibility":"simplified"}]},{"featureType":"poi","elementType":"all","stylers":[{"hue":"#ffffff"},{"saturation":-100},{"lightness":100},{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"hue":"#c79c60"},{"saturation":-52},{"lightness":-10},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"hue":"#c79c60"},{"saturation":-93},{"lightness":31},{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"labels","stylers":[{"hue":"#c79c60"},{"saturation":-93},{"lightness":-2},{"visibility":"simplified"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"hue":"#c79c60"},{"saturation":-52},{"lightness":-10},{"visibility":"simplified"}]},{"featureType":"transit","elementType":"all","stylers":[{"hue":"#c79c60"},{"saturation":10},{"lightness":69},{"visibility":"on"}]},{"featureType":"water","elementType":"all","stylers":[{"hue":"#c79c60"},{"saturation":-78},{"lightness":67},{"visibility":"simplified"}]}];
-    }
-    else if ( mapTheme === "dark" ){
-        mapStyles = [{"featureType":"all","elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#000000"},{"lightness":40}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#000000"},{"lightness":16}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":17},{"weight":1.2}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":21}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":16}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":19}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":17}]}]
-    }
-    var mapCenter = new google.maps.LatLng(latitude,longitude);
-    var mapOptions = {
-        zoom: 13,
-        center: mapCenter,
-        disableDefaultUI: false,
-        scrollwheel: false,
-        styles: mapStyles
-    };
-    var element = document.getElementById(mapElement);
-    var map = new google.maps.Map(element, mapOptions);
-    var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(latitude,longitude),
-        map: map,
-        icon: markerImage,
-        draggable: markerDrag
-    });
+// function simpleMap(latitude, longitude, markerImage, mapTheme, mapElement, markerDrag){
+//     if (!markerDrag){
+//         markerDrag = false;
+//     }
+//     if ( mapTheme === "light" ){
+//         var mapStyles = [{"featureType":"administrative.locality","elementType":"all","stylers":[{"hue":"#c79c60"},{"saturation":7},{"lightness":19},{"visibility":"on"}]},{"featureType":"landscape","elementType":"all","stylers":[{"hue":"#ffffff"},{"saturation":-100},{"lightness":100},{"visibility":"simplified"}]},{"featureType":"poi","elementType":"all","stylers":[{"hue":"#ffffff"},{"saturation":-100},{"lightness":100},{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"hue":"#c79c60"},{"saturation":-52},{"lightness":-10},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"hue":"#c79c60"},{"saturation":-93},{"lightness":31},{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"labels","stylers":[{"hue":"#c79c60"},{"saturation":-93},{"lightness":-2},{"visibility":"simplified"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"hue":"#c79c60"},{"saturation":-52},{"lightness":-10},{"visibility":"simplified"}]},{"featureType":"transit","elementType":"all","stylers":[{"hue":"#c79c60"},{"saturation":10},{"lightness":69},{"visibility":"on"}]},{"featureType":"water","elementType":"all","stylers":[{"hue":"#c79c60"},{"saturation":-78},{"lightness":67},{"visibility":"simplified"}]}];
+//     }
+//     else if ( mapTheme === "dark" ){
+//         mapStyles = [{"featureType":"all","elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#000000"},{"lightness":40}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#000000"},{"lightness":16}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":17},{"weight":1.2}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":21}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":16}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":19}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":17}]}]
+//     }
+//     var mapCenter = new google.maps.LatLng(latitude,longitude);
+//     var mapOptions = {
+//         zoom: 13,
+//         center: mapCenter,
+//         disableDefaultUI: false,
+//         scrollwheel: false,
+//         styles: mapStyles
+//     };
+//     var element = document.getElementById(mapElement);
+//     var map = new google.maps.Map(element, mapOptions);
+//     var marker = new google.maps.Marker({
+//         position: new google.maps.LatLng(latitude,longitude),
+//         map: map,
+//         icon: markerImage,
+//         draggable: markerDrag
+//     });
 
-    google.maps.event.addListener(marker, 'dragend', function(){
-        var latitudeInput = $('#latitude');
-        var longitudeInput = $("#longitude");
-        if( latitudeInput.length ){
-            latitudeInput.val( marker.getPosition().lat() );
-        }
-        if( longitudeInput.length ){
-            longitudeInput.val( marker.getPosition().lng() );
-        }
-    });
+//     google.maps.event.addListener(marker, 'dragend', function(){
+//         var latitudeInput = $('#latitude');
+//         var longitudeInput = $("#longitude");
+//         if( latitudeInput.length ){
+//             latitudeInput.val( marker.getPosition().lat() );
+//         }
+//         if( longitudeInput.length ){
+//             longitudeInput.val( marker.getPosition().lng() );
+//         }
+//     });
 
-    autoComplete(map, marker);
+//     autoComplete(map, marker);
 
-}
+// }
 
 //Autocomplete ---------------------------------------------------------------------------------------------------------
 
-function autoComplete(map, marker){
-    if( $("#input-location").length ){
-        if( !map ){
-            map = new google.maps.Map(document.getElementById("input-location"));
-        }
-        var mapCenter;
-        var input = document.getElementById('input-location');
-        var autocomplete = new google.maps.places.Autocomplete(input);
-        autocomplete.bindTo('bounds', map);
-        google.maps.event.addListener(autocomplete, 'place_changed', function() {
-            var place = autocomplete.getPlace();
-            if (!place.geometry) {
-                return;
-            }
-            if (place.geometry.viewport) {
-                map.fitBounds(place.geometry.viewport);
-            } else {
-                map.setCenter(place.geometry.location);
-                map.setZoom(17);
-            }
-            mapCenter = place.geometry.location;
-            if( marker ){
-                marker.setPosition(place.geometry.location);
-                marker.setVisible(true);
-                $('#latitude').val( marker.getPosition().lat() );
-                $('#longitude').val( marker.getPosition().lng() );
-            }
-            var address = '';
-            if (place.address_components) {
-                address = [
-                    (place.address_components[0] && place.address_components[0].short_name || ''),
-                    (place.address_components[1] && place.address_components[1].short_name || ''),
-                    (place.address_components[2] && place.address_components[2].short_name || '')
-                ].join(' ');
-            }
-        });
+// function autoComplete(map, marker){
+//     if( $("#input-location").length ){
+//         if( !map ){
+//             map = new google.maps.Map(document.getElementById("input-location"));
+//         }
+//         var mapCenter;
+//         var input = document.getElementById('input-location');
+//         var autocomplete = new google.maps.places.Autocomplete(input);
+//         autocomplete.bindTo('bounds', map);
+//         google.maps.event.addListener(autocomplete, 'place_changed', function() {
+//             var place = autocomplete.getPlace();
+//             if (!place.geometry) {
+//                 return;
+//             }
+//             if (place.geometry.viewport) {
+//                 map.fitBounds(place.geometry.viewport);
+//             } else {
+//                 map.setCenter(place.geometry.location);
+//                 map.setZoom(17);
+//             }
+//             mapCenter = place.geometry.location;
+//             if( marker ){
+//                 marker.setPosition(place.geometry.location);
+//                 marker.setVisible(true);
+//                 $('#latitude').val( marker.getPosition().lat() );
+//                 $('#longitude').val( marker.getPosition().lng() );
+//             }
+//             var address = '';
+//             if (place.address_components) {
+//                 address = [
+//                     (place.address_components[0] && place.address_components[0].short_name || ''),
+//                     (place.address_components[1] && place.address_components[1].short_name || ''),
+//                     (place.address_components[2] && place.address_components[2].short_name || '')
+//                 ].join(' ');
+//             }
+//         });
 
-        $('.geo-location').on("click", function(e) {
-            e.preventDefault();
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(success);
-            } else {
-                console.log('Geo Location is not supported');
-            }
-        });
+//         $('.geo-location').on("click", function(e) {
+//             e.preventDefault();
+//             if (navigator.geolocation) {
+//                 navigator.geolocation.getCurrentPosition(success);
+//             } else {
+//                 console.log('Geo Location is not supported');
+//             }
+//         });
 
-        function success(position) {
-            var locationCenter = new google.maps.LatLng( position.coords.latitude, position.coords.longitude);
-            map.setCenter( locationCenter );
-            map.setZoom(14);
-            if(marker){
-                marker.setPosition(locationCenter);
-            }
+//         function success(position) {
+//             var locationCenter = new google.maps.LatLng( position.coords.latitude, position.coords.longitude);
+//             map.setCenter( locationCenter );
+//             map.setZoom(14);
+//             if(marker){
+//                 marker.setPosition(locationCenter);
+//             }
 
-            var geocoder = new google.maps.Geocoder();
-            geocoder.geocode({
-                "latLng": locationCenter
-            }, function (results, status) {
-                if (status === google.maps.GeocoderStatus.OK) {
-                    var lat = results[0].geometry.location.lat(),
-                        lng = results[0].geometry.location.lng(),
-                        placeName = results[0].address_components[0].long_name,
-                        latlng = new google.maps.LatLng(lat, lng);
+//             var geocoder = new google.maps.Geocoder();
+//             geocoder.geocode({
+//                 "latLng": locationCenter
+//             }, function (results, status) {
+//                 if (status === google.maps.GeocoderStatus.OK) {
+//                     var lat = results[0].geometry.location.lat(),
+//                         lng = results[0].geometry.location.lng(),
+//                         placeName = results[0].address_components[0].long_name,
+//                         latlng = new google.maps.LatLng(lat, lng);
 
-                    $("#input-location").val(results[0].formatted_address);
-                    var latitudeInput = $('#latitude');
-                    var longitudeInput = $("#longitude");
-                    if( latitudeInput.length ){
-                        latitudeInput.val( marker.getPosition().lat() );
-                    }
-                    if( longitudeInput.length ){
-                        longitudeInput.val( marker.getPosition().lng() );
-                    }
-                }
-            });
+//                     $("#input-location").val(results[0].formatted_address);
+//                     var latitudeInput = $('#latitude');
+//                     var longitudeInput = $("#longitude");
+//                     if( latitudeInput.length ){
+//                         latitudeInput.val( marker.getPosition().lat() );
+//                     }
+//                     if( longitudeInput.length ){
+//                         longitudeInput.val( marker.getPosition().lng() );
+//                     }
+//                 }
+//             });
 
-        }
-    }
+//         }
+//     }
 
-}
+// }
 
 /*
 if( $("#input-location2").length ){

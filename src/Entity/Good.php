@@ -62,10 +62,17 @@ class Good
     #[ORM\OneToMany(mappedBy: 'good', targetEntity: OfferGalery::class, orphanRemoval: true)]
     private Collection $offerGaleries;
 
+    #[ORM\Column(length: 1020)]
+    private ?string $slug;
+
+    #[ORM\Column]
+    private ?bool $hidden;
+
     public function __construct()
     {
         $this->createdAt = Carbon::now()->toDateTimeImmutable();
         $this->offerGaleries = new ArrayCollection();
+        $this->hidden = false;
     }
 
     public function getId(): ?int
@@ -255,6 +262,30 @@ class Good
                 $offerGalery->setGood(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function isHidden(): ?bool
+    {
+        return $this->hidden;
+    }
+
+    public function setHidden(bool $hidden): self
+    {
+        $this->hidden = $hidden;
 
         return $this;
     }

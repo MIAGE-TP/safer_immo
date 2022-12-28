@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include 'partials/head.html.twig' %}
+     <body>
+        <div class="page sub-page">
+            <header class="hero">
+                <div class="hero-wrapper">
+                    {% include 'partials/hero_form_collapse.html.twig' %}
+                    <div class="collapse" id="collapseMainSearchForm">
+                        {% include 'partials/hero_form.html.twig' %}
+                    </div>
+                    <!--============ Page Title =========================================================================-->
+                    <div class="page-title mt-5">
+                        <div class="container clearfix">
+                            {% block page_title %}{% endblock %}
+                        </div>
+                        <!--end container-->
+                    </div>
+                    <!--============ End Page Title =====================================================================-->
+                    <div class="background"></div>
+                    <!--end background-->
+                </div>
+            </header>
+            <section class="content">
+                <section class="block">
+                    <div class="container">
+                        {% block content %}{% endblock %}
+                    </div>
+                </section>
+            </section>
+            {% include 'partials/footer.html.twig' %}
+
+        </div>
+
+        {% include 'partials/load_js.html.twig' %}
+    </body>
+</html>

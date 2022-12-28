@@ -61,11 +61,11 @@ class GoodRepository extends ServiceEntityRepository
         $category = $manager->getRepository(GoodCategory::class)->find($data->get('category'));
         $currentUser = $manager->getRepository(User::class)->find($data->get('user'));
 
-        $location = $department->getName().', '.$city->getName().', '.$data->get('street');
+        $location = $department->getName().', '.$city->getName().' ('.$city->getZipCode().'), '.$data->get('street');
 
         $good->setLocalisation($location);
 
-        $good->setSurface($data->get('surface').' '.$data->get('unit'));
+        $good->setSurface($data->get('surface').''.$data->get('unit'));
 
         $good->setPrice($data->get('price'));
         
@@ -74,6 +74,9 @@ class GoodRepository extends ServiceEntityRepository
         $good->setOffertype($offerType);
         $good->setGoodcategory($category);
         $good->setCity($city);
+
+        $slug = $slugger->slug($data->get('intitule').'-'.uniqid());
+        $good->setSlug($slug);
         
         $this->save($good, true);
 

@@ -47,11 +47,11 @@
                 <div class="wrapper">
                     <div class="image">
                         <h3>
-                            <a href="#" class="tag category">{{good.getGoodcategory().libelle}}</a>
-                            <a href="#" class="title">{{good.getIntitule()|u.truncate(30, '...')}}</a>
+                            <a href="{{path('show_good', {slug: good.slug})}}" class="tag category">{{good.getGoodcategory().libelle}}</a>
+                            <a href="{{path('show_good', {slug: good.slug})}}" class="title">{{good.getIntitule()|u.truncate(30, '...')}}</a>
                             <span class="tag">{{good.getOffertype().libelle|u.truncate(60, '...')}}</span>
                         </h3>
-                        <a href="#" class="image-wrapper background-image">
+                        <a href="{{path('show_good', {slug: good.slug})}}" class="image-wrapper background-image">
                             {% if good.getOfferGaleries()|length > 0 %}
                                 <img src="{{asset('/uploads/galery/'~ good.getOfferGaleries()[0].path)}}" alt="">
                             {% else %}
@@ -99,13 +99,13 @@
                         </ul>
                     </div>
                     <!--end addition-info-->
-                    <a href="#" class="detail text-caps underline">Detail</a>
+                    <a href="{{path('show_good', {slug: good.slug})}}" class="detail text-caps underline">Detail</a>
                 </div>
             </div>
         {% endfor %}
         <!--end item-->
     </div>
-    <div class="nav justify-content-center">
+    <div class="page-pagination">
         {{knp_pagination_render(goods)}}
     </div>
     

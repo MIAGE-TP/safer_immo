@@ -72,4 +72,16 @@ class GoodController extends AbstractController
         $this->addFlash('success', 'Offre immobilière ajoutée!');
         return $this->redirectToRoute('goods');
     }
+
+
+    #[Route('/biens/{slug}', name: 'show_good')]
+    public function show(EntityManagerInterface $manager, $slug):Response
+    {
+        $good = $manager->getRepository(Good::class)->findOneBy(['slug'=> $slug]);
+        if ($good) {
+            return  $this->render('public/display_good.html.twig', [
+                'good' => $good
+            ]);
+        }
+    }
 }
