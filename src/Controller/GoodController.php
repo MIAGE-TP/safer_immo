@@ -64,7 +64,7 @@ class GoodController extends AbstractController
         ]);
     }
 
-    #[Route('/store-bien', name: 'store_good')]
+    #[Route('/admin/store-bien', name: 'store_good')]
     public function store(Request $request, EntityManagerInterface $manager, SluggerInterface $slugger):Response
     {
         $dir = $this->getParameter('offer_galery');
@@ -83,5 +83,35 @@ class GoodController extends AbstractController
                 'good' => $good
             ]);
         }
+    }
+
+    #[Route('/admin/modification-bien/{id<\d+>}', name: 'edit_good')]
+    public function edit(Good $good, DepartmentRepository $departmentRepository, GoodCategoryRepository $catRepository,
+    CityRepository $cityRepository, OfferTypeRepository $offTypRepository
+    ):Response
+    {
+        if ($good) {
+            $categories = $catRepository->findWithoutDelete();
+            $departments = $departmentRepository->findWithoutDelete();
+            $cities = $cityRepository->findWithoutDelete();
+             $offerTypes = $offTypRepository->findWithoutDelete();
+
+            return  $this->render('admin_dashboard/good/edit.html.twig', [
+                'good' => $good,
+                'categories' => $categories,
+                'departments' => $departments,
+                'cities' => $cities,
+                'offerTypes' => $offerTypes
+            ]);
+        }
+    }
+
+    #[Route('/admin/update-good/', name: 'update_good')]
+    public function update(Request $request, EntityManagerInterface $manager, SluggerInterface $slugger):Response
+    {
+        $dir = $this->getParameter('offer_galery');
+        $manager->getRepository(Good::class)->update($request, $manager, $slugger, $dir);
+        $this->addFlash('success', 'Offre immobilière modifiée!');
+        return $this->redirectToRoute('goods');
     }
 }

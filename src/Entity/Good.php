@@ -68,6 +68,12 @@ class Good
     #[ORM\Column]
     private ?bool $hidden;
 
+    #[ORM\Column(length: 255)]
+    private ?string $unit = null;
+
+    #[ORM\Column(length: 1020, nullable: true)]
+    private ?string $street = null;
+
     public function __construct()
     {
         $this->createdAt = Carbon::now()->toDateTimeImmutable();
@@ -286,6 +292,30 @@ class Good
     public function setHidden(bool $hidden): self
     {
         $this->hidden = $hidden;
+
+        return $this;
+    }
+
+    public function getUnit(): ?string
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(string $unit): self
+    {
+        $this->unit = $unit;
+
+        return $this;
+    }
+
+    public function getStreet(): ?string
+    {
+        return $this->street;
+    }
+
+    public function setStreet(?string $street): self
+    {
+        $this->street = $street;
 
         return $this;
     }

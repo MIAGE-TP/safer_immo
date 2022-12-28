@@ -71,13 +71,11 @@
                         <dt>Catégorie</dt>
                         <dd>{{good.getGoodcategory().libelle}}</dd>
                         <dt>Superficie</dt>
-                        <dd>{{good.getSurface()}}</dd>
+                        <dd>{{good.getSurface()}}{{good.getUnit()}}</dd>
                         <dt>Référence</dt>
                         <dd>{{good.getReference()}}</dd>
                         <dt>Adresse</dt>
                         <dd>{{good.getLocalisation()}}</dd>
-                        <dt>Code postal</dt>
-                        <dd>{{good.getCity().getZipCode()}}</dd>
                     </dl>
                 </div>
             </div>

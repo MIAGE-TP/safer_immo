@@ -1,13 +1,13 @@
 {% extends 'layouts/auth_base.html.twig' %}
 
-{% block page_title %}<h1>Ajout d'un bien</h1>{% endblock %}
+{% block page_title %}<h1>Modification de l'offe</h1>{% endblock %}
 
 {% block content %}
 <div class="col-md">
     <section class="content">
         <section class="block">
             <div class="container">
-                <form class="form MultiFile-intercepted" method="POST" action="{{path('store_good')}}" enctype="multipart/form-data">
+                <form class="form MultiFile-intercepted" method="POST" action="{{path('update_good')}}" enctype="multipart/form-data">
                     <section>
                         <h2>Informations de base</h2>
                         <div class="row">
@@ -15,7 +15,7 @@
                                 <div class="form-group">
                                     <label for="category" class="col-form-label">Type d'offre</label>
                                     <select data-enable-search="true" name="offerType" id="offer_type" data-placeholder="Choisir le type d'offre">
-                                        <option value="">Type d'offre</option>
+                                        <option value="{{good.getOffertype().id}}">{{good.getOffertype().libelle}}</option>
                                         {% for offerType in offerTypes %}
                                             <option value="{{offerType.id}}">{{offerType.libelle}}</option>
                                         {% endfor %}
@@ -26,7 +26,7 @@
                                 <div class="form-group">
                                     <label for="category" class="col-form-label">Catégorie de bien</label>
                                     <select data-enable-search="true" name="category" id="category" data-placeholder="Choisir la catégorie de bien">
-                                        <option value="">Catégorie de bien</option>
+                                        <option value="{{good.getGoodcategory().id}}">{{good.getGoodcategory().libelle}}</option>
                                         {% for category in categories %}
                                             <option value="{{category.id}}">{{category.libelle}}</option>
                                         {% endfor %}
@@ -41,7 +41,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1">€</span>
                                         </div>
-                                        <input name="price" type="number" class="form-control" id="price" required>
+                                        <input name="price" type="number" class="form-control" id="price" required value="{{good.getPrice()}}">
                                     </div>
                                 </div>
                                 <!--end form-group-->
@@ -51,7 +51,7 @@
                             <div class="col-md">
                                 <div class="form-group">
                                     <label for="intitule" class="col-form-label required">Intitulé</label>
-                                    <input name="intitule" type="text" class="form-control" id="intitule" placeholder="Intitule" required>
+                                    <input name="intitule" type="text" class="form-control" id="intitule" placeholder="Intitule" required value="{{good.getIntitule()}}">
                                 </div>
                                 <!--end form-group-->
                             </div>
@@ -59,7 +59,7 @@
                             <div class="col-md">
                                 <div class="form-group" id="reference">
                                     <label for="reference" class="col-form-label required">Référence</label>
-                                    <input name="reference" type="text" class="form-control" id="title" placeholder="Référence" required>
+                                    <input name="reference" type="text" class="form-control" id="title" placeholder="Référence" required value="{{good.getReference()}}">
                                 </div>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                                     <div class="col-md">
                                         <div class="form-group">
                                             <label for="surface" class="col-form-label">Superficie</label>
-                                            <input name="surface" type="number" class="form-control" id="surface">
+                                            <input name="surface" type="number" class="form-control" id="surface" value="{{good.getSurface()}}">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -83,9 +83,13 @@
                                         <div class="form-group">
                                             <label for="unit" class="col-form-label">Unité de mesure de la superficie</label>
                                             <select data-enable-search="true" name="unit" id="unit" data-placeholder="Choisir l'unité de la superificie">
-                                                <option value="">Unité de mesure</option>
-                                                <option value="m2">m2</option>
-                                                <option value="Ha">hectare</option>
+                                                {% if good.getUnit() == "m2"  %}  
+                                                    <option value="{{good.getUnit()}}">m2</option>
+                                                    <option value="Ha">hectare</option>
+                                                {% else %} 
+                                                   <option value="{{good.getUnit()}}">hectare</option>
+                                                   <option value="m2">m2</option>
+                                                {% endif %}
                                             </select>
                                         </div>
                                     </div>
@@ -93,7 +97,7 @@
                                         <div class="form-group">
                                             <label for="searchable-select" class="col-form-label">Département</label>
                                             <select required name="department" id="department" data-placeholder="Choisir le département" data-enable-search="true">
-                                                <option value="">Département</option>
+                                                <option value="{{good.getCity().getDepartment().id}}">{{good.getCity().getDepartment().name}}</option>
                                                 {% for department in departments %}
                                                     <option value="{{department.id}}">{{department.name}}</option>
                                                 {% endfor %}
@@ -107,8 +111,11 @@
                             <div class="col-md">
                                 <div class="form-group">
                                     <label for="city" class="col-form-label required">Ville</label>
-                                    <select required name="city" id="city" data-placeholder="Choisir la ville" disabled data-enable-search="true">
-                                        <option value="">Ville</option>
+                                    <select required name="city" id="city" data-placeholder="Choisir la ville" data-enable-search="true">
+                                        <option value="{{good.getCity().id}}">{{good.getCity().name}}</option>
+                                        {% for city in cities %}
+                                            <option value="{{city.id}}">{{city.name}}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                                 <!--end form-group-->
@@ -117,7 +124,7 @@
                             <div class="col-md">
                                 <div class="form-group">
                                     <label for="street" class="col-form-label">Rue</label>
-                                    <input name="street" type="text" class="form-control" id="street">
+                                    <input name="street" type="text" class="form-control" value="{{good.street}}" id="street">
                                     <input name="user" type="hidden" value="{{app.user.id}}" class="form-control" id="user">
                                 </div>
                             </div>
@@ -129,23 +136,39 @@
                         <h2>Détails</h2>
                         <div class="form-group">
                             <label for="description" class="col-form-label">Informations complémentaires</label>
-                            <textarea name="description" id="description" class="form-control" rows="4"></textarea>
+                            <textarea name="description" id="description" class="form-control" rows="4">{{good.getDescriptif()}}</textarea>
                         </div>
                         <!--end form-group-->
                     </section>
 
                     <section>
                         <h2>Galerie</h2>
+                        {% if good.getOfferGaleries()|length > 0 %}
+                            <div class="file-uploaded-images">
+                                {% for picture in good.getOfferGaleries() %}
+                                    <div class="image">
+                                        <figure class="remove-image MultiFile-remove" data-delete-image><i class="fa fa-close"></i></figure>
+                                        <img id="{{picture.id}}" src="{{asset('/uploads/galery/'~ picture.path)}}" alt="">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                         <div class="file-upload-previews"></div>
                         <div class="file-upload">
                             <input type="file" name="files[]" class="file-upload-input with-preview" multiple>
                             <span><i class="fa fa-plus-circle"></i>Cliquez ou glisser vos images ici</span>
                         </div>
+                        <div class="form-group">
+                            <input id="delete" hidden name="deleted[]" type="text" class="form-control" value="">
+                        </div>
+                        <div class="form-group">
+                            <input id="good" hidden name="id" type="text" class="form-control" value="{{good.id}}">
+                        </div>
                     </section>
 
                     <section class="clearfix">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary large icon float-right">Enregistrer<i class="fa fa-chevron-right"></i></button>
+                            <button type="submit" class="btn btn-primary large icon float-right">Modifier<i class="fa fa-chevron-right"></i></button>
                         </div>
                     </section>
                 </form>
@@ -182,7 +205,7 @@
     }
 
     $.ajaxSetup({
-         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
     });
 
     $('#department').on('change', function(e) {
@@ -210,5 +233,15 @@
             }
         })
     });
+
+    $('[data-delete-image]').on('click', function () {
+
+        var deleted = $(this.parentElement).find("img");
+        var des = deleted.attr('id');
+        $('#delete').val($('#delete').val() + ($('#delete').val() ? ',': '') + des);
+
+        this.parentElement.remove();
+        console.log(des);
+    })
 </script>
 {% endblock %}

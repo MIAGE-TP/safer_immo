@@ -65,14 +65,14 @@
                     </h4>
                     <div class="price">{{good.getPrice()}} €</div>
                     <div class="admin-controls">
-                        <a href="#">
-                            <i class="fa fa-pencil"></i>Edit
+                        <a href="{{ path('edit_good', {id: good.id}) }}">
+                            <i class="fa fa-pencil"></i>Modifier
                         </a>
                         <a href="#" class="ad-hide">
-                            <i class="fa fa-eye-slash"></i>Hide
+                            <i class="fa fa-eye-slash"></i>Masquer
                         </a>
                         <a href="#" class="ad-remove">
-                            <i class="fa fa-trash"></i>Remove
+                            <i class="fa fa-trash"></i>Effacer
                         </a>
                     </div>
                     <!--end admin-controls-->
@@ -94,7 +94,7 @@
 
                             <li>
                                 <figure>Superficie</figure>
-                                <aside>{{good.surface}}</aside>
+                                <aside>{{good.surface}}{{good.unit}}</aside>
                             </li>
                         </ul>
                     </div>
