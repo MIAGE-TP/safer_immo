@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Knp\Component\Pager\PaginatorInterface;
+use Carbon\Carbon;
 
 class GoodController extends AbstractController
 {
@@ -113,5 +114,35 @@ class GoodController extends AbstractController
         $manager->getRepository(Good::class)->update($request, $manager, $slugger, $dir);
         $this->addFlash('success', 'Offre immobilière modifiée!');
         return $this->redirectToRoute('goods');
+    }
+
+    #[Route('/admin/suppression-bien/{id<\d+>}', name: 'delete_good')]
+    public function delete(Good $good, EntityManagerInterface $manager):Response
+    {
+        if ($good) {
+            $good->setDeletedAt(Carbon::now()->toDateTimeImmutable());
+            $manager->flush();
+            $this->addFlash('success', 'Offre supprimée!');
+            return $this->redirectToRoute('goods');
+        }
+    }
+
+
+    #[Route('/admin/masquer-bien/{id<\d+>}', name: 'hide_good')]
+    public function hide(Good $good, EntityManagerInterface $manager):Response
+    {
+        if ($good) {
+            if ($good->isHidden()) {
+                $good->setHidden(false);
+                $this->addFlash('success', 'Cette offre est de nouveau visible pour les utilisateurs!');
+            } else {
+                $good->setHidden(true);
+                $this->addFlash('success', 'Cette offre a été masquée. Elle ne sera plus visible aux utilisateurs.');
+            }
+            $good->setUpdatedAt(Carbon::now()->toDateTimeImmutable());
+            $manager->flush();
+           
+            return $this->redirectToRoute('goods');
+        }
     }
 }

@@ -68,10 +68,10 @@
                         <a href="{{ path('edit_good', {id: good.id}) }}">
                             <i class="fa fa-pencil"></i>Modifier
                         </a>
-                        <a href="#" class="ad-hide">
-                            <i class="fa fa-eye-slash"></i>Masquer
+                        <a href="{{ path('hide_good', {id: good.id}) }}" class="ad-hide">
+                            <i class="fa fa-eye-slash"></i>{% if good.isHidden() %}Afficher{% else %}Masquer{% endif %}
                         </a>
-                        <a href="#" class="ad-remove">
+                        <a href="{{ path('delete_good', {id: good.id}) }}" class="ad-remove">
                             <i class="fa fa-trash"></i>Effacer
                         </a>
                     </div>
