@@ -27,18 +27,10 @@
             <div  class="clearfix">
                 <h2 class="float-left">Galerie</h2>
                 {% if is_granted('IS_AUTHENTICATED') %}
-                    {% if app.user.getFavs()|length > 0 %}
-                        {% for fav in app.user.getFavs() %}
-                            {% if fav.getGood().id == good.getId() %}
-                                <button class="float-right btn small btn-primary mt-3" id="add-fav" name="{{fav.id}}">
-                                    Retirer de mes favoris
-                                </button>
-                            {% else %}
-                                <button class="float-right btn small btn-primary mt-3" id="add-fav" name="">
-                                    <i class="fa fa-bookmark"></i> Ajouter à mes favoris
-                                </button>
-                            {% endif %}
-                        {% endfor %}
+                    {% if good.getId() in app.user.getFavGoodIds()  %}
+                        <button class="float-right btn small btn-primary mt-3" id="add-fav" name="{{app.user.getFavId(good.getId())}}">
+                            Retirer de mes favoris
+                        </button>
                     {% else %}
                         <button class="float-right btn small btn-primary mt-3" id="add-fav" name="">
                             <i class="fa fa-bookmark"></i> Ajouter à mes favoris
@@ -53,19 +45,19 @@
             {% if good.getOfferGaleries()|length > 0 %}
                 <div class="gallery-carousel owl-carousel">
                     {% for picture in good.getOfferGaleries() %}
-                        <img src="{{asset('/uploads/galery/'~ picture.path)}}" alt="" namea-hash="{{picture.id}}">
+                        <img src="{{asset('/uploads/galery/'~ picture.path)}}" alt="" data-hash="{{picture.id}}">
                     {% endfor %}
                 </div>
                 <div class="gallery-carousel-thumbs owl-carousel">
                     {% for picture in good.getOfferGaleries() %}
-                        <a href="#{{picture.id}}" class="owl-thumb {% if good.getOfferGaleries()[0].id == picture.id %} active-thumb {% endif %} background-image">
+                        <a href="#{{picture.id}}" class="owl-thumb background-image {% if good.getOfferGaleries()[0].id == picture.id %} active-thumb {% endif %}">
                             <img src="{{asset('/uploads/galery/'~ picture.path)}}" alt="">
                         </a>
                     {% endfor %}
                 </div>
             {% else %}
                 <div class="gallery-carousel owl-carousel">
-                    <img src="{{asset('./assets/img/image-01.jpg')}}" alt="" namea-hash="1">
+                    <img src="{{asset('./assets/img/image-01.jpg')}}" alt="" data-hash="1">
                 </div>
                 <div class="gallery-carousel-thumbs owl-carousel">
                     <a href="#1" class="owl-thumb active-thumb background-image">
@@ -254,7 +246,6 @@
 
 {% block javascripts %}
 <script>
-
     $('#add-fav').on('click', function(e) {
         e.preventDefault();
         var good = $(e.currentTarget)

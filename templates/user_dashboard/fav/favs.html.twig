@@ -10,6 +10,10 @@
     <div class="items list compact grid-xl-3-items grid-lg-2-items grid-md-2-items">
         {% for fav in favs %}
             <div class="item">
+                <div class="ribbon-vertical">
+                    <i class="fa fa-star"></i>
+                </div>
+                <!--end ribbon-vertical-->
                 <div class="wrapper">
                     <div class="image">
                         <h3>
@@ -68,7 +72,6 @@
     <div class="page-pagination">
         {{knp_pagination_render(favs)}}
     </div>
-    
 
     <!--end items-->
 </div>

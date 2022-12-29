@@ -259,6 +259,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->favs;
     }
 
+    public function getFavGoodIds() : array
+    {
+       $tab = [];
+       foreach ($this->getFavs() as $fav) {
+            array_push($tab, $fav->getGood()->getId());
+       }
+       return $tab;
+    }
+
+    public function getFavId($goodId) : int
+    {
+        foreach ($this->getFavs() as $fav) {
+           if ($fav->getGood()->getId() == $goodId) {
+                return $fav->getId();
+           }
+        }
+      
+    }
+
     public function addFav(Fav $fav): self
     {
         if (!$this->favs->contains($fav)) {
