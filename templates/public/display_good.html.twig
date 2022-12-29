@@ -278,8 +278,8 @@
                 }
             })
         }else{
-                fav_id = $('#add-fav')[0].name;
-                $.ajax({
+            fav_id = $('#add-fav')[0].name;
+            $.ajax({
                 url: '{{path('delete_fav')}}',
                 method: 'GET',
                 data: {
