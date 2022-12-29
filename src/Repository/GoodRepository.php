@@ -195,4 +195,18 @@ class GoodRepository extends ServiceEntityRepository
            ->getQuery()
            ->getResult();
     }
+
+    /**
+    * @return Good[] Returns an array of not deleted Good objects only
+    */
+    public function findAllForHome(): array
+    {
+       return $this->createQueryBuilder('g')
+           ->where('g.deletedAt is NULL')
+           ->orderBy('g.id', 'DESC')
+           ->setMaxResults(3)
+           ->getQuery()
+           ->getResult();
+    }
+
 }

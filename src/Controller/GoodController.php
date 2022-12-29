@@ -2,17 +2,15 @@
 
 namespace App\Controller;
 
-
+use App\Entity\Department;
 use App\Entity\Good;
+use App\Entity\GoodCategory;
+use App\Entity\OfferType;
+use App\Entity\City;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\CityRepository;
-use App\Repository\DepartmentRepository;
-use App\Repository\OfferTypeRepository;
-use App\Repository\GoodCategoryRepository;
-use App\Repository\GoodRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -33,10 +31,10 @@ class GoodController extends AbstractController
     }
 
     #[Route('/admin/biens', name: 'goods')]
-    public function index(GoodRepository $repository, Request $request, PaginatorInterface $paginator)
+    public function index(EntityManagerInterface $manager, Request $request, PaginatorInterface $paginator)
     {
         $user = $this->security->getUser();
-        $donnees = $repository->findWithoutDelete($user);
+        $donnees = $manager->getRepository(Good::class)->findWithoutDelete($user);
         
         $goods = $paginator->paginate(
             $donnees, // Requête contenant les données à paginer (ici nos articles)
@@ -49,14 +47,13 @@ class GoodController extends AbstractController
     }
 
     #[Route('/admin/ajout-bien', name: 'add_good')]
-    public function add(DepartmentRepository $departmentRepository, GoodCategoryRepository $catRepository,
-                          CityRepository $cityRepository, OfferTypeRepository $offTypRepository
-    ): Response
+    public function add(EntityManagerInterface $manager): Response
     {
-        $categories = $catRepository->findWithoutDelete();
-        $departments = $departmentRepository->findWithoutDelete();
-        $cities = $cityRepository->findWithoutDelete();
-        $offerTypes = $offTypRepository->findWithoutDelete();
+        $categories =  $manager->getRepository(GoodCategory::class)->findWithoutDelete();
+        $cities = $manager->getRepository(City::class)->findWithoutDelete();
+        $offerTypes = $manager->getRepository(OfferType::class)->findWithoutDelete();
+        $departments = $manager->getRepository(Department::class)->findWithoutDelete();
+        
         return $this->render('admin_dashboard/good/add.html.twig', [
             'categories' => $categories,
             'departments' => $departments,
@@ -78,24 +75,32 @@ class GoodController extends AbstractController
     #[Route('/biens/{slug}', name: 'show_good')]
     public function show(EntityManagerInterface $manager, $slug):Response
     {
+
+        $categories =  $manager->getRepository(GoodCategory::class)->findWithoutDelete();
+        $cities = $manager->getRepository(City::class)->findWithoutDelete();
+        $offerTypes = $manager->getRepository(OfferType::class)->findWithoutDelete();
+        $departments = $manager->getRepository(Department::class)->findWithoutDelete();
+        
         $good = $manager->getRepository(Good::class)->findOneBy(['slug'=> $slug]);
         if ($good) {
             return  $this->render('public/display_good.html.twig', [
-                'good' => $good
+                'good' => $good,
+                'categories' => $categories,
+                'departments' => $departments,
+                'cities' => $cities,
+                'offerTypes' => $offerTypes
             ]);
         }
     }
 
     #[Route('/admin/modification-bien/{id<\d+>}', name: 'edit_good')]
-    public function edit(Good $good, DepartmentRepository $departmentRepository, GoodCategoryRepository $catRepository,
-    CityRepository $cityRepository, OfferTypeRepository $offTypRepository
-    ):Response
+    public function edit(Good $good, EntityManagerInterface $manager):Response
     {
         if ($good) {
-            $categories = $catRepository->findWithoutDelete();
-            $departments = $departmentRepository->findWithoutDelete();
-            $cities = $cityRepository->findWithoutDelete();
-             $offerTypes = $offTypRepository->findWithoutDelete();
+            $categories =  $manager->getRepository(GoodCategory::class)->findWithoutDelete();
+            $cities = $manager->getRepository(City::class)->findWithoutDelete();
+            $offerTypes = $manager->getRepository(OfferType::class)->findWithoutDelete();
+            $departments = $manager->getRepository(Department::class)->findWithoutDelete();
 
             return  $this->render('admin_dashboard/good/edit.html.twig', [
                 'good' => $good,
@@ -112,7 +117,7 @@ class GoodController extends AbstractController
     {
         $dir = $this->getParameter('offer_galery');
         $manager->getRepository(Good::class)->update($request, $manager, $slugger, $dir);
-        $this->addFlash('success', 'Offre immobilière modifiée!');
+        $this->addFlash('success', 'Offre immobilière mise à jour!');
         return $this->redirectToRoute('goods');
     }
 
