@@ -56,11 +56,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $token = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Fav::class, orphanRemoval: false)]
+    private Collection $favs;
+
     public function __construct()
     {
         $this->roles = ['ROLE_USER'];
         $this->createdAt = Carbon::now()->toDateTimeImmutable();
         $this->goods = new ArrayCollection();
+        $this->favs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -243,6 +247,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setToken(?string $token): self
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Fav>
+     */
+    public function getFavs(): Collection
+    {
+        return $this->favs;
+    }
+
+    public function addFav(Fav $fav): self
+    {
+        if (!$this->favs->contains($fav)) {
+            $this->favs->add($fav);
+            $fav->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFav(Fav $fav): self
+    {
+        if ($this->favs->removeElement($fav)) {
+            // set the owning side to null (unless already changed)
+            if ($fav->getUser() === $this) {
+                $fav->setUser(null);
+            }
+        }
 
         return $this;
     }

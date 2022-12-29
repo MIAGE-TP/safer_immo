@@ -7,7 +7,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\GoodCategory;
 use App\Entity\OfferType;
-use Carbon\Carbon;
 use Faker\Factory;
 use Faker\Generator;
 
@@ -21,25 +20,25 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        for ($i= 0; $i < 50; $i++) {
-            $category = new GoodCategory();
-            $category->setLibelle($this->faker->word());
+        // for ($i= 0; $i < 50; $i++) {
+        //     $category = new GoodCategory();
+        //     $category->setLibelle($this->faker->word());
 
-            $manager->persist($category);
-        }
+        //     $manager->persist($category);
+        // }
 
-        for ($i= 0; $i < 50; $i++) {
+        // for ($i= 0; $i < 50; $i++) {
+        //     $offerType = new OfferType();
+        //     $offerType->setLibelle($this->faker->sentence());
+
+        //     $manager->persist($offerType);
+        // }
+
+        for ($i= 0; $i < 100; $i++) {
             $department = new Department();
             $department->setName($this->faker->departmentName());
 
             $manager->persist($department);
-        }
-
-        for ($i= 0; $i < 50; $i++) {
-            $offerType = new OfferType();
-            $offerType->setLibelle($this->faker->sentence());
-
-            $manager->persist($offerType);
         }
 
         $manager->flush();

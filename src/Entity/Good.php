@@ -74,11 +74,15 @@ class Good
     #[ORM\Column(length: 1020, nullable: true)]
     private ?string $street = null;
 
+    #[ORM\OneToMany(mappedBy: 'good', targetEntity: Fav::class)]
+    private Collection $favs;
+
     public function __construct()
     {
         $this->createdAt = Carbon::now()->toDateTimeImmutable();
         $this->offerGaleries = new ArrayCollection();
         $this->hidden = false;
+        $this->favs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -316,6 +320,36 @@ class Good
     public function setStreet(?string $street): self
     {
         $this->street = $street;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Fav>
+     */
+    public function getFavs(): Collection
+    {
+        return $this->favs;
+    }
+
+    public function addFav(Fav $fav): self
+    {
+        if (!$this->favs->contains($fav)) {
+            $this->favs->add($fav);
+            $fav->setGood($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFav(Fav $fav): self
+    {
+        if ($this->favs->removeElement($fav)) {
+            // set the owning side to null (unless already changed)
+            if ($fav->getGood() === $this) {
+                $fav->setGood(null);
+            }
+        }
 
         return $this;
     }

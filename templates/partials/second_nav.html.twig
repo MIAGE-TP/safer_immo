@@ -4,27 +4,46 @@
         <ul class="left">
             <li>
             <span>
-                <i class="fa fa-phone"></i> +1 123 456 789
+                <i class="fa fa-phone"></i> +33 123 456 789
             </span>
             </li>
         </ul>
         <!--end left-->
         <ul class="right">
-            <li>
-                <a href="my-ads.html">
-                    <i class="fa fa-heart"></i>My Ads
-                </a>
-            </li>
-            <li>
-                <a href="sign-in.html">
-                    <i class="fa fa-sign-in"></i>Sign In
-                </a>
-            </li>
-            <li>
-                <a href="register.html">
-                    <i class="fa fa-pencil-square-o"></i>Register
-                </a>
-            </li>
+            {% if is_granted('IS_AUTHENTICATED') and is_granted('ROLE_ADMIN')  %}
+                <li>
+                    <a href="{{path('goods')}}">
+                        <i class="fa fa-dashboard"></i>Espace admin
+                    </a>
+                </li>
+                <li>
+                    <a href="{{path('app_logout')}}">
+                        <i class="fa fa-sign-out"></i>Me Déconnecter
+                    </a>
+                </li>
+            {% elseif is_granted('IS_AUTHENTICATED') and is_granted('ROLE_USER') %}
+                <li>
+                    <a href="{{path('favs')}}">
+                        <i class="fa fa-dashboard"></i>Mon compte
+                    </a>
+                </li>
+                <li>
+                    <a href="{{path('app_logout')}}">
+                        <i class="fa fa-sign-out"></i>Me Déconnecter
+                    </a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{path('app_login')}}">
+                        <i class="fa fa-sign-in"></i>Connexion
+                    </a>
+                </li>
+                <li>
+                    <a href="{{path('app_register')}}">
+                        <i class="fa fa-pencil-square-o"></i>Inscription
+                    </a>
+                </li>
+            {% endif %}
         </ul>
         <!--end right-->
     </div>

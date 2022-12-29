@@ -24,11 +24,36 @@
     <div class="col-md-9">
         <!--Gallery Carousel-->
         <section>
-            <h2>Galerie</h2>
+            <div  class="clearfix">
+                <h2 class="float-left">Galerie</h2>
+                {% if is_granted('IS_AUTHENTICATED') %}
+                    {% if app.user.getFavs()|length > 0 %}
+                        {% for fav in app.user.getFavs() %}
+                            {% if fav.getGood().id == good.getId() %}
+                                <button class="float-right btn small btn-primary mt-3" id="add-fav" name="{{fav.id}}">
+                                    Retirer de mes favoris
+                                </button>
+                            {% else %}
+                                <button class="float-right btn small btn-primary mt-3" id="add-fav" name="">
+                                    <i class="fa fa-bookmark"></i> Ajouter à mes favoris
+                                </button>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <button class="float-right btn small btn-primary mt-3" id="add-fav" name="">
+                            <i class="fa fa-bookmark"></i> Ajouter à mes favoris
+                        </button>
+                    {% endif %}
+                {% else %}
+                    <button class="float-right btn small btn-primary mt-3" id="set-fav" onclick="javascript:location.href='{{path('app_login')}}'">
+                        <i class="fa fa-bookmark"></i> Ajouter à mes favoris
+                    </button>
+                {% endif %}
+            </div>
             {% if good.getOfferGaleries()|length > 0 %}
                 <div class="gallery-carousel owl-carousel">
                     {% for picture in good.getOfferGaleries() %}
-                        <img src="{{asset('/uploads/galery/'~ picture.path)}}" alt="" data-hash="{{picture.id}}">
+                        <img src="{{asset('/uploads/galery/'~ picture.path)}}" alt="" namea-hash="{{picture.id}}">
                     {% endfor %}
                 </div>
                 <div class="gallery-carousel-thumbs owl-carousel">
@@ -40,7 +65,7 @@
                 </div>
             {% else %}
                 <div class="gallery-carousel owl-carousel">
-                    <img src="{{asset('./assets/img/image-01.jpg')}}" alt="" data-hash="1">
+                    <img src="{{asset('./assets/img/image-01.jpg')}}" alt="" namea-hash="1">
                 </div>
                 <div class="gallery-carousel-thumbs owl-carousel">
                     <a href="#1" class="owl-thumb active-thumb background-image">
@@ -225,4 +250,53 @@
         </aside>
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+
+    $('#add-fav').on('click', function(e) {
+        e.preventDefault();
+        var good = $(e.currentTarget)
+        var good_id = {{good.id}};
+        if($('#add-fav')[0].name == undefined || $('#add-fav')[0].name == ''){
+            $.ajax({
+                url: '{{path('add_fav')}}',
+                method: 'GET',
+                data: {
+                    good_id: good_id,
+                },
+                beforeSend: function(){
+                    $('#add-fav')[0].setAttribute('disabled', '')
+                },
+                success: function (response) {
+                    $('#add-fav')[0].removeAttribute('disabled')
+                    $('#add-fav')[0].innerHTML= 'Retirer de mes favoris'
+                    $('#add-fav')[0].name= `${response.id}`
+                },
+                error: function (response) {
+                }
+            })
+        }else{
+                fav_id = $('#add-fav')[0].name;
+                $.ajax({
+                url: '{{path('delete_fav')}}',
+                method: 'GET',
+                data: {
+                    fav_id: fav_id,
+                },
+                beforeSend: function(){
+                    $('#add-fav')[0].setAttribute('disabled', '')
+                },
+                success: function (response) {
+                    $('#add-fav')[0].removeAttribute('disabled')
+                    $('#add-fav')[0].innerHTML= '<i class="fa fa-bookmark"></i> Ajouter à mes favoris'
+                    $('#add-fav')[0].name = ''
+                },
+                error: function (response) {
+                }
+            })
+        }
+    });
+</script>
 {% endblock %}
