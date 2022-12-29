@@ -1,0 +1,68 @@
+{% extends 'layouts/admin_base.html.twig' %}
+
+{% block page_title %} <h1>Catégories de bien</h1> {% endblock %}
+
+{% block content %}
+<!-- DataTable -->
+<div class="col-md-9">
+   {% include 'layouts/notifications.html.twig' %}
+    <div class="row mb-2">
+        <div class="col-md-6 text-left">
+            <button type="button" id="add-brochure" class="btn btn-primary btn-framed" onclick="javascript:location.href='{{path('add_good_type')}}'"><i class="fa fa-plus"></i>Ajouter une catégorie</button>
+        </div>
+        <div class="col-md-6 text-right">
+            <div id="export_buttons" class=""></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body table-responsive">
+                    <table id="datatable" class="table table-bordered table-hover" style="width:100%">
+                        <caption>Catégories de bien disponibles</caption>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Libellé</th>
+                            <th>Créé le</th>
+                            <th>Modifié le</th>
+                            <th class="noExport">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for categorie in categories %}
+                                <tr>
+                                    <td>{{categorie.id}}</td>
+                                    <td>{{categorie.libelle}}</td>
+                                    <td>{{categorie.createdAt|date("d/m/Y à H:i:s","Europe/Paris")}}</td>
+                                    {% if categorie.updatedAt is null %}
+                                        <td>{{"Non défini"}}</td>
+                                    {% else %}
+                                        <td>{{categorie.updatedAt|date("d/m/Y à H:i:s","Europe/Paris")}}</td>
+                                    {% endif %}
+                                    <td> 
+                                        <a class="ml-2" href="{{ path('edit_good_type', {id: categorie.id}) }}" data-toggle="tooltip" data-original-title="Modifier"><i class="fa fa-edit"></i></a>
+                                        {# <a class="ml-2" href="#" data-toggle="tooltip" data-original-title="Visualiser"><i class="fa fa-eye"></i></a> #}
+                                        <a class="ml-2" href="{{ path('delete_good_type', {id: categorie.id}) }}" data-toggle="tooltip" data-original-title="Supprimer"><i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Libellé</th>
+                            <th>Créé le</th>
+                            <th>Modifié le</th>
+                            <th>Actions</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<!-- end: DataTable -->
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'layouts/admin_base.html.twig' %}
+
+{% block page_title %} <h1>Mes favoris</h1> {% endblock %}
+
+{% block content %}
+<div class="col-md">
+{% include 'layouts/notifications.html.twig' %}
+
+<!--============ Items ==========================================================================-->
+    <div class="items list compact grid-xl-3-items grid-lg-2-items grid-md-2-items">
+        {% for fav in favs %}
+            <div class="item">
+                <div class="ribbon-vertical">
+                    <i class="fa fa-star"></i>
+                </div>
+                <!--end ribbon-vertical-->
+                <div class="wrapper">
+                    <div class="image">
+                        <h3>
+                            <a href="{{path('show_good', {slug: fav.getGood().slug})}}" class="tag category">{{fav.getGood().getGoodcategory().libelle}}</a>
+                            <a href="{{path('show_good', {slug: fav.getGood().slug})}}" class="title">{{fav.getGood().getIntitule()|u.truncate(30, '...')}}</a>
+                            <span class="tag">{{fav.getGood().getOffertype().libelle|u.truncate(60, '...')}}</span>
+                        </h3>
+                        <a href="{{path('show_good', {slug: fav.getGood().slug})}}" class="image-wrapper background-image">
+                            {% if fav.getGood().getOfferGaleries()|length > 0 %}
+                                <img src="{{asset('/uploads/galery/'~ fav.getGood().getOfferGaleries()[0].path)}}" alt="">
+                            {% else %}
+                                <img src="{{asset('./assets/img/image-01.jpg')}}" alt="">
+                            {% endif %}
+                        </a>
+                    </div>
+                    <!--end image-->
+                    <h4 class="location">
+                        <a href="#">{{fav.getGood().getLocalisation()}}</a>
+                    </h4>
+                    <div class="price">{{fav.getGood().getPrice()}} €</div>
+                    <div class="admin-controls">
+                        <a href="{{ path('remove_fav', {id: fav.id}) }}" class="ad-remove">
+                            <i class="fa fa-trash"></i>Retirer
+                        </a>
+                    </div>
+                    <!--end admin-controls-->
+                    <div class="description">
+                        <p>{{ fav.getGood().getDescriptif()|u.truncate(30, '...')}}</p>
+                    </div>
+                    <!--end description-->
+                    <div class="additional-info">
+                        <ul>
+                            <li>
+                                <figure>Publié(e)</figure>
+                                <aside>{{fav.getGood().createdAt|date("d/m/Y H:i","Europe/Paris")}}</aside>
+                            </li>
+
+                            <li>
+                                <figure>Référence</figure>
+                                <aside>{{fav.getGood().reference}}</aside>
+                            </li>
+
+                            <li>
+                                <figure>Superficie</figure>
+                                <aside>{{fav.getGood().surface}}{{fav.getGood().unit}}</aside>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--end addition-info-->
+                    <a href="{{path('show_good', {slug: fav.getGood().slug})}}" class="detail text-caps underline">Détails</a>
+                </div>
+            </div>
+        {% endfor %}
+        <!--end item-->
+    </div>
+    <div class="page-pagination">
+        {{knp_pagination_render(favs)}}
+    </div>
+
+    <!--end items-->
+</div>
+{% endblock %}

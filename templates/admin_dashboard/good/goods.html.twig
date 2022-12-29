@@ -1,0 +1,115 @@
+{% extends 'layouts/admin_base.html.twig' %}
+
+{% block page_title %} <h1>Biens proposés</h1> {% endblock %}
+
+{% block content %}
+<div class="col-md">
+{% include 'layouts/notifications.html.twig' %}
+<!--============ Section Title===================================================================-->
+    <div class="section-title clearfix">
+        <div class="nav justify-content-center">
+            <div class="col-md mt-3">
+                <div class="float-right float-xs-none">
+                    <label class="mr-3 align-text-bottom">Filter par: </label>
+                    <select name="sorting" id="sorting" class="small width-200px" data-placeholder="Default Sorting" >
+                        <option value="">Default Sorting</option>
+                        <option value="1">Newest First</option>
+                        <option value="2">Oldest First</option>
+                        <option value="3">Lowest Price First</option>
+                        <option value="4">Highest Price First</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md mt-4">
+                <div class="float-left">
+                    <button type="button" id="add-bien" class="small width-200px btn btn-primary btn-framed" onclick="javascript:location.href='{{path('add_good')}}'">
+                        <i class="fa fa-plus"></i>Ajouter un nouveau bien
+                    </button>
+                </div>
+            </div>
+           
+            {# <div class="col-md-2 mt-3">
+                <div class="float-right d-xs-none thumbnail-toggle">
+                    <a href="#" class="change-class" data-change-from-class="list" data-change-to-class="grid" data-parent-class="items">
+                        <i class="fa fa-th"></i>
+                    </a>
+                    <a href="#" class="change-class active" data-change-from-class="grid" data-change-to-class="list" data-parent-class="items">
+                        <i class="fa fa-th-list"></i>
+                    </a>
+                </div>
+            </div> #}
+        </div>
+    </div>
+<!--============ Items ==========================================================================-->
+    <div class="items list compact grid-xl-3-items grid-lg-2-items grid-md-2-items">
+        {% for good in goods %}
+            <div class="item">
+                <div class="wrapper">
+                    <div class="image">
+                        <h3>
+                            <a href="{{path('show_good', {slug: good.slug})}}" class="tag category">{{good.getGoodcategory().libelle}}</a>
+                            <a href="{{path('show_good', {slug: good.slug})}}" class="title">{{good.getIntitule()|u.truncate(30, '...')}}</a>
+                            <span class="tag">{{good.getOffertype().libelle|u.truncate(60, '...')}}</span>
+                        </h3>
+                        <a href="{{path('show_good', {slug: good.slug})}}" class="image-wrapper background-image">
+                            {% if good.getOfferGaleries()|length > 0 %}
+                                <img src="{{asset('/uploads/galery/'~ good.getOfferGaleries()[0].path)}}" alt="">
+                            {% else %}
+                                <img src="{{asset('./assets/img/image-01.jpg')}}" alt="">
+                            {% endif %}
+                        </a>
+                    </div>
+                    <!--end image-->
+                    <h4 class="location">
+                        <a href="#">{{good.getLocalisation()}}</a>
+                    </h4>
+                    <div class="price">{{good.getPrice()}} €</div>
+                    <div class="admin-controls">
+                        <a href="{{ path('edit_good', {id: good.id}) }}">
+                            <i class="fa fa-pencil"></i>Modifier
+                        </a>
+                        <a href="{{ path('hide_good', {id: good.id}) }}" class="ad-hide">
+                            <i class="fa fa-eye-slash"></i>{% if good.isHidden() %}Afficher{% else %}Masquer{% endif %}
+                        </a>
+                        <a href="{{ path('delete_good', {id: good.id}) }}" class="ad-remove">
+                            <i class="fa fa-trash"></i>Effacer
+                        </a>
+                    </div>
+                    <!--end admin-controls-->
+                    <div class="description">
+                        <p>{{ good.getDescriptif()|u.truncate(30, '...')}}</p>
+                    </div>
+                    <!--end description-->
+                    <div class="additional-info">
+                        <ul>
+                            <li>
+                                <figure>Publié(e)</figure>
+                                <aside>{{good.createdAt|date("d/m/Y H:i","Europe/Paris")}}</aside>
+                            </li>
+
+                            <li>
+                                <figure>Référence</figure>
+                                <aside>{{good.reference}}</aside>
+                            </li>
+
+                            <li>
+                                <figure>Superficie</figure>
+                                <aside>{{good.surface}}{{good.unit}}</aside>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--end addition-info-->
+                    <a href="{{path('show_good', {slug: good.slug})}}" class="detail text-caps underline">Détails</a>
+                </div>
+            </div>
+        {% endfor %}
+        <!--end item-->
+    </div>
+    <div class="page-pagination">
+        {{knp_pagination_render(goods)}}
+    </div>
+    
+
+    <!--end items-->
+</div>
+{% endblock %}

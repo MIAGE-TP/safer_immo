@@ -1,0 +1,43 @@
+{% extends 'layouts/auth_base.html.twig' %}
+
+{% block page_title %}<h1>Inscription</h1>{% endblock %}
+
+{% block content %}
+<div class="col-md-6">
+    <form class="form clearfix" method="POST">
+        {% include 'layouts/notifications.html.twig' %}
+        <div class="form-group">
+            <label for="lastname" class="col-form-label required">Nom(s)</label>
+            <input name="lastname" type="text" class="form-control" value="" id="lastname" required autofocus>
+        </div>
+        <div class="form-group">
+            <label for="firstname" class="col-form-label required">Prénom(s)</label>
+            <input name="firstname" type="text" class="form-control" value="" id="firstname" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="col-form-label required">Email</label>
+            <input name="email" type="email" class="form-control" value="" id="email" required>
+        </div>
+        <!--end form-group-->
+        <div class="form-group">
+            <label for="password" class="col-form-label required">Password</label>
+            <input name="password" minlength="6" type="password" class="form-control" id="password" placeholder="Password" required>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        </div>
+        <!--end form-group-->
+        <div class="d-flex justify-content-between align-items-baseline">
+            <p>
+                Possédez-vous un compte? <a href="{{path('app_login')}}" class="link">Cliquez ici.</a>
+            </p>
+            <button type="submit" class="btn btn-primary">Créer mon compte</button>
+        </div>
+    </form>
+    <hr>
+    <div class="clearfix">
+        <p>
+            En cliquant sur le bouton "Créer mon compte", vous acceptez nos <a href="#" class="link">Termes & Conditions d'utilisation.</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

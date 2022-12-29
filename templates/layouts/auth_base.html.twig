@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include 'partials/head.html.twig' %}
+    <body>
+        <div class="page sub-page">
+            <section class="hero">
+                <div class="hero-wrapper">
+                    {% include 'partials/main_nav.html.twig' %}
+                    <!--============ Page Title =========================================================================-->
+                    <div class="page-title">
+                        <div class="container">
+                            {% block page_title %}{% endblock %}
+                        </div>
+                        <!--end container-->
+                    </div>
+                    <!--============ End Page Title =====================================================================-->
+                    <div class="background"></div>
+                    <!--end background-->
+                </div>                
+            </section>
+            <section class="content">
+                <section class="block">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            {% block content %}{% endblock %}
+                        </div>
+                    </div>
+                </section>
+            </section>
+            {% include 'partials/footer.html.twig' %}
+        </div>
+
+        {% include 'partials/load_js.html.twig' %}
+
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

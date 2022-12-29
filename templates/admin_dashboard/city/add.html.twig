@@ -1,0 +1,40 @@
+{% extends 'layouts/admin_base.html.twig' %}
+
+{% block page_title %} <h1>Ajout d'une ville</h1> {% endblock %}
+
+{% block content %}
+<div class="col-md-9">
+  <form class="form" method="POST" action="{{path('store_city')}}">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="searchable-select" class="col-form-label">Département</label>
+                    <select required name="department" id="searchable-select" data-placeholder="Choisir département" data-enable-search="true">
+                        <option value="">Département</option>
+                        {% for department in departments %}
+                            <option value="{{department.id}}">{{department.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name" class="col-form-label">Nom de la ville</label>
+                <input required name="name" type="text" class="form-control" id="name" placeholder="Nom de la ville" value="">
+              </div>
+             
+            </div>
+          <!--end col-md-8-->
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                <label for="zip_code" class="col-form-label">Code postal de la ville</label>
+                <input required name="zip_code" minlength="3" maxlength="5" type="number" class="form-control" id="zip_code" placeholder="Code postal" value="">
+                </div>
+                <button type="submit" class="btn btn-primary float-right">Enregistrer</button>
+            </div>
+        </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,293 @@
+{% extends 'layouts/good.html.twig' %}
+
+{% block page_title %} 
+
+    <div class="float-left float-xs-none">
+        <h1>{{good.getIntitule()}}
+            <span class="tag">{{good.getOffertype().libelle}}</span>
+        </h1>
+        <h4 class="location">
+            <a href="#">{{good.getLocalisation()}}</a>
+        </h4>
+    </div>
+    <div class="float-right float-xs-none price">
+        <div class="number">{{good.getPrice()}} €</div>
+        <div class="id opacity-50">
+            <strong>ID: </strong>{{good.getId()}}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-9">
+        <!--Gallery Carousel-->
+        <section>
+            <div  class="clearfix">
+                <h2 class="float-left">Galerie</h2>
+                {% if is_granted('IS_AUTHENTICATED') %}
+                    {% if good.getId() in app.user.getFavGoodIds()  %}
+                        <button class="float-right btn small btn-primary mt-3" id="add-fav" name="{{app.user.getFavId(good.getId())}}">
+                            Retirer de mes favoris
+                        </button>
+                    {% else %}
+                        <button class="float-right btn small btn-primary mt-3" id="add-fav" name="">
+                            <i class="fa fa-bookmark"></i> Ajouter à mes favoris
+                        </button>
+                    {% endif %}
+                {% else %}
+                    <button class="float-right btn small btn-primary mt-3" id="set-fav" onclick="javascript:location.href='{{path('app_login')}}'">
+                        <i class="fa fa-bookmark"></i> Ajouter à mes favoris
+                    </button>
+                {% endif %}
+            </div>
+            {% if good.getOfferGaleries()|length > 0 %}
+                <div class="gallery-carousel owl-carousel">
+                    {% for picture in good.getOfferGaleries() %}
+                        <img src="{{asset('/uploads/galery/'~ picture.path)}}" alt="" data-hash="{{picture.id}}">
+                    {% endfor %}
+                </div>
+                <div class="gallery-carousel-thumbs owl-carousel">
+                    {% for picture in good.getOfferGaleries() %}
+                        <a href="#{{picture.id}}" class="owl-thumb background-image {% if good.getOfferGaleries()[0].id == picture.id %} active-thumb {% endif %}">
+                            <img src="{{asset('/uploads/galery/'~ picture.path)}}" alt="">
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="gallery-carousel owl-carousel">
+                    <img src="{{asset('./assets/img/image-01.jpg')}}" alt="" data-hash="1">
+                </div>
+                <div class="gallery-carousel-thumbs owl-carousel">
+                    <a href="#1" class="owl-thumb active-thumb background-image">
+                        <img src="{{asset('./assets/img/image-01.jpg')}}" alt="">
+                    </a>
+                </div>
+            {% endif %}
+        </section>
+        <!--end Gallery Carousel-->
+        <!--Description-->
+        <section>
+            <h2>Description</h2>
+            <p>
+                {{good.getDescriptif()}}
+            </p>
+        </section>
+        <!--end Description-->
+        <!--Details & Location-->
+        <section>
+            <div class="row">
+                <div class="col-md">
+                    <h2>Détails</h2>
+                    <dl class="columns-2">
+                        <dt>Date d'ajout</dt>
+                        <dd>{{good.createdAt|date("d/m/Y","Europe/Paris")}}</dd>
+                        <dt>Type d'offre</dt>
+                        <dd>location</dd>
+                        <dt>Catégorie</dt>
+                        <dd>{{good.getGoodcategory().libelle}}</dd>
+                        <dt>Superficie</dt>
+                        <dd>{{good.getSurface()}}{{good.getUnit()}}</dd>
+                        <dt>Référence</dt>
+                        <dd>{{good.getReference()}}</dd>
+                        <dt>Adresse</dt>
+                        <dd>{{good.getLocalisation()}}</dd>
+                    </dl>
+                </div>
+            </div>
+        </section>
+        <!--end Details & Location-->
+        <!--Author-->
+        <section>
+            <div class="box">
+                 <h3 class="text-center">Interessé(e)? Contactez-nous</h3>
+                 <hr>
+                <!--end author-->
+                <form class="form email">
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Nom et Prénom</label>
+                        <input name="name" type="text" class="form-control" id="name" placeholder="Votre nom et prénom">
+                    </div>
+                    <!--end form-group-->
+                    <div class="form-group">
+                        <label for="email" class="col-form-label">Email</label>
+                        <input name="email" type="email" class="form-control" id="email" placeholder="Votre adresse mail">
+                    </div>
+                    <!--end form-group-->
+                    <div class="form-group">
+                        <label for="message" class="col-form-label">Message</label>
+                        <textarea name="message" id="message" class="form-control" rows="4" placeholder="Salut SAFER! Je suis interessé(e) par offre numéro {{good.getId()}}. Veuillez me donner plus de détails."></textarea>
+                    </div>
+                    <!--end form-group-->
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                </form>
+            </div>
+            <!--end box-->
+        </section>
+        <!--End Author-->
+    </div>
+    <div class="col-md-3">
+        <aside class="sidebar">
+            <!--Similar Ads-->
+            <section>
+                <h2>Offres similaires</h2>
+                <div class="items compact">
+                    <div class="item">
+                        <div class="ribbon-featured">Featured</div>
+                        <!--end ribbon-->
+                        <div class="wrapper">
+                            <div class="image">
+                                <h3>
+                                    <a href="#" class="tag category">Home & Decor</a>
+                                    <a href="single-listing-1.html" class="title">Furniture for sale</a>
+                                    <span class="tag">Offer</span>
+                                </h3>
+                                <a href="single-listing-1.html" class="image-wrapper background-image">
+                                    <img src="{{asset('./assets/img/image-01.jpg')}}" alt="">
+                                </a>
+                            </div>
+                            <!--end image-->
+                            <h4 class="location">
+                                <a href="#">Manhattan, NY</a>
+                            </h4>
+                            <div class="price">$80</div>
+                            <div class="meta">
+                                <figure>
+                                    <i class="fa fa-calendar-o"></i>02.05.2017
+                                </figure>
+                                <figure>
+                                    <a href="#">
+                                        <i class="fa fa-user"></i>Jane Doe
+                                    </a>
+                                </figure>
+                            </div>
+                            <!--end meta-->
+                        </div>
+                    </div>
+                    <!--end item-->
+
+                    <div class="item">
+                        <!--end ribbon-->
+                        <div class="wrapper">
+                            <div class="image">
+                                <h3>
+                                    <a href="#" class="tag category">Home & Decor</a>
+                                    <a href="#" class="title">Furniture for sale</a>
+                                    <span class="tag">Offer</span>
+                                </h3>
+                                <a href="#" class="image-wrapper background-image">
+                                    <img src="{{asset('./assets/img/image-01.jpg')}}" alt="">
+                                </a>
+                            </div>
+                            <!--end image-->
+                            <h4 class="location">
+                                <a href="#">Manhattan, NY</a>
+                            </h4>
+                            <div class="price">$80</div>
+                            <div class="meta">
+                                <figure>
+                                    <i class="fa fa-calendar-o"></i>02.05.2017
+                                </figure>
+                                <figure>
+                                    <a href="#">
+                                        <i class="fa fa-user"></i>Jane Doe
+                                    </a>
+                                </figure>
+                            </div>
+                            <!--end meta-->
+                        </div>
+                    </div>
+                    <!--end item-->
+
+                    <div class="item">
+                        <div class="wrapper">
+                            <div class="image">
+                                <h3>
+                                    <a href="#" class="tag category">Home & Decor</a>
+                                    <a href="#" class="title">Furniture for sale</a>
+                                    <span class="tag">Offer</span>
+                                </h3>
+                                <a href="#" class="image-wrapper background-image">
+                                    <img src="{{asset('./assets/img/image-01.jpg')}}" alt="">
+                                </a>
+                            </div>
+                            <!--end image-->
+                            <h4 class="location">
+                                <a href="#">Manhattan, NY</a>
+                            </h4>
+                            <div class="price">$80</div>
+                            <div class="meta">
+                                <figure>
+                                    <i class="fa fa-calendar-o"></i>02.05.2017
+                                </figure>
+                                <figure>
+                                    <a href="#">
+                                        <i class="fa fa-user"></i>Jane Doe
+                                    </a>
+                                </figure>
+                            </div>
+                            <!--end meta-->
+                        </div>
+                    </div>
+                    <!--end item-->
+
+                    <div class="center">
+                        <a href="#" class="btn btn-primary text-caps btn-framed">Voir Toutes les offres</a>
+                    </div>
+                </div>
+                <!--end items.list.compact-->
+            </section>
+            <!--end Similar Ads-->
+        </aside>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    $('#add-fav').on('click', function(e) {
+        e.preventDefault();
+        var good = $(e.currentTarget)
+        var good_id = {{good.id}};
+        if($('#add-fav')[0].name == undefined || $('#add-fav')[0].name == ''){
+            $.ajax({
+                url: '{{path('add_fav')}}',
+                method: 'GET',
+                data: {
+                    good_id: good_id,
+                },
+                beforeSend: function(){
+                    $('#add-fav')[0].setAttribute('disabled', '')
+                },
+                success: function (response) {
+                    $('#add-fav')[0].removeAttribute('disabled')
+                    $('#add-fav')[0].innerHTML= 'Retirer de mes favoris'
+                    $('#add-fav')[0].name= `${response.id}`
+                },
+                error: function (response) {
+                }
+            })
+        }else{
+            fav_id = $('#add-fav')[0].name;
+            $.ajax({
+                url: '{{path('delete_fav')}}',
+                method: 'GET',
+                data: {
+                    fav_id: fav_id,
+                },
+                beforeSend: function(){
+                    $('#add-fav')[0].setAttribute('disabled', '')
+                },
+                success: function (response) {
+                    $('#add-fav')[0].removeAttribute('disabled')
+                    $('#add-fav')[0].innerHTML= '<i class="fa fa-bookmark"></i> Ajouter à mes favoris'
+                    $('#add-fav')[0].name = ''
+                },
+                error: function (response) {
+                }
+            })
+        }
+    });
+</script>
+{% endblock %}

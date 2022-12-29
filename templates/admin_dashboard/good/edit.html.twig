@@ -1,0 +1,247 @@
+{% extends 'layouts/auth_base.html.twig' %}
+
+{% block page_title %}<h1>Modification de l'offe</h1>{% endblock %}
+
+{% block content %}
+<div class="col-md">
+    <section class="content">
+        <section class="block">
+            <div class="container">
+                <form class="form MultiFile-intercepted" method="POST" action="{{path('update_good')}}" enctype="multipart/form-data">
+                    <section>
+                        <h2>Informations de base</h2>
+                        <div class="row">
+                            <div class="col-md">
+                                <div class="form-group">
+                                    <label for="category" class="col-form-label">Type d'offre</label>
+                                    <select data-enable-search="true" name="offerType" id="offer_type" data-placeholder="Choisir le type d'offre">
+                                        <option value="{{good.getOffertype().id}}">{{good.getOffertype().libelle}}</option>
+                                        {% for offerType in offerTypes %}
+                                            <option value="{{offerType.id}}">{{offerType.libelle}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-group">
+                                    <label for="category" class="col-form-label">Catégorie de bien</label>
+                                    <select data-enable-search="true" name="category" id="category" data-placeholder="Choisir la catégorie de bien">
+                                        <option value="{{good.getGoodcategory().id}}">{{good.getGoodcategory().libelle}}</option>
+                                        {% for category in categories %}
+                                            <option value="{{category.id}}">{{category.libelle}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <!--end form-group-->
+                            </div>
+                            <div class="col-md">
+                                <div class="form-group">
+                                    <label for="price" class="col-form-label required">Prix</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1">€</span>
+                                        </div>
+                                        <input name="price" type="number" class="form-control" id="price" required value="{{good.getPrice()}}">
+                                    </div>
+                                </div>
+                                <!--end form-group-->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md">
+                                <div class="form-group">
+                                    <label for="intitule" class="col-form-label required">Intitulé</label>
+                                    <input name="intitule" type="text" class="form-control" id="intitule" placeholder="Intitule" required value="{{good.getIntitule()}}">
+                                </div>
+                                <!--end form-group-->
+                            </div>
+                            <!--end col-md-8-->
+                            <div class="col-md">
+                                <div class="form-group" id="reference">
+                                    <label for="reference" class="col-form-label required">Référence</label>
+                                    <input name="reference" type="text" class="form-control" id="title" placeholder="Référence" required value="{{good.getReference()}}">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!--end basic information-->
+                    <section>
+                        <div class="row">
+                            <!--end col-md-4-->
+                            <div class="col-md">
+                                <h2>Caractéristiques</h2>
+                                <div class="row">
+                                    <div class="col-md">
+                                        <div class="form-group">
+                                            <label for="surface" class="col-form-label">Superficie</label>
+                                            <input name="surface" type="number" class="form-control" id="surface" value="{{good.getSurface()}}">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-4-->
+                                    <div class="col-md">
+                                        <div class="form-group">
+                                            <label for="unit" class="col-form-label">Unité de mesure de la superficie</label>
+                                            <select data-enable-search="true" name="unit" id="unit" data-placeholder="Choisir l'unité de la superificie">
+                                                {% if good.getUnit() == "m2"  %}  
+                                                    <option value="{{good.getUnit()}}">m2</option>
+                                                    <option value="Ha">hectare</option>
+                                                {% else %} 
+                                                   <option value="{{good.getUnit()}}">hectare</option>
+                                                   <option value="m2">m2</option>
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="searchable-select" class="col-form-label">Département</label>
+                                            <select required name="department" id="department" data-placeholder="Choisir le département" data-enable-search="true">
+                                                <option value="{{good.getCity().getDepartment().id}}">{{good.getCity().getDepartment().name}}</option>
+                                                {% for department in departments %}
+                                                    <option value="{{department.id}}">{{department.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md">
+                                <div class="form-group">
+                                    <label for="city" class="col-form-label required">Ville</label>
+                                    <select required name="city" id="city" data-placeholder="Choisir la ville" data-enable-search="true">
+                                        <option value="{{good.getCity().id}}">{{good.getCity().name}}</option>
+                                        {% for city in cities %}
+                                            <option value="{{city.id}}">{{city.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <!--end form-group-->
+                            </div>
+                            <!--end col-md-6-->
+                            <div class="col-md">
+                                <div class="form-group">
+                                    <label for="street" class="col-form-label">Rue</label>
+                                    <input name="street" type="text" class="form-control" value="{{good.street}}" id="street">
+                                    <input name="user" type="hidden" value="{{app.user.id}}" class="form-control" id="user">
+                                </div>
+                            </div>
+                        </div>
+                        <!--end row-->
+                    </section>
+
+                    <section>
+                        <h2>Détails</h2>
+                        <div class="form-group">
+                            <label for="description" class="col-form-label">Informations complémentaires</label>
+                            <textarea name="description" id="description" class="form-control" rows="4">{{good.getDescriptif()}}</textarea>
+                        </div>
+                        <!--end form-group-->
+                    </section>
+
+                    <section>
+                        <h2>Galerie</h2>
+                        {% if good.getOfferGaleries()|length > 0 %}
+                            <div class="file-uploaded-images">
+                                {% for picture in good.getOfferGaleries() %}
+                                    <div class="image">
+                                        <figure class="remove-image MultiFile-remove" data-delete-image><i class="fa fa-close"></i></figure>
+                                        <img id="{{picture.id}}" src="{{asset('/uploads/galery/'~ picture.path)}}" alt="">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="file-upload-previews"></div>
+                        <div class="file-upload">
+                            <input type="file" name="files[]" class="file-upload-input with-preview" multiple>
+                            <span><i class="fa fa-plus-circle"></i>Cliquez ou glisser vos images ici</span>
+                        </div>
+                        <div class="form-group">
+                            <input id="delete" hidden name="deleted[]" type="text" class="form-control" value="">
+                        </div>
+                        <div class="form-group">
+                            <input id="good" hidden name="id" type="text" class="form-control" value="{{good.id}}">
+                        </div>
+                    </section>
+
+                    <section class="clearfix">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary large icon float-right">Modifier<i class="fa fa-chevron-right"></i></button>
+                        </div>
+                    </section>
+                </form>
+                <!--end form-submit-->
+            </div>
+            <!--end container-->
+        </section>
+        <!--end block-->
+    </section>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    if( $("input[type=file].with-preview").length ){
+        $("input.file-upload-input").MultiFile({
+            list: ".file-upload-previews",
+            max: 6,
+            maxfile: 2048,
+            maxsize: 12288,
+            accept: 'jpeg|jpg|png',
+            // STRING: collection lets you show messages in different languages
+            STRING: {
+                // remove: 'x',
+                denied: 'Vous ne pouvez pas sélectionner un fichier $ext.\nRéessayer...',
+                file: '$file',
+                selected: 'Fichier sélectionné: $file',
+                duplicate: 'Ce fichier a déjà été sélectionné:\n$file',
+                toomuch: 'Les fichiers sélectionnés dépassent la taille maximale autorisée ($size)',
+                toomany: 'Trop de fichiers sélectionnés (maximum autorisé: $max)',
+                toobig: '$file dépasse la taille maximale autorisée ($size)'
+            },
+        });
+    }
+
+    $.ajaxSetup({
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+    });
+
+    $('#department').on('change', function(e) {
+        e.preventDefault();
+        var department = $(e.currentTarget)
+        var value = department[0].value;
+        $.ajax({
+            url: '{{path('ajax_location')}}',
+            method: 'GET',
+            data: {
+                value: value,
+                type: 'department'
+            },
+            success: function (response) {
+                let arronds = document.getElementById('city');
+                arronds.selectize.clearOptions();
+                response.forEach(function (value, key) {
+                    arronds.selectize.addOption({value: value.id, text: value.name.charAt(0).toUpperCase() + value.name.slice(1).toLowerCase()})
+                });
+                arronds.selectize.enable();
+                arronds.selectize.open();
+            },
+            error: function (response) {
+                console.log(response)
+            }
+        })
+    });
+
+    $('[data-delete-image]').on('click', function () {
+
+        var deleted = $(this.parentElement).find("img");
+        var des = deleted.attr('id');
+        $('#delete').val($('#delete').val() + ($('#delete').val() ? ',': '') + des);
+
+        this.parentElement.remove();
+        console.log(des);
+    })
+</script>
+{% endblock %}

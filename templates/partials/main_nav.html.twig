@@ -1,0 +1,42 @@
+ <!--============ Main Navigation ====================================================================-->
+<div class="main-navigation">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light justify-content-between">
+            <a class="navbar-brand" href="{{path('home')}}">
+                <img src="{{asset('./assets/img/safer-logo.png')}}" alt="">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar">
+                <!--Main navigation list-->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Terrain agricole</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Prairie</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Bois</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Bâtiments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Exploitations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+                <!--Main navigation list-->
+            </div>
+            <!--end navbar-collapse-->
+            {% block collapse %}{% endblock %}
+        </nav>
+        <!--end navbar-->
+    </div>
+    <!--end container-->
+</div>
+<!--============ End Main Navigation ================================================================-->

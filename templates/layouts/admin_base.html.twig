@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include 'partials/head.html.twig' %}
+    {% block stylesheets %}
+        <link href='{{asset('./assets/css/datatables.css')}}' rel='stylesheet' />
+    {% endblock %}
+    <body>
+        <div class="page sub-page">
+            <header class="hero">
+                <div class="hero-wrapper">
+                    {% include 'partials/main_nav.html.twig' %}
+                    <!--============ Page Title =========================================================================-->
+                    <div class="page-title">
+                        <div class="container">
+                            {% block page_title %}{% endblock %}
+                        </div>
+                        <!--end container-->
+                    </div>
+                    <!--============ End Page Title =====================================================================-->
+                    <div class="background"></div>
+                    <!--end background-->
+                </div>
+            </header>
+            <section class="content">
+                <section class="block">
+                    <div class="container">
+                        <div class="row">
+                            {% include 'partials/admin_menu.html.twig' %}
+                            {% block content %}{% endblock %}
+                        </div>
+                    </div>
+                </section>
+            </section>
+            {% include 'partials/footer.html.twig' %}
+
+        </div>
+
+        {% include 'partials/load_js.html.twig' %}
+        {% include 'partials/custom_admin_js.html.twig' %}
+    </body>
+</html>
