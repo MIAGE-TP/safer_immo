@@ -1,0 +1,96 @@
+{% extends 'layouts/admin_base.html.twig' %}
+
+{% block page_title %}
+
+    {% if ville is defined %}
+        <h1> Liste des biens mis en favori pour {{ville}}</h1> 
+    {% endif %}
+
+    {% if departement is defined %}
+        <h1> Liste des biens mis en favori pour {{departement}}</h1> 
+    {% endif %}
+
+    {% if categorie is defined %}
+        <h1> Liste des biens mis en favori pour {{categorie}}</h1> 
+    {% endif %}
+
+{% endblock %}
+
+{% block content %}
+<div class="col-md">
+{% include 'layouts/notifications.html.twig' %}
+<!--============ Items ==========================================================================-->
+    <div class="items list compact grid-xl-3-items grid-lg-2-items grid-md-2-items">
+        {% for fav in favs %}
+            <div class="item">
+                <div class="ribbon-vertical">
+                    <i class="fa fa-star"></i>
+                </div>
+                <!--end ribbon-vertical-->
+                <div class="wrapper">
+                    <div class="image">
+                        <h3>
+                            <a href="{{path('show_good', {slug: fav.slug})}}" class="tag category">{{fav.getGoodcategory().libelle}}</a>
+                            <a href="{{path('show_good', {slug: fav.slug})}}" class="title">{{fav.getIntitule()|u.truncate(30, '...')}}</a>
+                            <span class="tag">{{fav.getOffertype().libelle|u.truncate(60, '...')}}</span>
+                        </h3>
+                        <a href="{{path('show_good', {slug: fav.slug})}}" class="image-wrapper background-image">
+                            {% if fav.getOfferGaleries()|length > 0 %}
+                                <img src="{{asset('/uploads/galery/'~ fav.getOfferGaleries()[0].path)}}" alt="">
+                            {% else %}
+                                <img src="{{asset('./assets/img/image-01.jpg')}}" alt="">
+                            {% endif %}
+                        </a>
+                    </div>
+                    <!--end image-->
+                    <h4 class="location">
+                        <a href="#">{{fav.getLocalisation()}}</a>
+                    </h4>
+                    <div class="price">{{fav.getPrice()}} €</div>
+                    <div class="admin-controls">
+                        <a href="#" class="ad-remove">
+                            Bien #{{fav.id}}
+                        </a>
+                    </div>
+                    <!--end admin-controls-->
+                    <div class="description">
+                        <p>{{ fav.getDescriptif()|u.truncate(30, '...')}}</p>
+                    </div>
+                    <!--end description-->
+                    <div class="additional-info">
+                        <ul>
+                            <li>
+                                <figure>Publié(e)</figure>
+                                <aside>{{fav.createdAt|date("d/m/Y H:i","Europe/Paris")}}</aside>
+                            </li>
+
+                            <li>
+                                <figure>Référence</figure>
+                                <aside>{{fav.reference}}</aside>
+                            </li>
+
+                            <li>
+                                <figure>Superficie</figure>
+                                <aside>{{fav.surface}}{{fav.unit}}</aside>
+                            </li>
+
+                            <li>
+                                <figure>Nombre de favoris</figure>
+                                <aside>{{fav.getFavNumber()}}</aside>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--end addition-info-->
+                    <a href="{{path('show_good', {slug: fav.slug})}}" class="detail text-caps underline">Détails</a>
+                </div>
+            </div>
+        {% endfor %}
+        <!--end item-->
+    </div>
+    <div class="page-pagination">
+        {{knp_pagination_render(favs)}}
+    </div>
+
+    
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'layouts/admin_base.html.twig' %}
+
+{% block page_title %} <h1>Modification d'utilisateur</h1> {% endblock %}
+
+{% block content %}
+<div class="col-md-9">
+  <form class="form" method="POST" action="{{path('update_user')}}">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="searchable-select" class="col-form-label">Rôle</label>
+                    <select  required name="role[]" id="searchable-select" data-placeholder="Choisir un rôle">
+                        {% if user.getRoles()[0] == 'ROLE_USER' %}  
+                            <option value="{{user.getRoles()[0]}}">Utilisateur</option>
+                            <option value="ROLE_ADMIN">Administrateur</option>
+                        {% else %}
+                            <option value="{{user.getRoles()[0]}}">Administrateur</option>
+                            <option value="ROLE_USER">Utilisateur</option>
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name" class="col-form-label">Nom</label>
+                <input required name="lastname" type="text" class="form-control" id="lastname" placeholder="Nom" value="{{user.lastname}}">
+                <input required name="id" type="hidden" class="form-control" id="userId" placeholder="" value="{{user.id}}">
+              </div>
+             
+            </div>
+          <!--end col-md-8-->
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                <label for="firstname" class="col-form-label">Prénom</label>
+                <input required name="firstname" type="text" class="form-control" id="firstname" placeholder="Prénom" value="{{user.firstname}}">
+                </div>
+            </div>
+             <div class="col-md-6">
+                <div class="form-group">
+                <label for="email" class="col-form-label">Email</label>
+                <input required name="email" type="email" class="form-control" id="email" placeholder="Email" value="{{user.email}}">
+                </div>
+                <button type="submit" class="btn btn-primary float-right">Modifier</button>
+            </div>
+        </div>
+  </form>
+</div>
+{% endblock %}

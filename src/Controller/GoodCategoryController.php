@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\GoodCategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Carbon\Carbon;
+use Knp\Component\Pager\PaginatorInterface;
 
 class GoodCategoryController extends AbstractController
 {
@@ -95,6 +96,25 @@ class GoodCategoryController extends AbstractController
                 $this->addFlash('success', 'Suppression de catégorie effectuée!');
                 return $this->redirectToRoute('good_types');
             }
+        }
+    }
+
+    #[Route('/admin/afficher-les-favoris-par-categorie/{id<\d+>}', name: 'category_fav_goods')]
+    public function CatWithFavGoods(GoodCategory $category, PaginatorInterface $paginator, Request $request): Response
+    {
+        if ($category) {
+            $donnees = $category->getGoodsWithFavOnly();
+
+            $favs = $paginator->paginate(
+                $donnees, // Requête contenant les données à paginer (ici nos articles)
+                $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                1 // Nombre de résultats par page
+            );
+
+            return $this->render('admin_dashboard/stat/goods.html.twig', [
+                'favs' => $favs,
+                'categorie' => $category->getLibelle()
+            ]);
         }
     }
 }

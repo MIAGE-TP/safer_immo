@@ -12,6 +12,8 @@ use App\Repository\DepartmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Request;
+use Knp\Component\Pager\PaginatorInterface;
+
 
 class CityController extends AbstractController
 {
@@ -108,6 +110,26 @@ class CityController extends AbstractController
                 $this->addFlash('success', 'Ville supprimée!');
                 return $this->redirectToRoute('cities');
             }
+        }
+    }
+
+
+    #[Route('/admin/afficher-les-favoris-par-ville/{id<\d+>}', name: 'display_city_fav_goods')]
+    public function displayCityWithFavGoods(City $city, PaginatorInterface $paginator, Request $request): Response
+    {
+        if ($city) {
+            $donnees = $city->getGoodsWithFavOnly();
+
+            $favs = $paginator->paginate(
+                $donnees, // Requête contenant les données à paginer (ici nos articles)
+                $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                1 // Nombre de résultats par page
+            );
+
+            return $this->render('admin_dashboard/stat/goods.html.twig', [
+                'favs' => $favs,
+                'ville' => $city->getName()
+            ]);
         }
     }
 }

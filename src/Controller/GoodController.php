@@ -33,8 +33,7 @@ class GoodController extends AbstractController
     #[Route('/admin/biens', name: 'goods')]
     public function index(EntityManagerInterface $manager, Request $request, PaginatorInterface $paginator)
     {
-        $user = $this->security->getUser();
-        $donnees = $manager->getRepository(Good::class)->findWithoutDelete($user);
+        $donnees = $manager->getRepository(Good::class)->findAllForHome();
         
         $goods = $paginator->paginate(
             $donnees, // Requête contenant les données à paginer (ici nos articles)

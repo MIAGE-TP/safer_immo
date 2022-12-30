@@ -332,6 +332,14 @@ class Good
         return $this->favs;
     }
 
+    /**
+     * @return int number of fav for a given good
+     */
+    public function getFavNumber(): int
+    {
+        return count($this->getFavs());
+    }
+
     public function addFav(Fav $fav): self
     {
         if (!$this->favs->contains($fav)) {

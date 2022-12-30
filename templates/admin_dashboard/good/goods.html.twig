@@ -7,37 +7,10 @@
 {% include 'layouts/notifications.html.twig' %}
 <!--============ Section Title===================================================================-->
     <div class="section-title clearfix">
-        <div class="nav justify-content-center">
-            <div class="col-md mt-3">
-                <div class="float-right float-xs-none">
-                    <label class="mr-3 align-text-bottom">Filter par: </label>
-                    <select name="sorting" id="sorting" class="small width-200px" data-placeholder="Default Sorting" >
-                        <option value="">Default Sorting</option>
-                        <option value="1">Newest First</option>
-                        <option value="2">Oldest First</option>
-                        <option value="3">Lowest Price First</option>
-                        <option value="4">Highest Price First</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md mt-4">
-                <div class="float-left">
-                    <button type="button" id="add-bien" class="small width-200px btn btn-primary btn-framed" onclick="javascript:location.href='{{path('add_good')}}'">
-                        <i class="fa fa-plus"></i>Ajouter un nouveau bien
-                    </button>
-                </div>
-            </div>
-           
-            {# <div class="col-md-2 mt-3">
-                <div class="float-right d-xs-none thumbnail-toggle">
-                    <a href="#" class="change-class" data-change-from-class="list" data-change-to-class="grid" data-parent-class="items">
-                        <i class="fa fa-th"></i>
-                    </a>
-                    <a href="#" class="change-class active" data-change-from-class="grid" data-change-to-class="list" data-parent-class="items">
-                        <i class="fa fa-th-list"></i>
-                    </a>
-                </div>
-            </div> #}
+        <div class="col-md text-center mt-4">
+            <button type="button" id="add-bien" class="small width-200px btn btn-primary btn-framed" onclick="javascript:location.href='{{path('add_good')}}'">
+                <i class="fa fa-plus"></i>Ajouter un nouveau bien
+            </button>
         </div>
     </div>
 <!--============ Items ==========================================================================-->
@@ -61,7 +34,7 @@
                     </div>
                     <!--end image-->
                     <h4 class="location">
-                        <a href="#">{{good.getLocalisation()}}</a>
+                        <a href="#">{{good.getLocalisation()|u.truncate(60, '...')}}</a>
                     </h4>
                     <div class="price">{{good.getPrice()}} €</div>
                     <div class="admin-controls">
@@ -95,6 +68,11 @@
                             <li>
                                 <figure>Superficie</figure>
                                 <aside>{{good.surface}}{{good.unit}}</aside>
+                            </li>
+
+                            <li>
+                                <figure>Nombre de favoris</figure>
+                                <aside>{{good.getFavNumber()}}</aside>
                             </li>
                         </ul>
                     </div>

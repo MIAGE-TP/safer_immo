@@ -62,6 +62,15 @@ class GoodCategory
         return $this->goods;
     }
 
+    public function getFavNumber(): int
+    {
+        $sum = 0;
+        foreach ($this->getGoods() as $good) {
+            $sum += $good->getFavNumber();
+        }
+        return $sum;
+    }
+
     public function addGood(Good $good): self
     {
         if (!$this->goods->contains($good)) {
@@ -118,5 +127,19 @@ class GoodCategory
         $this->deletedAt = $deletedAt;
 
         return $this;
+    }
+
+    /**
+     * @return Array<int, Good>
+     */
+    public function getGoodsWithFavOnly(): array
+    {
+        $tab = [];
+        foreach ($this->getGoods() as $good) {
+            if ($good->getFavNumber() > 0) {
+                array_push($tab, $good);
+            }
+        }
+        return $tab;
     }
 }

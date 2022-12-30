@@ -154,4 +154,27 @@ class City
 
         return $this;
     }
+
+    public function getFavNumber(): int
+    {
+        $sum = 0;
+        foreach ($this->getGoods() as $good) {
+            $sum += $good->getFavNumber();
+        }
+        return $sum;
+    }
+
+    /**
+     * @return Array<int, Good>
+     */
+    public function getGoodsWithFavOnly(): array
+    {
+        $tab = [];
+        foreach ($this->getGoods() as $good) {
+            if ($good->getFavNumber() > 0) {
+                array_push($tab, $good);
+            }
+        }
+        return $tab;
+    }
 }

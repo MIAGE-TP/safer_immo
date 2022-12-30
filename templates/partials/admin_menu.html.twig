@@ -2,10 +2,7 @@
     <nav class="nav flex-column side-nav">
         {% if is_granted('ROLE_ADMIN') %}
             <a class="nav-link icon" href="{{path('goods')}}">
-                <i class="fa fa-heart"></i>Mes offres
-            </a>
-            <a class="nav-link icon" href="{{path('favs')}}">
-                <i class="fa fa-star"></i>Favoris
+                <i class="fa fa-heart"></i>Offres
             </a>
             <a class="nav-link icon" href="#">
                 <i class="fa fa-check"></i>Biens sous contrat
@@ -22,7 +19,9 @@
             <a class="nav-link icon" href="{{ path('cities') }}">
                 <i class="fa fa-check"></i>Villes
             </a>
-        
+            <a class="nav-link icon" href="{{ path('users') }}">
+                <i class="fa fa-check"></i>Utilisateurs
+            </a>
             <a class="nav-link icon" href="{{ path('profile') }}">
                 <i class="fa fa-user"></i>Mon Profil
             </a>
@@ -34,7 +33,7 @@
             </a>
         {% else %}
             <a class="nav-link icon" href="{{path('favs')}}">
-                <i class="fa fa-star"></i>Favoris
+                <i class="fa fa-star"></i>Mes favoris
             </a>
             <a class="nav-link icon" href="{{ path('profile') }}">
                 <i class="fa fa-user"></i>Mon Profil

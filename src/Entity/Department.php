@@ -119,4 +119,29 @@ class Department
 
         return $this;
     }
+
+    public function getFavNumber(): int
+    {
+        $sum = 0;
+        foreach ($this->getcities() as $city) {
+            $sum += $city->getFavNumber();
+        }
+        return $sum;
+    }
+
+    /**
+     * @return Array<int, Good>
+     */
+    public function getGoodsWithFavOnly(): array
+    {
+        $tab = [];
+        foreach ($this->getcities() as $city) {
+            foreach ($city->getGoods() as $good) {
+                if ($good->getFavNumber() > 0) {
+                    array_push($tab, $good);
+                }
+            }
+        }
+        return $tab;
+    }
 }
