@@ -4,6 +4,9 @@ namespace App\Controller;
 
 
 use App\Entity\GoodCategory;
+use App\Entity\City;
+use App\Entity\Department;
+use App\Entity\OfferType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -100,10 +103,11 @@ class GoodCategoryController extends AbstractController
     }
 
     #[Route('/admin/afficher-les-favoris-par-categorie/{id<\d+>}', name: 'category_fav_goods')]
-    public function CatWithFavGoods(GoodCategory $category, PaginatorInterface $paginator, Request $request): Response
+    public function CatWithFavGoods(GoodCategory $category, PaginatorInterface $paginator, Request $request,  EntityManagerInterface $manager): Response
     {
         if ($category) {
             $donnees = $category->getGoodsWithFavOnly();
+            $categories =  $manager->getRepository(GoodCategory::class)->findWithoutDelete();
 
             $favs = $paginator->paginate(
                 $donnees, // Requête contenant les données à paginer (ici nos articles)
@@ -113,7 +117,38 @@ class GoodCategoryController extends AbstractController
 
             return $this->render('admin_dashboard/stat/goods.html.twig', [
                 'favs' => $favs,
-                'categorie' => $category->getLibelle()
+                'categorie' => $category->getLibelle(),
+                'categories' => $categories,
+            ]);
+        }
+    }
+
+    #[Route('/{slug}', name: 'goods_by_cat')]
+    public function GoodsByCat(PaginatorInterface $paginator, Request $request, EntityManagerInterface $manager): Response
+    {
+        $slug = $request->attributes->get('slug');
+        $category = $manager->getRepository(GoodCategory::class)->findOneBy(['libelle'=> $slug]);
+        $categories =  $manager->getRepository(GoodCategory::class)->findWithoutDelete();
+        $cities = $manager->getRepository(City::class)->findWithoutDelete();
+        $offerTypes = $manager->getRepository(OfferType::class)->findWithoutDelete();
+        $departments = $manager->getRepository(Department::class)->findWithoutDelete();
+
+        if ($category) {
+            $donnees = $category->getGoods();
+
+            $goods = $paginator->paginate(
+                $donnees, // Requête contenant les données à paginer (ici nos articles)
+                $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                1 // Nombre de résultats par page
+            );
+
+            return $this->render('public/goods_per_cat.html.twig', [
+                'goods' => $goods,
+                'categories' => $categories,
+                'categorie' => $category->getLibelle(),
+                'cities' => $cities,
+                'offerTypes' => $offerTypes,
+                'departments' => $departments,
             ]);
         }
     }

@@ -8,7 +8,7 @@
    {% include 'layouts/notifications.html.twig' %}
     <div class="row mb-2">
         <div class="col-md-6 text-left">
-            <button type="button" id="add-brochure" class="btn btn-primary btn-framed" onclick="javascript:location.href='#'"><i class="fa fa-plus"></i>Ajouter une ville</button>
+            <button type="button" id="add-brochure" class="btn btn-primary btn-framed" onclick="javascript:location.href='#'"><i class="fa fa-plus"></i>Ajouter un utilsateur</button>
         </div>
         <div class="col-md-6 text-right">
             <div id="export_buttons" class=""></div>
@@ -21,16 +21,15 @@
                     <table id="datatable" class="table table-bordered table-hover" style="width:100%">
                         <caption>Utilisateurs</caption>
                         <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>Email</th>
-                            <th>Rôle</th>
-                            <th>Créé le</th>
-                            <th>Modifié le</th>
-                            <th class="noExport">Actions</th>
-                        </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Email</th>
+                                <th>Rôle</th>
+                                <th>Créé le</th>
+                                <th class="noExport">Actions</th>
+                            </tr>
                         </thead>
                         <tbody>
                             {% for user in users %}
@@ -41,13 +40,8 @@
                                     <td>{{user.email}}</td>
                                     <td>{% if user.getRoles()[0] == 'ROLE_USER' %} Utilisateur {% else %} Administrateur {% endif %}</td>
                                     <td>{{user.createdAt|date("d/m/Y à H:i:s","Europe/Paris")}}</td>
-                                    {% if user.updatedAt is null %}
-                                        <td>{{"Non défini"}}</td>
-                                    {% else %}
-                                        <td>{{user.updatedAt|date("d/m/Y à H:i:s","Europe/Paris")}}</td>
-                                    {% endif %}
-                                    <td> 
-                                        <a class="ml-2" href="{{ path('edit_user', {id: user.id}) }}" data-toggle="tooltip" data-original-title="Modifier"><i class="fa fa-edit"></i></a>
+                                    <td class="text-center"> 
+                                        <a href="{{ path('edit_user', {id: user.id}) }}" data-toggle="tooltip" data-original-title="Modifier"><i class="fa fa-edit"></i></a>
                                         {# <a class="ml-2" href="#" data-toggle="tooltip" data-original-title="Visualiser"><i class="fa fa-eye"></i></a> #}
                                         {# <a class="ml-2" href="{{ path('delete_city', {id: city.id}) }}" data-toggle="tooltip" data-original-title="Supprimer"><i class="fa fa-trash"></i></a> #}
                                     </td>
@@ -55,16 +49,15 @@
                             {% endfor %}
                         </tbody>
                         <tfoot>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>Email</th>
-                            <th>Rôle</th>
-                            <th>Créé le</th>
-                            <th>Modifié le</th>
-                            <th>Actions</th>
-                        </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Email</th>
+                                <th>Rôle</th>
+                                <th>Créé le</th>
+                                <th>Actions</th>
+                            </tr>
                         </tfoot>
                     </table>
                 </div>

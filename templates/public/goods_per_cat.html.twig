@@ -1,0 +1,68 @@
+{% extends 'layouts/good.html.twig' %}
+
+{% block page_title %} 
+
+     {% if categorie is defined %}
+        <h1> Liste des biens proposés comme {{categorie}}</h1> 
+    {% endif %}
+
+{% endblock %}
+
+{% block content %}
+<div class="col-md">
+    <!--============ Items ==========================================================================-->
+    {% if goods|length > 0 %}
+        <div class="items masonry grid-xl-4-items grid-lg-3-items grid-md-2-items">
+            {% for good in goods %}
+                <div class="item">
+                    <div class="wrapper">
+                        <div class="image">
+                            <h3>
+                                <a href="#" class="tag category">{{good.getGoodCategory().libelle|u.truncate(30, '...')}}</a>
+                                <a href="{{path('show_good', {slug: good.slug})}}" class="title">{{good.getIntitule()|u.truncate(30, '...')}}</a>
+                                <span class="tag">{{good.getOffertype().libelle|u.truncate(60, '...')}}</span>
+                            </h3>
+                            <a href="{{path('show_good', {slug: good.slug})}}" class="image-wrapper background-image">
+                                {% if good.getOfferGaleries()|length > 0 %}
+                                    <img src="{{asset('/uploads/galery/'~ good.getOfferGaleries()[0].path)}}" alt="">
+                                {% else %}
+                                    <img src="{{asset('./assets/img/image-01.jpg')}}" alt="">
+                                {% endif %}
+                            </a>
+                        </div>
+                        <!--end image-->
+                        <h4 class="location">
+                            <a href="#">{{good.getCity().name|u.truncate(60, '...')}}</a>
+                        </h4>
+                        <div class="price">{{good.getPrice()}}€</div>
+                        <div class="meta">
+                            <figure>
+                                <i class="fa fa-calendar-o"></i>{{good.createdAt|date("d/m/Y","Europe/Paris")}}
+                            </figure>
+                            <figure>
+                                <a href="#">
+                                    <i class="fa fa-area-chart"></i>{{good.surface}}{{good.unit}}
+                                </a>
+                            </figure>
+                        </div>
+                        <!--end meta-->
+                        <div class="description">
+                            <p>{{ good.getDescriptif()|u.truncate(30, '...')}}</p>
+                        </div>
+                        <!--end description-->
+                        <a href="{{path('show_good', {slug: good.slug})}}" class="detail text-caps underline">Détails</a>
+                    </div>
+                </div>
+            {% endfor %}
+            <!--end item-->
+        </div>
+        <div class="page-pagination">
+            {{knp_pagination_render(goods)}}
+        </div>
+    {% else %}
+        <p class="text-center">
+            Nous n'avons pas d'offre pour cette catégorie actuellement. Merci de repasser plus tard.
+        </p>
+    {% endif %}
+</div>
+{% endblock %}

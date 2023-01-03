@@ -18,9 +18,11 @@ class UserController extends AbstractController
     #[Route('/admin/utilisateurs', name: 'users')]
     public function index(EntityManagerInterface $manager): Response
     {
+        $categories =  $manager->getRepository(GoodCategory::class)->findWithoutDelete();
         $users = $manager->getRepository(User::class)->findWithoutDelete();
         return $this->render('admin_dashboard/user/users.html.twig', [
-            'users' => $users
+            'users' => $users,
+            'categories' => $categories
         ]);
     }
 

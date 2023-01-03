@@ -29,18 +29,20 @@ class FavController extends AbstractController
     }
 
     #[Route('/mes-favoris', name: 'favs')]
-    public function index(FavRepository $repository, Request $request, PaginatorInterface $paginator): Response
+    public function index(FavRepository $repository, EntityManagerInterface $manager, Request $request, PaginatorInterface $paginator): Response
     {
         $user = $this->security->getUser();
         $donnees = $repository->findWithoutDelete($user);
-        
+        $categories =  $manager->getRepository(GoodCategory::class)->findWithoutDelete();
+
         $favs = $paginator->paginate(
             $donnees, // Requête contenant les données à paginer (ici nos articles)
             $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
             1 // Nombre de résultats par page
         );
         return $this->render('user_dashboard/fav/favs.html.twig', [
-            'favs' => $favs
+            'favs' => $favs,
+            'categories' => $categories,
         ]);
     }
 
