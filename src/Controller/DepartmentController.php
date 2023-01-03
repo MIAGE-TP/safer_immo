@@ -14,18 +14,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use App\Entity\GoodCategory;
+
 
 class DepartmentController extends AbstractController
 {
     #[Route('/admin/departements', name: 'departments')]
-    public function index(DepartmentRepository $repository, EntityManagerInterface $manager): Response
+    public function index(DepartmentRepository $repository): Response
     {
-        $categories =  $manager->getRepository(GoodCategory::class)->findWithoutDelete();
         $departments = $repository->findWithoutDelete();
         return $this->render('admin_dashboard/department/departments.html.twig', [
-            'departments' => $departments,
-            'categories' => $categories
+            'departments' => $departments
         ]);
     }
 
@@ -121,11 +119,10 @@ class DepartmentController extends AbstractController
     }
 
     #[Route('/admin/afficher-les-favoris-par-departement/{id<\d+>}', name: 'department_fav_goods')]
-    public function DepartmentWithFavGoods(Department $department,  EntityManagerInterface $manager, PaginatorInterface $paginator, Request $request): Response
+    public function DepartmentWithFavGoods(Department $department, PaginatorInterface $paginator, Request $request): Response
     {
         if ($department) {
             $donnees = $department->getGoodsWithFavOnly();
-            $categories =  $manager->getRepository(GoodCategory::class)->findWithoutDelete();
 
             $favs = $paginator->paginate(
                 $donnees, // Requête contenant les données à paginer (ici nos articles)
@@ -135,8 +132,7 @@ class DepartmentController extends AbstractController
 
             return $this->render('admin_dashboard/stat/goods.html.twig', [
                 'favs' => $favs,
-                'departement' => $department->getName(),
-                'categories' => $categories,
+                'departement' => $department->getName()
             ]);
         }
     }

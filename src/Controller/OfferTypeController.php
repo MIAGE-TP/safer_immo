@@ -15,13 +15,11 @@ use Doctrine\ORM\EntityManagerInterface;
 class OfferTypeController extends AbstractController
 {
     #[Route('/admin/types-offre', name: 'offer_types')]
-    public function index(OfferTypeRepository $repository, EntityManagerInterface $manager): Response
+    public function index(OfferTypeRepository $repository): Response
     {
-        $categories =  $manager->getRepository(GoodCategory::class)->findWithoutDelete();
         $offerTypes = $repository->findWithoutDelete();
         return $this->render('admin_dashboard/offer_type/offer_types.html.twig', [
-            'offer_types' => $offerTypes,
-            'categories' => $categories
+            'offer_types' => $offerTypes
         ]);
     }
 

@@ -18,13 +18,11 @@ use Knp\Component\Pager\PaginatorInterface;
 class CityController extends AbstractController
 {
     #[Route('/admin/villes', name: 'cities')]
-    public function index(EntityManagerInterface $manager, CityRepository $repository): Response
+    public function index(CityRepository $repository): Response
     {
-        $categories =  $manager->getRepository(GoodCategory::class)->findWithoutDelete();
         $cities = $repository->findWithoutDelete();
         return $this->render('admin_dashboard/city/cities.html.twig', [
-            'cities' => $cities,
-            'categories' => $categories
+            'cities' => $cities
         ]);
     }
 
@@ -117,11 +115,10 @@ class CityController extends AbstractController
 
 
     #[Route('/admin/afficher-les-favoris-par-ville/{id<\d+>}', name: 'display_city_fav_goods')]
-    public function displayCityWithFavGoods(City $city,  EntityManagerInterface $manager, PaginatorInterface $paginator, Request $request): Response
+    public function displayCityWithFavGoods(City $city, PaginatorInterface $paginator, Request $request): Response
     {
         if ($city) {
             $donnees = $city->getGoodsWithFavOnly();
-            $categories =  $manager->getRepository(GoodCategory::class)->findWithoutDelete();
 
             $favs = $paginator->paginate(
                 $donnees, // Requête contenant les données à paginer (ici nos articles)
@@ -131,8 +128,7 @@ class CityController extends AbstractController
 
             return $this->render('admin_dashboard/stat/goods.html.twig', [
                 'favs' => $favs,
-                'ville' => $city->getName(),
-                'categories' => $categories,
+                'ville' => $city->getName()
             ]);
         }
     }

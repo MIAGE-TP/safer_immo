@@ -11,11 +11,21 @@
             <div class="collapse navbar-collapse" id="navbar">
                 <!--Main navigation list-->
                 <ul class="navbar-nav">
-                    {% for category in categories %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{path('goods_by_cat', {slug: category.libelle})}}">{{category.libelle}}</a>
-                        </li>
-                    {% endfor %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('goods_by_cat', {slug: 'Terrain agricole'})}}">Terrain agricole</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('goods_by_cat', {slug: 'Prairie'})}}">Prairie</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('goods_by_cat', {slug: 'Bois'})}}">Bois</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('goods_by_cat', {slug: 'Bâtiments'})}}">Bâtiments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('goods_by_cat', {slug: 'Exploitations'})}}">Exploitations</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact</a>
                     </li>

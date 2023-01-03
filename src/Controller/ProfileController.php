@@ -12,10 +12,8 @@ class ProfileController extends AbstractController
     #[Route('/profil', name: 'profile')]
     public function index(EntityManagerInterface $manager): Response
     {
-        $categories =  $manager->getRepository(GoodCategory::class)->findWithoutDelete();
         return $this->render('admin_dashboard/profile/profile.html.twig', [
             'controller_name' => 'ProfileController',
-            'categories' => $categories
         ]);
     }
 }
