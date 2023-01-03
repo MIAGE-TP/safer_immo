@@ -1,0 +1,22 @@
+<h1>Bonjour {{user.firstname}} {{user.lastname}}!</h1>
+
+<p>
+    Ces biens ci-dessous sont disponilbes et pourraient vous interesser: <br><br>
+</p>
+
+    {% for fav in favs %}
+        <p>
+            <a href="{{url('show_good', {slug: fav.slug})}}" class="" target="_blank">
+                {% if fav.getOfferGaleries()|length > 0 %}
+                    <img src="{{absolute_url(asset('/uploads/galery/'~ fav.getOfferGaleries()[0].path))}}" class="rounded img-fluid mx-auto d-block" alt="">
+                {% endif %}
+            </a>
+            <br>
+            <h3>{{fav.getIntitule()}}</h3>
+        </p>
+    {% endfor %}
+
+
+<p>
+    Cordialement,
+</p>

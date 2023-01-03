@@ -9,6 +9,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Request;
+use Knp\Component\Pager\PaginatorInterface;
 
 
 
@@ -57,6 +58,25 @@ class UserController extends AbstractController
             throw $this->createNotFoundException(
                 "Erreur lors de la modification, merci de réessayer."
             );
+        }
+    }
+
+    #[Route('/admin/afficher-les-favoris-par-utilisateur/{id<\d+>}', name: 'user_fav_goods')]
+    public function UserWithFavGoods(User $user, PaginatorInterface $paginator, Request $request): Response
+    {
+        if ($user) {
+            $donnees = $user->getGoodsWithFavOnly();
+
+            $favs = $paginator->paginate(
+                $donnees, // Requête contenant les données à paginer (ici nos articles)
+                $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                10 // Nombre de résultats par page
+            );
+
+            return $this->render('admin_dashboard/user/favs.html.twig', [
+                'favs' => $favs,
+                'user' => $user
+            ]);
         }
     }
 }

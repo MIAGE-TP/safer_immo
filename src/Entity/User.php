@@ -59,12 +59,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Fav::class, orphanRemoval: false)]
     private Collection $favs;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: NewsLetter::class)]
+    private Collection $newsLetters;
+
     public function __construct()
     {
         $this->roles = ['ROLE_USER'];
         $this->createdAt = Carbon::now()->toDateTimeImmutable();
         $this->goods = new ArrayCollection();
         $this->favs = new ArrayCollection();
+        $this->newsLetters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -259,6 +263,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->favs;
     }
 
+    public function getFavNumber(): int
+    {
+        return count($this->getFavs());
+    }
+
+    /**
+     * @return Array<int, Good>
+     */
+    public function getGoodsWithFavOnly(): array
+    {
+        $tab = [];
+        foreach ($this->getFavs() as $fav) {
+            array_push($tab, $fav->getGood());
+        }
+        return $tab;
+    }
+
     public function getFavGoodIds() : array
     {
        $tab = [];
@@ -294,6 +315,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($fav->getUser() === $this) {
                 $fav->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, NewsLetter>
+     */
+    public function getNewsLetters(): Collection
+    {
+        return $this->newsLetters;
+    }
+
+    public function addNewsLetter(NewsLetter $newsLetter): self
+    {
+        if (!$this->newsLetters->contains($newsLetter)) {
+            $this->newsLetters->add($newsLetter);
+            $newsLetter->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNewsLetter(NewsLetter $newsLetter): self
+    {
+        if ($this->newsLetters->removeElement($newsLetter)) {
+            // set the owning side to null (unless already changed)
+            if ($newsLetter->getUser() === $this) {
+                $newsLetter->setUser(null);
             }
         }
 
