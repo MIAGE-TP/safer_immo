@@ -42,7 +42,7 @@ class Mailer
         $email = (new TemplatedEmail())
             ->from(new Address('info@safer.com', 'Safer Immobilier'))
             ->to($user->getEmail())
-            ->subject('Des biens qui pourraient vous interesser')
+            ->subject('Des biens qui pourraient vous intéresser')
 
             // path of the Twig template to render
             ->htmlTemplate('mail/favs.html.twig')

@@ -33,8 +33,8 @@ class NewsLetterController extends AbstractController
             $newL->setFav($user->getFavGoodIds());
             $entityManager->persist($newL);
             $entityManager->flush();
-            $mailer->sendFavorites($user, $user->getGoodsWithFavOnly(),$bodyRenderer);
-            $this->addFlash("success", "Favoris envoyé à l'utilisateur!");
+            $mailer->sendFavorites($user, $user->getGoodsWithFavOnly(), $bodyRenderer);
+            $this->addFlash("success", "Favori(s) envoyé(s) à l'utilisateur!");
         }
         
         $route = $request->headers->get('referer');
