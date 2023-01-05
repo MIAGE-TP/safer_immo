@@ -121,7 +121,7 @@ class GoodCategoryController extends AbstractController
         }
     }
 
-    #[Route('/biens-par-catégorie/{slug}', name: 'goods_by_cat')]
+    #[Route('/biens-par-categorie/{slug}', name: 'goods_by_cat')]
     public function GoodsByCat(PaginatorInterface $paginator, Request $request, EntityManagerInterface $manager): Response
     {
         $slug = $request->attributes->get('slug');
