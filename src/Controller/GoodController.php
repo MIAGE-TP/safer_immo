@@ -33,8 +33,7 @@ class GoodController extends AbstractController
     #[Route('/admin/biens', name: 'goods')]
     public function index(EntityManagerInterface $manager, Request $request, PaginatorInterface $paginator)
     {
-        $user = $this->security->getUser();
-        $donnees = $manager->getRepository(Good::class)->findWithoutDelete($user);
+        $donnees = $manager->getRepository(Good::class)->findAllForAdmin();
         
         $goods = $paginator->paginate(
             $donnees, // Requête contenant les données à paginer (ici nos articles)
@@ -149,5 +148,30 @@ class GoodController extends AbstractController
            
             return $this->redirectToRoute('goods');
         }
+    }
+
+    #[Route('/trouver-biens}', name: 'search_goods')]
+    public function search(Request $request, EntityManagerInterface $manager, PaginatorInterface $paginator):Response
+    {
+        
+        $req = $request->request;
+        $donnees =  $manager->getRepository(Good::class)->search($req);
+        $categories =  $manager->getRepository(GoodCategory::class)->findWithoutDelete();
+        $cities = $manager->getRepository(City::class)->findWithoutDelete();
+        $offerTypes = $manager->getRepository(OfferType::class)->findWithoutDelete();
+        $departments = $manager->getRepository(Department::class)->findWithoutDelete();
+       
+        $goods = $paginator->paginate(
+            $donnees, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            12 // Nombre de résultats par page
+        );
+        return  $this->render('public/search_results.html.twig', [
+            'goods' => $goods,
+            'categories' => $categories,
+            'cities' => $cities,
+            'offerTypes' => $offerTypes,
+            'departments' => $departments
+        ]);
     }
 }

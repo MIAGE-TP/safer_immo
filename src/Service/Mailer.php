@@ -36,4 +36,26 @@ class Mailer
 
         $this->mailer->send($email);
     }
+
+    public function sendFavorites($user, $favs, $bodyRenderer)
+    {
+        $email = (new TemplatedEmail())
+            ->from(new Address('info@safer.com', 'Safer Immobilier'))
+            ->to($user->getEmail())
+            ->subject('Des biens qui pourraient vous intéresser')
+
+            // path of the Twig template to render
+            ->htmlTemplate('mail/favs.html.twig')
+
+            // pass variables (name => value) to the template
+            ->context([
+                'user' => $user,
+                'favs' => $favs
+            ])
+        ;
+
+        $bodyRenderer->render($email);
+
+        $this->mailer->send($email);
+    }
 }

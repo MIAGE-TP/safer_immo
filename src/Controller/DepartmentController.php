@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 
 class DepartmentController extends AbstractController
@@ -114,6 +115,25 @@ class DepartmentController extends AbstractController
             $response = $serializer->serialize($cities, 'json', ['groups' => 'main']);
             
             return JsonResponse::fromJsonString($response);
+        }
+    }
+
+    #[Route('/admin/afficher-les-favoris-par-departement/{id<\d+>}', name: 'department_fav_goods')]
+    public function DepartmentWithFavGoods(Department $department, PaginatorInterface $paginator, Request $request): Response
+    {
+        if ($department) {
+            $donnees = $department->getGoodsWithFavOnly();
+
+            $favs = $paginator->paginate(
+                $donnees, // Requête contenant les données à paginer (ici nos articles)
+                $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                1 // Nombre de résultats par page
+            );
+
+            return $this->render('admin_dashboard/stat/goods.html.twig', [
+                'favs' => $favs,
+                'departement' => $department->getName()
+            ]);
         }
     }
 }

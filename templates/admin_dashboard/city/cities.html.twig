@@ -21,21 +21,23 @@
                     <table id="datatable" class="table table-bordered table-hover" style="width:100%">
                         <caption>Villes couvertes</caption>
                         <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nom</th>
-                            <th>Département</th>
-                            <th>Code postal</th>
-                            <th>Créé le</th>
-                            <th>Modifié le</th>
-                            <th class="noExport">Actions</th>
-                        </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Nombre de favoris</th>
+                                <th>Département</th>
+                                <th>Code postal</th>
+                                <th>Créé le</th>
+                                <th>Modifié le</th>
+                                <th class="noExport">Actions</th>
+                            </tr>
                         </thead>
                         <tbody>
                             {% for city in cities %}
                                 <tr>
                                     <td>{{city.id}}</td>
                                     <td>{{city.name}}</td>
+                                    <td>{{city.getFavNumber()}}</td>
                                     <td>{{city.getDepartment().name}}</td>
                                     <td>{{city.zipCode}}</td>
                                     <td>{{city.createdAt|date("d/m/Y à H:i:s","Europe/Paris")}}</td>
@@ -46,22 +48,25 @@
                                     {% endif %}
                                     <td> 
                                         <a class="ml-2" href="{{ path('edit_city', {id: city.id}) }}" data-toggle="tooltip" data-original-title="Modifier"><i class="fa fa-edit"></i></a>
-                                        {# <a class="ml-2" href="#" data-toggle="tooltip" data-original-title="Visualiser"><i class="fa fa-eye"></i></a> #}
+                                        {% if city.getFavNumber() > 0 %}
+                                            <a class="ml-2" href="{{ path('display_city_fav_goods', {id: city.id}) }}" data-toggle="tooltip" data-original-title="Visualiser les biens qui ont été mis en favori pour cette ville"><i class="fa fa-eye"></i></a>
+                                        {% endif %}
                                         <a class="ml-2" href="{{ path('delete_city', {id: city.id}) }}" data-toggle="tooltip" data-original-title="Supprimer"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             {% endfor %}
                         </tbody>
                         <tfoot>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nom</th>
-                            <th>Département</th>
-                            <th>Code postal</th>
-                            <th>Créé le</th>
-                            <th>Modifié le</th>
-                            <th>Actions</th>
-                        </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Nombre de biens favoris</th>
+                                <th>Département</th>
+                                <th>Code postal</th>
+                                <th>Créé le</th>
+                                <th>Modifié le</th>
+                                <th>Actions</th>
+                            </tr>
                         </tfoot>
                     </table>
                 </div>

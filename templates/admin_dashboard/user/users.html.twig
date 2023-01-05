@@ -1,0 +1,72 @@
+{% extends 'layouts/admin_base.html.twig' %}
+
+{% block page_title %} <h1>Utilisateurs</h1> {% endblock %}
+
+{% block content %}
+<!-- DataTable -->
+<div class="col-md-9">
+   {% include 'layouts/notifications.html.twig' %}
+    <div class="row mb-2">
+        <div class="col-md-6 text-left">
+            <button type="button" id="add-brochure" class="btn btn-primary btn-framed" onclick="javascript:location.href='#'"><i class="fa fa-plus"></i>Ajouter un utilsateur</button>
+        </div>
+        <div class="col-md-6 text-right">
+            <div id="export_buttons" class=""></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body table-responsive">
+                    <table id="datatable" class="table table-bordered table-hover" style="width:100%">
+                        <caption>Utilisateurs</caption>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Email</th>
+                                <th>Rôle</th>
+                                <th>Nombre de favoris</th>
+                                <th class="noExport">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                                <tr>
+                                    <td>{{user.id}}</td>
+                                    <td>{{user.lastname}}</td>
+                                    <td>{{user.firstname}}</td>
+                                    <td>{{user.email}}</td>
+                                    <td>{% if user.getRoles()[0] == 'ROLE_USER' %} Utilisateur {% else %} Administrateur {% endif %}</td>
+                                    <td>{{user.getFavNumber()}}</td>
+                                    <td class="text-center"> 
+                                        <a href="{{ path('edit_user', {id: user.id}) }}" data-toggle="tooltip" data-original-title="Modifier"><i class="fa fa-edit"></i></a>
+                                        {% if user.getFavNumber() > 0 %}
+                                            <a class="ml-2" href="{{ path('user_fav_goods', {id: user.id}) }}" data-toggle="tooltip" data-original-title="Visualiser les biens qui ont été mis en favori par cet utilisateur"><i class="fa fa-eye"></i></a>
+                                        {% endif %}
+                                        {# <a class="ml-2" href="{{ path('delete_city', {id: city.id}) }}" data-toggle="tooltip" data-original-title="Supprimer"><i class="fa fa-trash"></i></a> #}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Email</th>
+                                <th>Rôle</th>
+                                <th>Nombre de favoris</th>
+                                <th>Actions</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<!-- end: DataTable -->
+{% endblock %}

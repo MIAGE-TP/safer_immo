@@ -52,4 +52,20 @@ class FavRepository extends ServiceEntityRepository
            ->getQuery()
            ->getResult();
     }
+
+    /**
+    * @return Favs[] Returns an array of all users Fav objects group by good only
+    */
+    public function UsersFav(): array
+    {
+       
+        $query = $this->getEntityManager()->createQuery(
+            'SELECT IDENTITY(f.good) as good_id
+            FROM App\Entity\Fav f
+            WHERE f.deletedAt is NULL
+            GROUP BY f.good'
+        );
+
+        return $query->getResult();
+    }
 }

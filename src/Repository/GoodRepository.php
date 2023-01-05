@@ -209,4 +209,90 @@ class GoodRepository extends ServiceEntityRepository
            ->getResult();
     }
 
+    /**
+    * @return Good[] Returns an array of not deleted Good objects only
+    */
+    public function findAllForAdmin(): array
+    {
+       return $this->createQueryBuilder('g')
+           ->where('g.deletedAt is NULL')
+           ->orderBy('g.id', 'DESC')
+           ->getQuery()
+           ->getResult();
+    }
+
+    /**
+    * @return Good[] Returns an array of not deleted Good objects only
+    */
+    public function search($value): array
+    {
+        $qb = $this->createQueryBuilder('g');
+        $city = $value->get('city');
+        $category = $value->get('category');
+        $offerType = $value->get('offerType');
+        $minSurface = $value->get('min_surface');
+        $maxSurface = $value->get('max_surface');
+        $unit = $value->get('unit');
+        $minPrice = $value->get('min_price');
+        $maxPrice = $value->get('max_price');
+        $keyword = $value->get('keyword');
+
+       
+        $qb->where('g.deletedAt is NULL');
+
+        if ($city != "") {
+            $qb->andWhere('g.city = :ville')
+               ->setParameter('ville', $city);
+        }
+
+        if ($category != "") {
+            $qb->andWhere('g.goodcategory = :categorie')
+               ->setParameter('categorie', $category);
+        }
+
+        if ($offerType != "") {
+            $qb->andWhere('g.offertype = :type')
+               ->setParameter('type', $offerType);
+        }
+
+        if ($unit != "") {
+            $qb->andWhere('g.unit = :unite')
+               ->setParameter('unite', $unit);
+        }
+
+        if ($keyword != "") {
+            $qb->andWhere('g.intitule LIKE :searchTerm')
+               ->orWhere('g.descriptif LIKE :searchTerm')
+               ->setParameter('searchTerm', '%'.$keyword.'%');
+        }
+
+        if ($minSurface != "" && $maxSurface != "") {
+            $qb->andWhere('g.surface BETWEEN :minSurf AND :maxSurf')
+               ->setParameter('minSurf', $minSurface)
+               ->setParameter('maxSurf', $maxSurface);
+        }elseif ($minSurface != "" && $maxSurface == "") {
+            $qb->andWhere('g.surface >= :minSurf')
+               ->setParameter('minSurf', $minSurface);
+        }elseif ($maxSurface != "" && $minSurface == "") {
+            $qb->andWhere('g.surface <= :maxSurf')
+               ->setParameter('maxSurf', $maxSurface);
+        }
+
+        if ($minPrice != "" && $maxPrice != "") {
+            $qb->andWhere('g.price BETWEEN :minPrice AND :maxPrice')
+               ->setParameter('minPrice', $minPrice)
+               ->setParameter('maxPrice', $maxPrice);
+        }elseif ($minPrice != "" && $maxPrice == "") {
+            $qb->andWhere('g.price >= :minPrice')
+               ->setParameter('minPrice', $minPrice);
+        }elseif ($maxPrice != "" && $minPrice == "") {
+            $qb->andWhere('g.price <= :maxPrice')
+               ->setParameter('maxPrice', $maxPrice);
+        }
+
+        $qb->orderBy('g.id', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
+
 }
