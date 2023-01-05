@@ -150,7 +150,7 @@ class GoodController extends AbstractController
         }
     }
 
-    #[Route('/trouver-biens}', name: 'search_goods')]
+    #[Route('/trouver-des-biens/', name: 'search_goods')]
     public function search(Request $request, EntityManagerInterface $manager, PaginatorInterface $paginator):Response
     {
         
