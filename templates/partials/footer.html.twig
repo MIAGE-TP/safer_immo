@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-md-5">
                     <a href="#" class="brand">
-                        <img src="{{asset('./assets/img/logo.png')}}" alt="">
+                        <img src="{{asset('./assets/img/logo-real-estate.png')}}" alt="">
                     </a>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec tincidunt arcu, sit amet
@@ -21,22 +21,25 @@
                             <nav>
                                 <ul class="list-unstyled">
                                     <li>
-                                        <a href="#">Home</a>
+                                        <a href="{{path('home')}}">Accueil</a>
                                     </li>
                                     <li>
-                                        <a href="#">Listing</a>
+                                        <a href="{{path('goods_by_cat', {slug: 'Terrain agricole'})}}">Terrain agricole</a>
                                     </li>
                                     <li>
-                                        <a href="#">Pages</a>
+                                        <a href="{{path('goods_by_cat', {slug: 'Prairie'})}}">Prairie</a>
                                     </li>
                                     <li>
-                                        <a href="#">Extras</a>
+                                        <a href="{{path('goods_by_cat', {slug: 'Bois'})}}">Bois</a>
                                     </li>
                                     <li>
-                                        <a href="#">Contact</a>
+                                        <a href="{{path('goods_by_cat', {slug: 'Bâtiments'})}}">Bâtiments</a>
                                     </li>
                                     <li>
-                                        <a href="#">Submit Ad</a>
+                                        <a href="{{path('goods_by_cat', {slug: 'Exploitations'})}}">Exploitations</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{path('contact-us')}}">Contact</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -45,13 +48,10 @@
                             <nav>
                                 <ul class="list-unstyled">
                                     <li>
-                                        <a href="#">My Ads</a>
+                                        <a href="{{path('app_login')}}">Connexion</a>
                                     </li>
                                     <li>
-                                        <a href="#">Sign In</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Register</a>
+                                        <a href="{{path('app_register')}}">Inscription</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -63,16 +63,16 @@
                     <h2>Contact</h2>
                     <address>
                         <figure>
-                            124 Abia Martin Drive<br>
-                            New York, NY 10011
+                            5 Allée de a croix des hêtres<br>
+                            Rennes, 35000
                         </figure>
                         <br>
-                        <strong>Email:</strong> <a href="#">hello@example.com</a>
+                        <strong>Email:</strong> <a href="mailto:info@safer.com">info@safer.com</a>
                         <br>
-                        <strong>Skype: </strong> Craigs
+                        <strong>Skype: </strong> SaferImmo
                         <br>
                         <br>
-                        <a href="contact.html" class="btn btn-primary text-caps btn-framed">Contact Us</a>
+                        <a href="#" class="btn btn-primary text-caps btn-framed">Nous contacter</a>
                     </address>
                 </div>
                 <!--end col-md-4-->
