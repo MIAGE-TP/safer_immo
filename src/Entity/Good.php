@@ -29,10 +29,10 @@ class Good
     private ?string $localisation = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $surface = null;
+    private ?int $surface = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $price = null;
+    private ?int $price = null;
 
     #[ORM\ManyToOne(inversedBy: 'goods')]
     #[ORM\JoinColumn(nullable: false)]

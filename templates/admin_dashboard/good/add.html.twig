@@ -13,8 +13,8 @@
                         <div class="row">
                             <div class="col-md">
                                 <div class="form-group">
-                                    <label for="category" class="col-form-label">Type d'offre</label>
-                                    <select data-enable-search="true" name="offerType" id="offer_type" data-placeholder="Choisir le type d'offre">
+                                    <label for="category" class="col-form-label required">Type d'offre</label>
+                                    <select data-enable-search="true" required name="offerType" id="offer_type" data-placeholder="Choisir le type d'offre">
                                         <option value="">Type d'offre</option>
                                         {% for offerType in offerTypes %}
                                             <option value="{{offerType.id}}">{{offerType.libelle}}</option>
@@ -24,8 +24,8 @@
                             </div>
                             <div class="col-md">
                                 <div class="form-group">
-                                    <label for="category" class="col-form-label">Catégorie de bien</label>
-                                    <select data-enable-search="true" name="category" id="category" data-placeholder="Choisir la catégorie de bien">
+                                    <label for="category" class="col-form-label required">Catégorie de bien</label>
+                                    <select data-enable-search="true" required name="category" id="category" data-placeholder="Choisir la catégorie de bien">
                                         <option value="">Catégorie de bien</option>
                                         {% for category in categories %}
                                             <option value="{{category.id}}">{{category.libelle}}</option>
@@ -73,7 +73,7 @@
                                 <div class="row">
                                     <div class="col-md">
                                         <div class="form-group">
-                                            <label for="surface" class="col-form-label">Superficie</label>
+                                            <label for="surface" class="col-form-label required">Superficie</label>
                                             <input name="surface" type="number" class="form-control" id="surface" required>
                                         </div>
                                         <!--end form-group-->
@@ -81,7 +81,7 @@
                                     <!--end col-md-4-->
                                     <div class="col-md">
                                         <div class="form-group">
-                                            <label for="unit" class="col-form-label">Unité de mesure de la superficie</label>
+                                            <label for="unit" class="col-form-label required">Unité de mesure de la superficie</label>
                                             <select data-enable-search="true" required name="unit" id="unit" data-placeholder="Choisir l'unité de la superificie">
                                                 <option value="">Unité de mesure</option>
                                                 <option value="m2">m2</option>
@@ -91,7 +91,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="searchable-select" class="col-form-label">Département</label>
+                                            <label for="searchable-select" class="col-form-label required">Département</label>
                                             <select required name="department" id="department" data-placeholder="Choisir le département" data-enable-search="true">
                                                 <option value="">Département</option>
                                                 {% for department in departments %}
@@ -107,7 +107,7 @@
                             <div class="col-md">
                                 <div class="form-group">
                                     <label for="city" class="col-form-label required">Ville</label>
-                                    <select required name="city" id="city" data-placeholder="Choisir la ville" disabled data-enable-search="true">
+                                    <select required name="city" id="city" required data-placeholder="Choisir la ville" disabled data-enable-search="true">
                                         <option value="">Ville</option>
                                     </select>
                                 </div>
