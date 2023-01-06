@@ -16,11 +16,13 @@ use Symfony\Component\Mime\BodyRendererInterface;
 
 class NewsLetterController extends AbstractController
 {
-    #[Route('admin/news-letter', name: 'app_news_letter')]
-    public function index(): Response
+    #[Route('admin/favoris-envoyes', name: 'app_news_letter')]
+    public function index(EntityManagerInterface $manager): Response
     {
-        return $this->render('news_letter/index.html.twig', [
-            'controller_name' => 'NewsLetterController',
+        $newLetters = $manager->getRepository(NewsLetter::class)->findAll();
+
+        return $this->render('admin_dashboard/news_letter/news.html.twig', [
+            'newLetters' => $newLetters
         ]);
     }
 
@@ -40,5 +42,20 @@ class NewsLetterController extends AbstractController
         $route = $request->headers->get('referer');
 
         return $this->redirect($route);
+    }
+
+
+    #[Route('/admin/suppression-newsLetter/{id<\d+>}', name: 'delete_newletter')]
+    public function delete(NewsLetter $newLetter, EntityManagerInterface $manager): Response
+    {
+        if ($newLetter) {
+            $manager->remove($newLetter);
+            $manager->flush();
+            $this->addFlash('success', 'Envoi supprimé!');
+            return $this->redirectToRoute('app_news_letter');
+        } else {
+            $this->addFlash('danger', 'Suppression impossible');
+            return $this->redirectToRoute('app_news_letter');
+        }
     }
 }

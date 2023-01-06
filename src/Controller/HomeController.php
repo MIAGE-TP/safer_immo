@@ -32,22 +32,4 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/contact', name: 'contact-us')]
-    public function contact(EntityManagerInterface $manager)
-    {
-        $categories =  $manager->getRepository(GoodCategory::class)->findWithoutDelete();
-        $cities = $manager->getRepository(City::class)->findWithoutDelete();
-        $offerTypes = $manager->getRepository(OfferType::class)->findWithoutDelete();
-        $departments = $manager->getRepository(Department::class)->findWithoutDelete();
-        $goods = $manager->getRepository(Good::class)->findAllForHome();
-
-        return $this->render('public/contact.html.twig', [
-            'categories' => $categories,
-            'cities' => $cities,
-            'offerTypes' => $offerTypes,
-            'departments' => $departments,
-            'goods' => $goods
-        ]);
-    }
-
 }
