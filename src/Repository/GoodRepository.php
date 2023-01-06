@@ -226,6 +226,7 @@ class GoodRepository extends ServiceEntityRepository
     */
     public function search($value): array
     {
+        // dd($value);
         $qb = $this->createQueryBuilder('g');
         $city = $value->get('city');
         $category = $value->get('category');
@@ -282,10 +283,12 @@ class GoodRepository extends ServiceEntityRepository
             $qb->andWhere('g.price BETWEEN :minPrice AND :maxPrice')
                ->setParameter('minPrice', $minPrice)
                ->setParameter('maxPrice', $maxPrice);
-        }elseif ($minPrice != "" && $maxPrice == "") {
+        }
+        if ($minPrice != "" && $maxPrice == "") {
             $qb->andWhere('g.price >= :minPrice')
                ->setParameter('minPrice', $minPrice);
-        }elseif ($maxPrice != "" && $minPrice == "") {
+        }
+        if ($maxPrice != "" && $minPrice == "") {
             $qb->andWhere('g.price <= :maxPrice')
                ->setParameter('maxPrice', $maxPrice);
         }

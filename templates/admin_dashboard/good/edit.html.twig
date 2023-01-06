@@ -14,7 +14,7 @@
                             <div class="col-md">
                                 <div class="form-group">
                                     <label for="category" class="col-form-label">Type d'offre</label>
-                                    <select data-enable-search="true" name="offerType" id="offer_type" data-placeholder="Choisir le type d'offre">
+                                    <select data-enable-search="true" required name="offerType" id="offer_type" data-placeholder="Choisir le type d'offre">
                                         <option value="{{good.getOffertype().id}}">{{good.getOffertype().libelle}}</option>
                                         {% for offerType in offerTypes %}
                                             <option value="{{offerType.id}}">{{offerType.libelle}}</option>
@@ -25,7 +25,7 @@
                             <div class="col-md">
                                 <div class="form-group">
                                     <label for="category" class="col-form-label">Catégorie de bien</label>
-                                    <select data-enable-search="true" name="category" id="category" data-placeholder="Choisir la catégorie de bien">
+                                    <select data-enable-search="true" required name="category" id="category" data-placeholder="Choisir la catégorie de bien">
                                         <option value="{{good.getGoodcategory().id}}">{{good.getGoodcategory().libelle}}</option>
                                         {% for category in categories %}
                                             <option value="{{category.id}}">{{category.libelle}}</option>
@@ -74,7 +74,7 @@
                                     <div class="col-md">
                                         <div class="form-group">
                                             <label for="surface" class="col-form-label">Superficie</label>
-                                            <input name="surface" type="number" class="form-control" id="surface" value="{{good.getSurface()}}">
+                                            <input name="surface" type="number" required class="form-control" id="surface" value="{{good.getSurface()}}">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -82,7 +82,7 @@
                                     <div class="col-md">
                                         <div class="form-group">
                                             <label for="unit" class="col-form-label">Unité de mesure de la superficie</label>
-                                            <select data-enable-search="true" name="unit" id="unit" data-placeholder="Choisir l'unité de la superificie">
+                                            <select data-enable-search="true" required name="unit" id="unit" data-placeholder="Choisir l'unité de la superificie">
                                                 {% if good.getUnit() == "m2"  %}  
                                                     <option value="{{good.getUnit()}}">m2</option>
                                                     <option value="Ha">hectare</option>
