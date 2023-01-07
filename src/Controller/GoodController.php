@@ -33,7 +33,7 @@ class GoodController extends AbstractController
     #[Route('/admin/biens', name: 'goods')]
     public function index(EntityManagerInterface $manager, Request $request, PaginatorInterface $paginator)
     {
-        $donnees = $manager->getRepository(Good::class)->findAllForAdmin();
+        $donnees = $manager->getRepository(Good::class)->findAllWD();
         
         $goods = $paginator->paginate(
             $donnees, // Requête contenant les données à paginer (ici nos articles)
@@ -79,15 +79,17 @@ class GoodController extends AbstractController
         $cities = $manager->getRepository(City::class)->findWithoutDelete();
         $offerTypes = $manager->getRepository(OfferType::class)->findWithoutDelete();
         $departments = $manager->getRepository(Department::class)->findWithoutDelete();
-        
+
         $good = $manager->getRepository(Good::class)->findOneBy(['slug'=> $slug]);
         if ($good) {
+            $goods = $good->getGoodCategory()->getGoods();
             return  $this->render('public/display_good.html.twig', [
                 'good' => $good,
                 'categories' => $categories,
                 'departments' => $departments,
                 'cities' => $cities,
-                'offerTypes' => $offerTypes
+                'offerTypes' => $offerTypes,
+                'samecategory' => $goods
             ]);
         }
     }

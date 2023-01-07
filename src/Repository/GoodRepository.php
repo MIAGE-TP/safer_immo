@@ -215,7 +215,7 @@ class GoodRepository extends ServiceEntityRepository
     /**
     * @return Good[] Returns an array of not deleted Good objects only
     */
-    public function findAllForAdmin(): array
+    public function findAllWD(): array
     {
        return $this->createQueryBuilder('g')
            ->where('g.deletedAt is NULL')
