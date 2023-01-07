@@ -1,0 +1,14 @@
+{% extends 'layouts/error_base.html.twig' %}
+
+{% block page_title %} <h1>Page non trouvée</h1> {% endblock %}
+
+{% block content %}
+
+<div class="col-md">
+    <p class="text-center">
+        La page demandée n'a pas être trouvée. Vérifiez bien l'écriture du lien
+        ou <a href="{{ path('home') }}">retournez à la page d'accueil</a>.
+    </p>
+</div>
+
+{% endblock %}

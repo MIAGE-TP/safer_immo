@@ -280,6 +280,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $tab;
     }
 
+    /**
+     * @return Array of good id with fav only
+     */
     public function getFavGoodIds() : array
     {
        $tab = [];
@@ -289,6 +292,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
        return $tab;
     }
 
+    /**
+     * @return int user fav id matching with a specific good
+     */
     public function getFavId($goodId) : int
     {
         foreach ($this->getFavs() as $fav) {

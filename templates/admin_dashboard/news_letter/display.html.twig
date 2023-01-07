@@ -2,23 +2,14 @@
 
 {% block page_title %}
 
-    {% if user is defined %}
-        <h1> Liste des biens mis en favori par {{user.firstname}} {{user.lastname}}</h1>
-        <p>{{user.email}}</p>
-    {% endif %}
+    <h1> Liste des biens envoyés à {{user.firstname}} {{user.lastname}}</h1>
+    <p>{{user.email}}</p>
+    <p> <strong> Date d'envoi:</strong> {{newLetter.createdAt|date("d/m/Y à H:i:s","Europe/Paris")}}</p>
 
 {% endblock %}
 
 {% block content %}
 <div class="col-md">
-{% include 'layouts/notifications.html.twig' %}
-    <div class="section-title clearfix">
-        <div class="col-md text-center mt-4">
-            <button type="button" id="add-bien" class="small btn btn-primary btn-framed" onclick="javascript:location.href='{{path('send_favs', {id: user.id})}}'">
-                <i class="fa fa-plus"></i>Envoyer ses favoris à l'utilisateur
-            </button>
-        </div>
-    </div>
     <!--============ Items ==========================================================================-->
     <div class="items list compact grid-xl-3-items grid-lg-2-items grid-md-2-items">
         {% for fav in favs %}

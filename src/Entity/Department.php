@@ -130,7 +130,8 @@ class Department
     }
 
     /**
-     * @return Array<int, Good>
+     * @return Array<int, Good> of Goods which have at least one fav
+     * for a department
      */
     public function getGoodsWithFavOnly(): array
     {

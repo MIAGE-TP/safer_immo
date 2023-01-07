@@ -1,0 +1,57 @@
+{% extends 'layouts/admin_base.html.twig' %}
+
+{% block page_title %}
+    <h1>Message reçu</h1>
+    <p>Date de réception: {{contact.createdAt|date("d/m/Y à H:i:s","Europe/Paris")}} </p> 
+{% endblock %}
+
+{% block content %}
+<div class="col-md-9">
+    <h2>Message de {{contact.name}}</h2>
+    <form class="form email">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name" class="col-form-label required">Nom & Prénom</label>
+                    <input name="name" type="text" class="form-control" id="name" placeholder="" readonly value="{{contact.name}}">
+                </div>
+                <!--end form-group-->
+            </div>
+            <!--end col-md-6-->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="email" class="col-form-label required">Adresse Email</label>
+                    <input name="email" type="email" class="form-control" id="email" value="{{contact.email}}" readonly>
+                </div>
+                <!--end form-group-->
+            </div>
+            <!--end col-md-6-->
+        </div>
+        <!--end row-->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="subject" class="col-form-label">Sujet</label>
+                    <input name="subject" type="text" class="form-control" id="subject" value="{{contact.subject}}" readonly>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="category" class="col-form-label">Intéressé(e) par</label>
+                    <input name="category" type="text" class="form-control" id="category" value="{{contact.getCategory().libelle}}" readonly>
+                </div>
+            </div>
+        </div>
+        <!--end form-group-->
+        <div class="form-group">
+            <label for="message" class="col-form-label required">Votre Message</label>
+            <textarea name="message" id="message" class="form-control" rows="4" readonly>{{contact.message}}</textarea>
+        </div>
+        <!--end form-group-->
+    </form>
+    <!--end form-->
+</div>
+<!--end col-md-8 -->
+                    
+{% endblock %}
+

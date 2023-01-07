@@ -37,7 +37,7 @@ class FavController extends AbstractController
         $favs = $paginator->paginate(
             $donnees, // Requête contenant les données à paginer (ici nos articles)
             $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-            1 // Nombre de résultats par page
+            10 // Nombre de résultats par page
         );
         return $this->render('user_dashboard/fav/favs.html.twig', [
             'favs' => $favs

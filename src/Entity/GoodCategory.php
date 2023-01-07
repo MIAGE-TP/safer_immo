@@ -31,10 +31,14 @@ class GoodCategory
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt;
 
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Contact::class)]
+    private Collection $contacts;
+
     public function __construct()
     {
         $this->createdAt = Carbon::now()->toDateTimeImmutable();
         $this->goods = new ArrayCollection();
+        $this->contacts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -62,6 +66,9 @@ class GoodCategory
         return $this->goods;
     }
 
+    /**
+     * @return int number of fav for a given good category
+     */
     public function getFavNumber(): int
     {
         $sum = 0;
@@ -130,7 +137,8 @@ class GoodCategory
     }
 
     /**
-     * @return Array<int, Good>
+     * @return Array<int, Good> of Goods which have at least one fav
+     * for a good category
      */
     public function getGoodsWithFavOnly(): array
     {
@@ -141,5 +149,35 @@ class GoodCategory
             }
         }
         return $tab;
+    }
+
+    /**
+     * @return Collection<int, Contact>
+     */
+    public function getContacts(): Collection
+    {
+        return $this->contacts;
+    }
+
+    public function addContact(Contact $contact): self
+    {
+        if (!$this->contacts->contains($contact)) {
+            $this->contacts->add($contact);
+            $contact->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContact(Contact $contact): self
+    {
+        if ($this->contacts->removeElement($contact)) {
+            // set the owning side to null (unless already changed)
+            if ($contact->getCategory() === $this) {
+                $contact->setCategory(null);
+            }
+        }
+
+        return $this;
     }
 }

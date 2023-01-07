@@ -40,7 +40,7 @@ class CityRepository extends ServiceEntityRepository
     }
 
     /**
-    * @return Department[] Returns an array of not deleted Department objects only
+    * @return City[] Returns an array of not deleted City objects only
     */
     public function findWithoutDelete(): array
     {
