@@ -63,14 +63,14 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="subject" class="col-form-label">Sujet</label>
-                                            <input name="subject" type="text" class="form-control" id="subject" placeholder="Sujet">
+                                            <label for="subject required" class="col-form-label">Sujet</label>
+                                            <input required name="subject" type="text" class="form-control" id="subject" placeholder="Sujet">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="category" class="col-form-label">Quel type de bien cherchez-vous?</label>
-                                        <select name="category" id="category" data-placeholder="Choisir une catégorie de bien" data-enable-search="true">
+                                        <label for="category required" class="col-form-label">Quel type de bien cherchez-vous?</label>
+                                        <select required name="category" id="category" data-placeholder="Choisir une catégorie de bien" data-enable-search="true">
                                             <option value="">Catégorie de bien</option>
                                             {% for category in categories %}
                                                 <option value="{{category.id}}">{{category.libelle}}</option>

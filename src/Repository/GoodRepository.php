@@ -46,6 +46,7 @@ class GoodRepository extends ServiceEntityRepository
         }
     }
 
+    //insert a new good
     public function insert($request, $manager, $slugger, $dir)
     {
         $data = $request->request;
@@ -84,7 +85,7 @@ class GoodRepository extends ServiceEntityRepository
         $this->save($good, true);
 
         $files = $request->files->get('files');
-
+        // add a good's pictures
         if ($files) {
             foreach ($files as $file) {
                 $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -109,6 +110,7 @@ class GoodRepository extends ServiceEntityRepository
         }
     }
 
+    //update an existing good
     public function update($request, $manager, $slugger, $dir)
     {
         $data = $request->request;
@@ -147,6 +149,7 @@ class GoodRepository extends ServiceEntityRepository
         $good->setUpdatedAt(Carbon::now()->toDateTimeImmutable());
         $this->save($good, true);
 
+        //Remove from db pictures chosen to be deleted by the user when updating a good
         if ($data->all('deleted')[0] != null) {
             $filestoDelete = explode(',', $data->all('deleted')[0]);
             foreach ($filestoDelete as $fileToDel) {
@@ -157,7 +160,7 @@ class GoodRepository extends ServiceEntityRepository
         }
 
         $files = $request->files->get('files');
-
+        // add a good's pictures
         if ($files) {
             foreach ($files as $file) {
                 $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -197,7 +200,7 @@ class GoodRepository extends ServiceEntityRepository
     }
 
     /**
-    * @return Good[] Returns an array of not deleted Good objects only
+    * @return Good[] Returns an array of not deleted Good objects only for homepage
     */
     public function findAllForHome(): array
     {
@@ -222,11 +225,10 @@ class GoodRepository extends ServiceEntityRepository
     }
 
     /**
-    * @return Good[] Returns an array of not deleted Good objects only
+    * @return Good[] Finds and returns an array of not deleted Good objects only
     */
     public function search($value): array
     {
-        // dd($value);
         $qb = $this->createQueryBuilder('g');
         $city = $value->get('city');
         $category = $value->get('category');

@@ -3,60 +3,71 @@
 {% block page_title %} <h1> Mon profil</h1> {% endblock %}
 
 {% block content %}
-<div class="col-md-9">
-    <form class="form">
-        <div class="row">
-            <div class="col-md-8">
-                <h2>Informations personnelles</h2>
-                <section>
-                    {% include 'layouts/notifications.html.twig' %}
-                    <div class="row">
-                        <div class="col-md">
-                            <div class="form-group">
-                                <label for="lastname" class="col-form-label required">Nom</label>
-                                <input name="lastname" type="text" class="form-control" id="lastname" placeholder="Votre nom" value="{{app.user.lastname}}" required>
+{% if app.user.lastname is defined %}
+    <div class="col-md-9">
+        <form class="form">
+            <div class="row">
+                <div class="col-md-8">
+                    <h2>Informations personnelles</h2>
+                    <section>
+                        {% include 'layouts/notifications.html.twig' %}
+                        <div class="row">
+                            <div class="col-md">
+                                <div class="form-group">
+                                    <label for="lastname" class="col-form-label required">Nom</label>
+                                    <input name="lastname" type="text" class="form-control" id="lastname" placeholder="Votre nom" value="{{app.user.lastname}}" required>
+                                </div>
+                                <!--end form-group-->
                             </div>
-                            <!--end form-group-->
+                            <!--end col-md-8-->
                         </div>
-                        <!--end col-md-8-->
-                    </div>
-                    <div class="row">
-                        <div class="col-md">
-                            <div class="form-group">
-                                <label for="firstname" class="col-form-label required">Prénom(s)</label>
-                                <input name="firstname" type="text" class="form-control" id="firstname" placeholder="Prénom(s)" value="{{app.user.firstname}}" required>
+                        <div class="row">
+                            <div class="col-md">
+                                <div class="form-group">
+                                    <label for="firstname" class="col-form-label required">Prénom(s)</label>
+                                    <input name="firstname" type="text" class="form-control" id="firstname" placeholder="Prénom(s)" value="{{app.user.firstname}}" required>
+                                </div>
+                                <!--end form-group-->
                             </div>
-                            <!--end form-group-->
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md">
-                            <div class="form-group">
-                            <label for="email" class="col-form-label">Email</label>
-                            <input name="email" type="email" class="form-control" id="email" placeholder="Your Email" value="{{app.user.email}}">
+                        <div class="row">
+                            <div class="col-md">
+                                <div class="form-group">
+                                <label for="email" class="col-form-label">Email</label>
+                                <input name="email" type="email" class="form-control" id="email" placeholder="Your Email" value="{{app.user.email}}">
+                            </div>
+                            </div>
                         </div>
+                        <!--end row-->
+                    </section>
+                    <section class="clearfix">
+                        <button type="submit" class="btn btn-primary float-right">Enregistrer</button>
+                    </section>
+                </div>
+                <!--end col-md-8-->
+                <div class="col-md-4">
+                    <div class="profile-image">
+                        <div class="image background-image">
+                            <img src="{{asset('./assets/img/author-09.jpg')}}" alt="">
                         </div>
-                    </div>
-                    <!--end row-->
-                </section>
-                <section class="clearfix">
-                    <button type="submit" class="btn btn-primary float-right">Enregistrer</button>
-                </section>
-            </div>
-            <!--end col-md-8-->
-            <div class="col-md-4">
-                <div class="profile-image">
-                    <div class="image background-image">
-                        <img src="{{asset('./assets/img/author-09.jpg')}}" alt="">
-                    </div>
-                    <div class="single-file-input">
-                        <input type="file" id="user_image" name="user_image">
-                        <div class="btn btn-framed btn-primary small">Mettre une Photo de profil</div>
+                        <div class="single-file-input">
+                            <input type="file" id="user_image" name="user_image">
+                            <div class="btn btn-framed btn-primary small">Mettre une Photo de profil</div>
+                        </div>
                     </div>
                 </div>
+                <!--end col-md-4-->
             </div>
-            <!--end col-md-4-->
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
+{% else %}
+    
+    <p class="text-center">
+        Un changement a été effectué sur les paramètres de votre compte par les administrateurs.<br>
+        Merci de vous reconnecter.<br>
+        <button type="button" id="add-bien" class="small width-200px btn btn-primary btn-framed mt-4" onclick="javascript:location.href='{{path('app_login')}}'">
+            <i class="fa fa-plus"></i>Me reconnecter
+        </button>
+    </p>
+{% endif %}
 {% endblock %}

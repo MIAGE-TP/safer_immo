@@ -66,6 +66,9 @@ class GoodCategory
         return $this->goods;
     }
 
+    /**
+     * @return int number of fav for a given good category
+     */
     public function getFavNumber(): int
     {
         $sum = 0;
@@ -134,7 +137,8 @@ class GoodCategory
     }
 
     /**
-     * @return Array<int, Good>
+     * @return Array<int, Good> of Goods which have at least one fav
+     * for a good category
      */
     public function getGoodsWithFavOnly(): array
     {

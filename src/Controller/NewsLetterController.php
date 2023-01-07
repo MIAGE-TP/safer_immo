@@ -7,11 +7,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
+use App\Entity\Good;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\Mailer;
-use Carbon\Carbon;
 use Symfony\Component\Mime\BodyRendererInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 
 class NewsLetterController extends AbstractController
@@ -56,6 +57,31 @@ class NewsLetterController extends AbstractController
         } else {
             $this->addFlash('danger', 'Suppression impossible');
             return $this->redirectToRoute('app_news_letter');
+        }
+    }
+
+    #[Route('/admin/afficher-les-favoris-envoyes/{id<\d+>}', name: 'favs_sent')]
+    public function favSent(NewsLetter $newLetter, EntityManagerInterface $manager, PaginatorInterface $paginator, Request $request): Response
+    {
+        if ($newLetter) {
+            $tab = $newLetter->getFav();
+            
+            $donnees = [];
+            foreach ($tab as $donnee) {
+                $good = $manager->getRepository(Good::class)->find($donnee);
+                array_push($donnees, $good);
+            }
+            $favs = $paginator->paginate(
+                $donnees, // Requête contenant les données à paginer (ici nos articles)
+                $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                10 // Nombre de résultats par page
+            );
+
+            return $this->render('admin_dashboard/news_letter/display.html.twig', [
+                'favs' => $favs,
+                'user' => $newLetter->getUser(),
+                'newLetter' => $newLetter
+            ]);
         }
     }
 }

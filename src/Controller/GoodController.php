@@ -38,7 +38,7 @@ class GoodController extends AbstractController
         $goods = $paginator->paginate(
             $donnees, // Requête contenant les données à paginer (ici nos articles)
             $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-            1 // Nombre de résultats par page
+            10 // Nombre de résultats par page
         );
         return $this->render('admin_dashboard/good/goods.html.twig', [
             'goods' => $goods

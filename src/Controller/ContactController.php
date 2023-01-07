@@ -6,16 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\GoodCategory;
 use App\Entity\OfferType;
 use App\Entity\City;
 use App\Entity\Contact;
 use App\Entity\Department;
-use App\Entity\Good;
 use App\Repository\ContactRepository;
-use Carbon\Carbon;
 
 class ContactController extends AbstractController
 {
@@ -54,7 +51,9 @@ class ContactController extends AbstractController
         $manager->flush();
         
         $this->addFlash('success', 'Message envoyé!');
-        return $this->redirectToRoute('contact-us');
+        $route = $request->headers->get('referer');
+
+        return $this->redirect($route);
     }
 
     #[Route('/admin/contacts', name: 'contacts')]
@@ -67,20 +66,11 @@ class ContactController extends AbstractController
     }
 
     #[Route('/admin/affichage-message/{id<\d+>}', name: 'display_message')]
-    public function display(Contact $contact, EntityManagerInterface $manager): Response
+    public function display(Contact $contact): Response
     {
         if ($contact) {
-            $categories =  $manager->getRepository(GoodCategory::class)->findWithoutDelete();
-            $cities = $manager->getRepository(City::class)->findWithoutDelete();
-            $offerTypes = $manager->getRepository(OfferType::class)->findWithoutDelete();
-            $departments = $manager->getRepository(Department::class)->findWithoutDelete();
-    
             return $this->render('admin_dashboard/contact/display.html.twig', [
-                'contact' => $contact,
-                'categories' => $categories,
-                'cities' => $cities,
-                'offerTypes' => $offerTypes,
-                'departments' => $departments,
+                'contact' => $contact
             ]);
         }
     }

@@ -20,6 +20,7 @@
 {% endblock %}
 
 {% block content %}
+{% include 'layouts/notifications.html.twig' %}
 <div class="row">
     <div class="col-md-9">
         <!--Gallery Carousel-->
@@ -104,20 +105,22 @@
                  <h3 class="text-center">Interessé(e)? Contactez-nous</h3>
                  <hr>
                 <!--end author-->
-                <form class="form email">
+                <form class="form email" method="POST" action="{{path('store_contact')}}">
                     <div class="form-group">
-                        <label for="name" class="col-form-label">Nom et Prénom</label>
-                        <input name="name" type="text" class="form-control" id="name" placeholder="Votre nom et prénom">
+                        <label for="name required" class="col-form-label">Nom & Prénom</label>
+                        <input name="name" required type="text" class="form-control" id="name" placeholder="Jonh Doe">
                     </div>
                     <!--end form-group-->
                     <div class="form-group">
-                        <label for="email" class="col-form-label">Email</label>
-                        <input name="email" type="email" class="form-control" id="email" placeholder="Votre adresse mail">
+                        <label for="email required" class="col-form-label">Email</label>
+                        <input name="email" required type="email" class="form-control" id="email" placeholder="Votre Email">
                     </div>
                     <!--end form-group-->
                     <div class="form-group">
                         <label for="message" class="col-form-label">Message</label>
-                        <textarea name="message" id="message" class="form-control" rows="4" placeholder="Salut SAFER! Je suis interessé(e) par offre numéro {{good.getId()}}. Veuillez me donner plus de détails."></textarea>
+                        <input required name="subject" type="hidden" class="form-control" id="subject" value="Votre offre #{{good.getId()}}">
+                        <input name="category" type="hidden" class="form-control" id="category" value="{{good.getGoodcategory().id}}">
+                        <textarea name="message" id="message" class="form-control" rows="4"></textarea>
                     </div>
                     <!--end form-group-->
                     <button type="submit" class="btn btn-primary">Envoyer</button>

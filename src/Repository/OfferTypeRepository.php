@@ -46,29 +46,4 @@ class OfferTypeRepository extends ServiceEntityRepository
     {
        return $this->createQueryBuilder('o')->where('o.deletedAt is NULL')->getQuery()->getResult();
     }
-
-//    /**
-//     * @return OfferType[] Returns an array of OfferType objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('o.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?OfferType
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

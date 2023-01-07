@@ -36,7 +36,7 @@
                                     </td>
                                     <td>{{newLetter.createdAt|date("d/m/Y à H:i:s","Europe/Paris")}}</td>
                                     <td class="text-center"> 
-                                        <a class="ml-2" href="{{ path('user_fav_goods', {id: newLetter.getUser().id}) }}" data-toggle="tooltip" data-original-title="Consulter"><i class="fa fa-eye"></i></a>
+                                        <a class="ml-2" href="{{ path('favs_sent', {id: newLetter.id}) }}" data-toggle="tooltip" data-original-title="Consulter"><i class="fa fa-eye"></i></a>
                                         <a class="ml-2" href="{{ path('delete_newletter', {id: newLetter.id}) }}" data-toggle="tooltip" data-original-title="Supprimer"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
