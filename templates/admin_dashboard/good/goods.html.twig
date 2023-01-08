@@ -36,7 +36,13 @@
                     <h4 class="location">
                         <a href="#">{{good.getLocalisation()|u.truncate(60, '...')}}</a>
                     </h4>
-                    <div class="price">{{good.getPrice()}} €</div>
+                    <div class="price">
+                        {% if good.getPrice() == 0 %}
+                            {{'Contactez-nous'}}
+                        {% else %} 
+                            {{good.getPrice()}} €
+                        {% endif %}
+                    </div>
                     <div class="admin-controls">
                         <a href="{{ path('edit_good', {id: good.id}) }}">
                             <i class="fa fa-pencil"></i>Modifier

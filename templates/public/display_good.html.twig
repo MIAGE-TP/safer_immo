@@ -11,7 +11,13 @@
         </h4>
     </div>
     <div class="float-right float-xs-none price">
-        <div class="number">{{good.getPrice()}} €</div>
+        <div class="number">
+            {% if good.getPrice() == 0 %}
+                {{'Contactez-nous'}}
+            {% else %} 
+                {{good.getPrice()}} €
+            {% endif %}
+        </div>
         <div class="id opacity-50">
             <strong>ID: </strong>{{good.getId()}}
         </div>
@@ -158,7 +164,13 @@
                                     <h4 class="location">
                                         <a href="#">{{same.getCity().name|u.truncate(60, '...')}}</a>
                                     </h4>
-                                    <div class="price">{{same.getPrice()}}€</div>
+                                    <div class="price">
+                                        {% if same.getPrice() == 0 %}
+                                            {{'Contactez-nous'}}
+                                        {% else %} 
+                                            {{same.getPrice()}} €
+                                        {% endif %}
+                                    </div>
                                     <div class="meta">
                                         <figure>
                                             <i class="fa fa-calendar-o"></i>{{same.createdAt|date("d/m/Y","Europe/Paris")}}

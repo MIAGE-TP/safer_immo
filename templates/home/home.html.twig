@@ -32,7 +32,13 @@
                             <h4 class="location">
                                 <a href="#">{{good.getCity().name|u.truncate(60, '...')}}</a>
                             </h4>
-                            <div class="price">{{good.getPrice()}}€</div>
+                            <div class="price">
+                                {% if good.getPrice() == 0 %}
+                                    {{'Contactez-nous'}}
+                                {% else %} 
+                                    {{good.getPrice()}} €
+                                {% endif %}
+                            </div>
                             <div class="meta">
                                 <figure>
                                     <i class="fa fa-calendar-o"></i>{{good.createdAt|date("d/m/Y","Europe/Paris")}}
@@ -239,7 +245,13 @@
                             <h4 class="location">
                                 <a href="#">{{good.getCity().name|u.truncate(60, '...')}}</a>
                             </h4>
-                            <div class="price">{{good.getPrice()}}€</div>
+                            <div class="price">
+                                {% if good.getPrice() == 0 %}
+                                    {{'Contactez-nous'}}
+                                {% else %} 
+                                    {{good.getPrice()}} €
+                                {% endif %}
+                            </div>
                             <div class="meta">
                                 <figure>
                                     <i class="fa fa-calendar-o"></i>{{good.createdAt|date("d/m/Y","Europe/Paris")}}

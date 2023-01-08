@@ -33,7 +33,13 @@
                     <h4 class="location">
                         <a href="#">{{fav.getGood().getLocalisation()}}</a>
                     </h4>
-                    <div class="price">{{fav.getGood().getPrice()}} €</div>
+                    <div class="price">
+                        {% if fav.getGood().getPrice() == 0 %}
+                            {{'Contactez-nous'}}
+                        {% else %} 
+                            {{fav.getGood().getPrice()}} €
+                        {% endif %}
+                    </div>
                     <div class="admin-controls">
                         <a href="{{ path('remove_fav', {id: fav.id}) }}" class="ad-remove">
                             <i class="fa fa-trash"></i>Retirer

@@ -37,7 +37,13 @@
                     <h4 class="location">
                         <a href="#">{{fav.getLocalisation()}}</a>
                     </h4>
-                    <div class="price">{{fav.getPrice()}} €</div>
+                    <div class="price">
+                        {% if fav.getPrice() == 0 %}
+                            {{'Contactez-nous'}}
+                        {% else %} 
+                            {{fav.getPrice()}} €
+                        {% endif %}
+                    </div>
                     <div class="admin-controls">
                         <a href="#" class="ad-remove">
                             Bien #{{fav.id}}
