@@ -23,27 +23,17 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        // for ($i= 0; $i < 50; $i++) {
-        //     $category = new GoodCategory();
-        //     $category->setLibelle($this->faker->word());
 
-        //     $manager->persist($category);
-        // }
-
-        // for ($i= 0; $i < 50; $i++) {
-        //     $offerType = new OfferType();
-        //     $offerType->setLibelle($this->faker->sentence());
-
-        //     $manager->persist($offerType);
-        // }
-
+        // load department
         for ($i= 0; $i < 100; $i++) {
             $department = new Department();
             $department->setName($this->faker->departmentName());
 
             $manager->persist($department);
         }
+        // load department end
 
+        // load default admin user
         $admin = [
             [
                 'email' => 'admin@safer.com',
@@ -63,7 +53,39 @@ class AppFixtures extends Fixture
         $user->setIsVerified($admin[0]['isVerfied']);
         $user->setPassword($admin[0]['password']);
         $manager->persist($user);
-        
+        // load default admin user end
+
+        // load offerType
+        $offerTypes = [
+            ['libelle' => 'Location'],
+            ['libelle' => 'Vente']
+        ];
+
+        for ($i= 0; $i < count($offerTypes); $i++) {
+            $offerType = new OfferType();
+            $offerType->setLibelle($offerTypes[$i]['libelle']);
+
+            $manager->persist($offerType);
+        }
+        // loaf offertType end
+
+        //load goodCategory
+        $goodCategories = [
+            ['libelle' => 'Terrain agricole'],
+            ['libelle' => 'Prairie'],
+            ['libelle' => 'Bois'],
+            ['libelle' => 'Bâtiments'],
+            ['libelle' => 'Exploitations'],
+        ];
+        for ($i= 0; $i < count($goodCategories); $i++) {
+            $category = new GoodCategory();
+            $category->setLibelle($goodCategories[$i]['libelle']);
+
+            $manager->persist($category);
+        }
+        //load goodCategory end
+
+
         $manager->flush();
     }
 }
