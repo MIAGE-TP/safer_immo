@@ -4,11 +4,11 @@ TP web
 
 1- create a .env file
 
-2- set in .env according to the given exmaple in .env.test file
+2- set in .env according to the given example in .env.test file
 
-3- composer install
+3- run composer install
 
-4-  run doctrine:database:create after seeting up the DATABASE_URL
+4- run doctrine:database:create after seeting up the DATABASE_URL
 
 5- run doctrine:migrations:migrate
 
