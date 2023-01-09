@@ -1,4 +1,5 @@
- {% for label, messages in app.flashes(['danger', 'success']) %}
+{# Used to display notifications sent using the addFlash method in controllers #}
+{% for label, messages in app.flashes(['danger', 'success']) %}
     {% for message in messages %}
         <div class="alert alert-{{label}} alert-dismissible fade show text-center" role="alert">
             {{ message }}

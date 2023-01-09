@@ -17,6 +17,9 @@ use Knp\Component\Pager\PaginatorInterface;
 
 class CityController extends AbstractController
 {
+    /*
+    display all cities
+    */
     #[Route('/admin/villes', name: 'cities')]
     public function index(CityRepository $repository): Response
     {
@@ -26,6 +29,9 @@ class CityController extends AbstractController
         ]);
     }
 
+    /* each city relied on a specific departmeny. So to add a new city, we load
+    all departments so that the admin can select the department for which to add a new city
+    */
     #[Route('/admin/ajout-ville', name: 'add_city')]
     public function new(DepartmentRepository $departmentRepository): Response
     {
@@ -35,6 +41,10 @@ class CityController extends AbstractController
         ]);
     }
 
+    /*
+    addFlash method is used to broadcast notifications with specific message on views
+    after adding a new city
+    */
     #[Route('/admin/store-ville', name: 'store_city', methods:['GET','POST'])]
     public function store(Request $request, EntityManagerInterface $manager): Response
     {
@@ -53,6 +63,9 @@ class CityController extends AbstractController
         return $this->redirectToRoute('cities');
     }
 
+    /**
+     * dipslay the form used to edit a city
+     */
     #[Route('/admin/modification-ville/{id<\d+>}', name: 'edit_city')]
     public function edit(City $city, DepartmentRepository $departmentRepository): Response
     {
@@ -62,13 +75,12 @@ class CityController extends AbstractController
                 'city' => $city,
                 'departments' => $departments
             ]);
-        }else {
-            throw $this->createNotFoundException(
-                "Aucune ville ne correspond à l'id ".$city->getId()
-            );
         }
     }
 
+    /**
+     * udpate a city adn its details
+     */
     #[Route('/admin/update-city/', name: 'update_city')]
     public function update(Request $request, EntityManagerInterface $manager): Response
     {
@@ -90,20 +102,21 @@ class CityController extends AbstractController
             return $this->redirectToRoute('cities');
 
         }else {
-            throw $this->createNotFoundException(
-                "Erreur lors de la modification, merci de réessayer."
-            );
+            $this->addFlash('danger', 'Erreur lors de la modification, merci de réessayer.');
+            return $this->redirectToRoute('cities');
         }
     }
 
+    /**
+     * destroy a specific city using its id
+     */
     #[Route('/admin/suppression-ville/{id<\d+>}', name: 'delete_city')]
     public function delete(City $city, EntityManagerInterface $manager): Response
     {
         if ($city) {
             if (($city->getGoods()->count()) > 0) {
-                throw $this->createNotFoundException(
-                    "Supression impossible, cette ville est liée à plusieurs offres immobilières."
-                );
+                $this->addFlash('danger', 'Supression impossible, cette ville est liée à plusieurs offres immobilières.');
+                return $this->redirectToRoute('cities');
             }else {
                 $city->setDeletedAt(Carbon::now()->toDateTimeImmutable());
                 $manager->flush();
@@ -114,6 +127,9 @@ class CityController extends AbstractController
     }
 
 
+    /**
+     * display all the goods in favorites for a specific city using its id
+     */
     #[Route('/admin/afficher-les-favoris-par-ville/{id<\d+>}', name: 'display_city_fav_goods')]
     public function displayCityWithFavGoods(City $city, PaginatorInterface $paginator, Request $request): Response
     {
@@ -133,3 +149,4 @@ class CityController extends AbstractController
         }
     }
 }
+

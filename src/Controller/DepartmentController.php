@@ -18,6 +18,9 @@ use Knp\Component\Pager\PaginatorInterface;
 
 class DepartmentController extends AbstractController
 {
+    /*
+    display all departments
+    */
     #[Route('/admin/departements', name: 'departments')]
     public function index(DepartmentRepository $repository): Response
     {
@@ -27,6 +30,9 @@ class DepartmentController extends AbstractController
         ]);
     }
 
+    /*
+    display the form to add a new departement
+    */
     #[Route('/admin/ajout-departement', name: 'add_department')]
     public function new(): Response
     {
@@ -35,6 +41,9 @@ class DepartmentController extends AbstractController
         ]);
     }
 
+    /*
+    save the new department
+    */
     #[Route('/admin/store-departement', name: 'store_department', methods:['GET','POST'])]
     public function store(Request $request, EntityManagerInterface $manager): Response
     {
@@ -50,6 +59,9 @@ class DepartmentController extends AbstractController
         return $this->redirectToRoute('departments');
     }
     
+    /*
+        display the form to update a specific department
+    */
     #[Route('/admin/modification-departement/{id<\d+>}', name: 'edit_department')]
     public function edit(Department $department): Response
     {
@@ -64,6 +76,9 @@ class DepartmentController extends AbstractController
         }
     }
 
+    /*
+        upate a specific department adn its details
+    */
     #[Route('/admin/update-departement/', name: 'update_department')]
     public function update(Request $request, EntityManagerInterface $manager): Response
     {
