@@ -105,6 +105,10 @@ class DepartmentController extends AbstractController
         }
     }
 
+    /* Ajax request handler to load cities according to a selected department and return a serialized json response
+     containing only the needed data. We used groups to define which data to send back in the response.
+     Only the fields having the annotation with group main in the City entity is going to be taken.
+    */
     #[Route('/ajax-location', name: 'ajax_location')]
     public function loadCities(Request $request, EntityManagerInterface $manager, SerializerInterface $serializer)
     {
