@@ -37,6 +37,9 @@ class RegistrationController extends AbstractController
                         $req->get('password')
                     )
                 );
+                if ($req->all('role') != null) {
+                    $user->setRoles($req->all('role'));
+                }
                 $user->setFirstname($req->get('firstname'));
                 $user->setLastname($req->get('lastname'));
 

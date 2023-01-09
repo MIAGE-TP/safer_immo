@@ -10,6 +10,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\PaginatorInterface;
+use App\Service\Mailer;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 
@@ -22,6 +24,14 @@ class UserController extends AbstractController
         $users = $manager->getRepository(User::class)->findWithoutDelete();
         return $this->render('admin_dashboard/user/users.html.twig', [
             'users' => $users
+        ]);
+    }
+
+    #[Route('/admin/ajout-utilisateur/', name: 'add_user')]
+    public function add(): Response
+    {
+        return  $this->render('admin_dashboard/user/add.html.twig', [
+            'controller_name' => 'UserController'
         ]);
     }
 
@@ -78,5 +88,66 @@ class UserController extends AbstractController
                 'user' => $user
             ]);
         }
+    }
+
+    #[Route('/mot-de-passe-oublie', name: 'forgotten_password')]
+    public function forgottenPass(): Response
+    {
+        return  $this->render('security/forgotten_password.html.twig', [
+            'controller_name' => 'UserController'
+        ]);
+    }
+
+    #[Route('/update-password', name: 'reset_password', methods:['GET','POST'])]
+    public function resetPassword(Request $request, EntityManagerInterface $manager, Mailer $mailer)
+    {
+        $req = $request->request;
+        $user = $manager->getRepository(User::class)->findOneBy(['email' => $req->get('email')]);
+        if ($user) {
+            $user->setToken($this->generateToken());
+            $manager->persist($user);
+            $manager->flush();
+            $mailer->sendResetPasswordEmail($user->getEmail(), $user->getToken());
+            $this->addFlash("success", "Un mail a été envoyé à votre boîte, veuillez le consulter.");
+            return $this->redirectToRoute('forgotten_password');
+        }
+    }
+
+    #[Route('/reset/password/{token}', name: 'new_password')]
+    public function verifyUserEmail(Request $request, EntityManagerInterface $manager): Response
+    {
+        $token = $request->attributes->get('token');
+        $user = $manager->getRepository(User::class)->findByToken($token);
+
+        if ($user) {
+            return  $this->render('security/new_password.html.twig', [
+                'user' => $user
+            ]);
+        }
+    }
+
+    #[Route('/nouveau-mot-de-passe', name: 'brand_new_password')]
+    public function newPassword(Request $request, EntityManagerInterface $manager,  UserPasswordHasherInterface $userPasswordHasher)
+    {
+        $req = $request->request;
+        $user = $manager->getRepository(User::class)->find($req->get('user'));
+        if ($user) {
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $req->get('password')
+                )
+            );
+            $user->setUpdatedAt(Carbon::now()->toDateTimeImmutable());
+            $manager->persist($user);
+            $manager->flush();
+            $this->addFlash('success', 'Mot de passe modifié!');
+            return $this->redirectToRoute('app_login');
+        }
+    }
+
+    private function generateToken()
+    {
+        return rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
     }
 }

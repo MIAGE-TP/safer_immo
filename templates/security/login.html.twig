@@ -26,7 +26,7 @@
         </div>
         <!--end form-group-->
         <div class="form-group">
-            <label for="password" class="col-form-label required">Password</label>
+            <label for="password" class="col-form-label required">Mot de passe</label>
             <input name="password" type="password" class="form-control" id="password" placeholder="Password" required>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         </div>
@@ -42,7 +42,7 @@
     <hr>
     <div class="clearfix">
         <p class="float-left">
-            Mot de passe oublié? <a href="#" class="link">Cliquez ici.</a>
+            Mot de passe oublié? <a href="{{path('forgotten_password')}}" class="link">Cliquez ici.</a>
         </p>
         <p class="float-right">
             Première Connexion? <a href="{{path('app_register')}}" class="link">Cliquez ici.</a>

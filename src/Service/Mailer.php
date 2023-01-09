@@ -80,4 +80,23 @@ class Mailer
 
         $this->mailer->send($email);
     }
+
+    public function sendResetPasswordEmail($mail, $token)
+    {
+        $email = (new TemplatedEmail())
+            ->from(new Address('info@safer.com', 'Safer Immobilier'))
+            ->to($mail)
+            ->subject('Mise à jour de votre mot de passe')
+
+            // path of the Twig template to render
+            ->htmlTemplate('security/mail.html.twig')
+
+            // pass variables (name => value) to the template
+            ->context([
+                'token' => $token,
+            ])
+        ;
+
+        $this->mailer->send($email);
+    }
 }
