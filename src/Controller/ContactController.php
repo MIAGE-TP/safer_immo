@@ -16,6 +16,10 @@ use App\Repository\ContactRepository;
 
 class ContactController extends AbstractController
 {
+    /*
+    load categories, cities, offerTypes, departments as the multi crtiteria form displayed on contact page
+    use them
+    */
     #[Route('/contact', name: 'contact-us')]
     public function contact(EntityManagerInterface $manager)
     {
@@ -32,6 +36,9 @@ class ContactController extends AbstractController
         ]);
     }
 
+    /*
+    save a message sent from the contact page
+    */
     #[Route('/store-contact', name: 'store_contact')]
     public function store(Request $request, EntityManagerInterface $manager):Response
     {
@@ -56,6 +63,9 @@ class ContactController extends AbstractController
         return $this->redirect($route);
     }
 
+    /*
+    display all messages received from contact page
+    */
     #[Route('/admin/contacts', name: 'contacts')]
     public function index(ContactRepository $repository): Response
     {
@@ -65,6 +75,9 @@ class ContactController extends AbstractController
         ]);
     }
 
+    /*
+    display a specific  message and its details
+    */
     #[Route('/admin/affichage-message/{id<\d+>}', name: 'display_message')]
     public function display(Contact $contact): Response
     {
@@ -75,6 +88,9 @@ class ContactController extends AbstractController
         }
     }
 
+    /*
+    destroy a specific  message and its details
+    */
     #[Route('/admin/suppression-message/{id<\d+>}', name: 'delete_message')]
     public function delete(Contact $contact, EntityManagerInterface $manager): Response
     {
@@ -83,7 +99,6 @@ class ContactController extends AbstractController
             $manager->flush();
             $this->addFlash('success', 'Message supprimé!');
             return $this->redirectToRoute('contacts');
-            
         }
     }
 }
