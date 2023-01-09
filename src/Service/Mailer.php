@@ -58,4 +58,26 @@ class Mailer
 
         $this->mailer->send($email);
     }
+
+    public function sendPropser($prosper, $good, $bodyRenderer)
+    {
+        $email = (new TemplatedEmail())
+            ->from(new Address('info@safer.com', 'Safer Immobilier'))
+            ->to($prosper->getEmail())
+            ->subject('Cette offre pourrait vous intéresser')
+
+            // path of the Twig template to render
+            ->htmlTemplate('mail/prosper.html.twig')
+
+            // pass variables (name => value) to the template
+            ->context([
+                'name' => $prosper->getName(),
+                'good' => $good
+            ])
+        ;
+
+        $bodyRenderer->render($email);
+
+        $this->mailer->send($email);
+    }
 }
