@@ -7,8 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Carbon\Carbon;
+use App\EntityListener\GoodListener;
 
 #[ORM\Entity(repositoryClass: GoodRepository::class)]
+#[ORM\EntityListeners([GoodListener::class])]
 class Good
 {
     #[ORM\Id]

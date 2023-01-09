@@ -10,15 +10,19 @@ use App\Entity\OfferType;
 use App\Entity\User;
 use Faker\Factory;
 use Faker\Generator;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 
 
 class AppFixtures extends Fixture
 {
     private Generator $faker;
+    private UserPasswordHasherInterface $hasher;
 
-    public function __construct()
+    public function __construct(UserPasswordHasherInterface $hasher)
     {
         $this->faker = Factory::create('fr_FR');
+        $this->hasher = $hasher;
     }
 
     public function load(ObjectManager $manager): void
@@ -34,24 +38,13 @@ class AppFixtures extends Fixture
         // load department end
 
         // load default admin user
-        $admin = [
-            [
-                'email' => 'admin@safer.com',
-                'role' => ["ROLE_ADMIN"],
-                'firstname' => 'safer',
-                'lastname' => 'safer',
-                'isVerfied' => 1,
-                'password' => '$2y$13$NdLB1IlFY6YKoScPi7bWh.h3kXy7A3p.2JxLjZyXYXKF1qc2xO96C'
-            ]
-        ];
-
         $user = new User();
-        $user->setEmail($admin[0]['email']);
-        $user->setRoles($admin[0]['role']);
-        $user->setFirstname($admin[0]['firstname']);
-        $user->setLastname($admin[0]['lastname']);
-        $user->setIsVerified($admin[0]['isVerfied']);
-        $user->setPassword($admin[0]['password']);
+        $user->setEmail('admin@safer.com');
+        $user->setRoles(["ROLE_ADMIN"]);
+        $user->setFirstname('safer');
+        $user->setLastname('safer');
+        $user->setIsVerified(1);
+        $user->setPassword($this->hasher->hashPassword($user, 'Password'));
         $manager->persist($user);
         // load default admin user end
 
