@@ -142,6 +142,7 @@
             <section>
                 <h2 class="text-center">Offres similaires</h2>
                 <div class="items compact">
+                   <!--To only choose the first three goods of same category as the displayed one-->
                    {% for same in samecategory[:3] %}
                         {% if same.id != good.id %}
                             <div class="item">
@@ -200,6 +201,8 @@
 {% endblock %}
 
 {% block javascripts %}
+{# Ajax request to add or remove a displayed good as favorites based on the fact 
+that the good is already in its favorites or not.#}
 <script>
     $('#add-fav').on('click', function(e) {
         e.preventDefault();
