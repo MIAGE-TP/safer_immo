@@ -8,7 +8,7 @@ TP web
 
 3- run composer install
 
-4- run doctrine:database:create after seeting up the DATABASE_URL
+4- run doctrine:database:create after setting up the DATABASE_URL
 
 5- run doctrine:migrations:migrate
 
