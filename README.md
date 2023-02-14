@@ -18,7 +18,7 @@ TP web
 
 8- Credentials to connect as admin: admin@safer.com, password: Password
 
-9- for mail test, we used mailtrap (https://mailtrap.io/). You'll need to create an account and set 
+9- for mail test, I used mailtrap (https://mailtrap.io/). You'll need to create an account and set 
 the config using integration based on Symfony 5+ on your mailtrap's account panel.
 
 That's all ;).
